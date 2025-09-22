@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ROOT Exchange - Investment Opportunity</title>
+    <title>PLUBIT EXCHANGE - Investment Opportunity</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -13,7 +13,7 @@
         }
 
         :root {
-            /* ROOT Exchange Brand Colors */
+            /* PLUBIT EXCHANGE Brand Colors */
             --primary: #1a237e;
             --secondary: #3f51b5;
             --accent: #ffc107;
@@ -334,6 +334,21 @@
             color: var(--accent);
             margin-right: 1rem;
             font-size: 1.2em;
+        }
+
+        .custom-icon {
+            color: var(--accent);
+            margin-right: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+        }
+
+        .custom-symbol {
+            font-size: 2.5rem;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            display: inline-block;
         }
 
         /* Metrics Cards */
@@ -808,7 +823,7 @@
         <!-- Slide 1: Opening -->
         <div class="slide active hero-slide">
             <div class="hero-tagline">White Label Based Global Cryptocurrency Exchange</div>
-            <h1 class="hero-title">ROOT Exchange</h1>
+            <h1 class="hero-title">PLUBIT EXCHANGE</h1>
             <p class="hero-subtitle">
                 글로벌 상위 거래소 기술 기반<br>
                 프리미엄 암호화폐 거래소 런칭
@@ -854,9 +869,9 @@
                     최고 수준의 거래소 구축
                 </p>
                 <ul class="demo-features">
-                    <li><i class="fas fa-check check-icon"></i>글로벌 거래소 개발팀 직접 운영</li>
-                    <li><i class="fas fa-check check-icon"></i>1000+ 현물, 100+ 선물 거래쌍</li>
-                    <li><i class="fas fa-check check-icon"></i>100+ 메인체인 무제한 트레이딩 페어</li>
+                    <li><span class="custom-icon">◆</span>글로벌 거래소 개발팀 직접 운영</li>
+                    <li><span class="custom-icon">◆</span>1000+ 현물, 100+ 선물 거래쌍</li>
+                    <li><span class="custom-icon">◆</span>100+ 메인체인 무제한 트레이딩 페어</li>
                 </ul>
             </div>
             <div class="demo-visual">
@@ -902,7 +917,7 @@
 
             <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; margin: 40px 0;">
                 <div class="model-card">
-                    <div class="model-icon"><i class="fas fa-coins" style="color: var(--accent);"></i></div>
+                    <div class="model-icon"><span class="custom-symbol" style="color: var(--accent);">₿</span></div>
                     <div class="model-title">레퍼럴 수익</div>
                     <div class="model-description">
                         거래 수수료의 <strong style="color: var(--accent);">80%</strong><br>
@@ -911,7 +926,7 @@
                 </div>
 
                 <div class="model-card">
-                    <div class="model-icon"><i class="fas fa-handshake" style="color: var(--secondary);"></i></div>
+                    <div class="model-icon"><span class="custom-symbol" style="color: var(--secondary);">⬢</span></div>
                     <div class="model-title">운영대행 수익</div>
                     <div class="model-description">
                         BMO Limited 총괄<br>
@@ -920,7 +935,7 @@
                 </div>
 
                 <div class="model-card">
-                    <div class="model-icon"><i class="fas fa-rocket" style="color: var(--success);"></i></div>
+                    <div class="model-icon"><span class="custom-symbol" style="color: var(--success);">▲</span></div>
                     <div class="model-title">성장 동력</div>
                     <div class="model-description">
                         강력한 레퍼럴 구조로<br>
@@ -945,7 +960,7 @@
             <div class="calculator-container">
                 <h2 class="calculator-title">수익 시뮬레이션</h2>
                 <p style="text-align: center; color: rgba(255,255,255,0.7); margin-bottom: 2rem; font-size: 1.1rem;">
-                    보수적 추정치 기반 월별 수익 계산
+                    레버리지 선물거래 기반 현실적 수익 계산
                 </p>
 
                 <div class="calculator-grid">
@@ -959,10 +974,18 @@
                     </div>
                     <div class="input-group">
                         <label>일평균 거래 횟수</label>
-                        <input type="number" id="dailyTrades" value="10" min="1" max="50">
+                        <input type="number" id="dailyTrades" value="8" min="1" max="30">
                     </div>
                     <div class="input-group">
-                        <label>선물 거래 수수료 (테이커 기준, %)</label>
+                        <label>평균 레버리지 배율</label>
+                        <input type="number" id="leverage" value="10" min="1" max="30" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label>포지션당 평균 예치금 비율 (%)</label>
+                        <input type="number" id="positionRatio" value="20" min="5" max="50" step="5">
+                    </div>
+                    <div class="input-group">
+                        <label>선물 거래 수수료 (테이커, %)</label>
                         <input type="number" id="tradingFee" value="0.05" min="0.01" max="0.1" step="0.001">
                     </div>
                     <div class="input-group">
@@ -985,7 +1008,7 @@
                         <div class="result-value" id="monthlyTradingRevenue">$15만</div>
                     </div>
                     <div class="result-item" style="background: rgba(255,193,7,0.1); border-color: var(--accent);">
-                        <div class="result-label">ROOT 레퍼럴 수익 (80%)</div>
+                        <div class="result-label">PLUBIT 레퍼럴 수익 (80%)</div>
                         <div class="result-value" id="referralRevenue" style="color: var(--accent);">$12만</div>
                     </div>
                     <div class="result-item" style="background: rgba(255,82,82,0.1); border-color: #ff5252;">
@@ -1023,9 +1046,9 @@
                     리스크 관리 시스템
                 </p>
                 <ul class="demo-features">
-                    <li><i class="fas fa-shield-alt check-icon"></i>다중 보안 인증 시스템</li>
-                    <li><i class="fas fa-lock check-icon"></i>콜드 월렛 자금 보관</li>
-                    <li><i class="fas fa-chart-line check-icon"></i>실시간 리스크 모니터링</li>
+                    <li><span class="custom-icon">▪</span>다중 보안 인증 시스템</li>
+                    <li><span class="custom-icon">▪</span>콜드 월렛 자금 보관</li>
+                    <li><span class="custom-icon">▪</span>실시간 리스크 모니터링</li>
                 </ul>
             </div>
             <div class="demo-visual">
@@ -1054,7 +1077,7 @@
                 고객 성장 기반 수익성 분석
             </h2>
             <p style="text-align: center; color: rgba(255,255,255,0.7); margin-bottom: 3rem; font-size: 1.2rem;">
-                BEP: $200만 | 핵심은 고객 확보 속도
+                36개월 로드맵 기반 | BEP: 9개월차 (1,000명) | 최종 목표: TOP 30
             </p>
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
@@ -1074,27 +1097,27 @@
                     <div class="model-card" style="background: linear-gradient(145deg, rgba(76,175,80,0.1), rgba(76,175,80,0.03)); border-color: var(--success); padding: 25px;">
                         <h4 style="color: var(--success); margin-bottom: 1rem; font-size: 1.3rem;">보수적 시나리오</h4>
                         <div style="font-size: 0.9rem; line-height: 1.6;">
-                            6개월: 300명 → 12개월: 500명<br>
-                            18개월: 750명 → 24개월: 1,000명<br>
-                            <strong style="color: var(--success);">BEP: 18개월차</strong>
+                            12개월: 1,500명 → 24개월: 3,000명<br>
+                            36개월: 6,000명 (안정적 성장)<br>
+                            <strong style="color: var(--success);">BEP: 9개월차</strong>
                         </div>
                     </div>
 
                     <div class="model-card" style="background: linear-gradient(145deg, rgba(255,193,7,0.1), rgba(255,193,7,0.03)); border-color: var(--accent); padding: 25px;">
-                        <h4 style="color: var(--accent); margin-bottom: 1rem; font-size: 1.3rem;">현실적 시나리오</h4>
+                        <h4 style="color: var(--accent); margin-bottom: 1rem; font-size: 1.3rem;">현실적 시나리오 (로드맵 기준)</h4>
                         <div style="font-size: 0.9rem; line-height: 1.6;">
-                            6개월: 500명 → 12개월: 1,000명<br>
-                            18개월: 1,500명 → 24개월: 2,000명<br>
-                            <strong style="color: var(--accent);">BEP: 12개월차</strong>
+                            12개월: 2,000명 → 24개월: 7,500명<br>
+                            36개월: 30,000명 (TOP 30 달성)<br>
+                            <strong style="color: var(--accent);">BEP: 9개월차</strong>
                         </div>
                     </div>
 
                     <div class="model-card" style="background: linear-gradient(145deg, rgba(63,81,181,0.1), rgba(63,81,181,0.03)); border-color: var(--secondary); padding: 25px;">
                         <h4 style="color: var(--secondary); margin-bottom: 1rem; font-size: 1.3rem;">낙관적 시나리오</h4>
                         <div style="font-size: 0.9rem; line-height: 1.6;">
-                            6개월: 750명 → 12개월: 1,500명<br>
-                            18개월: 2,500명 → 24개월: 3,000명<br>
-                            <strong style="color: var(--secondary);">BEP: 8개월차</strong>
+                            12개월: 4,000명 → 24개월: 20,000명<br>
+                            36개월: 100,000명 (메이저 거래소)<br>
+                            <strong style="color: var(--secondary);">BEP: 6개월차</strong>
                         </div>
                     </div>
                 </div>
@@ -1103,9 +1126,9 @@
             <div style="margin-top: 3rem; text-align: center; padding: 2rem; background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.03)); border-radius: 24px; border: 1px solid rgba(255,255,255,0.2);">
                 <h3 style="color: var(--accent); margin-bottom: 1rem; font-size: 1.4rem;">핵심 성공 요인</h3>
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; font-size: 1rem;">
-                    <div><i class="fas fa-users" style="color: var(--accent); margin-right: 0.5rem;"></i>초기 300명 확보</div>
-                    <div><i class="fas fa-rocket" style="color: var(--secondary); margin-right: 0.5rem;"></i>월 25% 성장률</div>
-                    <div><i class="fas fa-trophy" style="color: var(--success); margin-right: 0.5rem;"></i>고객 유지율 85%+</div>
+                    <div><span class="custom-icon" style="color: var(--accent); margin-right: 0.5rem;">●</span>초기 300명 확보</div>
+                    <div><span class="custom-icon" style="color: var(--secondary); margin-right: 0.5rem;">▲</span>월 25% 성장률</div>
+                    <div><span class="custom-icon" style="color: var(--success); margin-right: 0.5rem;">◇</span>고객 유지율 85%+</div>
                 </div>
             </div>
         </div>
@@ -1119,9 +1142,9 @@
                     글로벌 오퍼레이션 구축
                 </p>
                 <ul class="demo-features">
-                    <li><i class="fas fa-users check-icon"></i>총 20명 운영팀 (한국 8명, 동남아 12명)</li>
-                    <li><i class="fas fa-shield-alt check-icon"></i>24시간 글로벌 고객지원</li>
-                    <li><i class="fas fa-gavel check-icon"></i>KYC · 컴플라이언스 전담</li>
+                    <li><span class="custom-icon">▪</span>총 20명 운영팀 (한국 8명, 동남아 12명)</li>
+                    <li><span class="custom-icon">▪</span>24시간 글로벌 고객지원</li>
+                    <li><span class="custom-icon">▪</span>KYC · 컴플라이언스 전담</li>
                 </ul>
             </div>
             <div class="demo-visual">
@@ -1130,7 +1153,7 @@
                     <div style="font-size: 1.2rem; opacity: 0.9; margin-bottom: 1rem;">레퍼럴 수익 배분</div>
                     <div style="font-size: 0.9rem; opacity: 0.7;">
                         예: 100만 달러 거래 수수료 시<br>
-                        <strong>80만 달러</strong> ROOT 수익
+                        <strong>80만 달러</strong> PLUBIT 수익
                     </div>
                 </div>
             </div>
@@ -1146,46 +1169,200 @@
             </p>
         </div>
 
-        <!-- Slide 16: Roadmap -->
-        <div class="slide demo-slide" style="flex-direction: column; justify-content: center;">
-            <h2 style="font-size: 3rem; text-align: center; margin-bottom: 3rem; background: linear-gradient(135deg, var(--accent) 0%, var(--secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-                런칭 로드맵
+        <!-- Slide 16: Phase 1 - 화이트라벨 기반 구축 -->
+        <div class="slide demo-slide" style="flex-direction: column; justify-content: center; padding: 30px;">
+            <h2 style="font-size: 2.8rem; text-align: center; margin-bottom: 2rem; background: linear-gradient(135deg, var(--success) 0%, #66bb6a 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                Phase 1: 화이트라벨 기반 구축
             </h2>
+            <p style="text-align: center; color: rgba(255,255,255,0.7); margin-bottom: 3rem; font-size: 1.2rem;">
+                0-12개월 | 안정적 운영 기반 확립 | 목표: 2,000명 활성 사용자
+            </p>
 
-            <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.5rem;">
-                <div style="text-align: center; padding: 1.8rem; background: rgba(255,255,255,0.05); border-radius: 20px;">
-                    <div style="font-size: 1.8rem; color: var(--accent); margin-bottom: 1rem;">1개월차</div>
-                    <h4 style="margin-bottom: 1rem; font-size: 1.1rem;">운영진 투입</h4>
-                    <p style="font-size: 0.85rem; color: rgba(255,255,255,0.7); line-height: 1.4;">BMO Limited 운영진 투입<br>화이트라벨 시스템 구축 시작</p>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin-bottom: 3rem;">
+                <div style="text-align: center; padding: 2rem; background: linear-gradient(145deg, rgba(76,175,80,0.15), rgba(76,175,80,0.05)); border: 2px solid var(--success); border-radius: 20px; position: relative;">
+                    <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--success); color: white; padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">STEP 1</div>
+                    <div style="font-size: 2rem; color: var(--success); margin: 1rem 0; font-weight: 700;">2개월</div>
+                    <h4 style="margin-bottom: 1rem; font-size: 1.2rem; color: var(--success);">거래소 런칭</h4>
+                    <p style="font-size: 0.9rem; color: rgba(255,255,255,0.8); line-height: 1.5;">화이트라벨 시스템<br>정식 서비스 개시<br>초기 300명 확보</p>
                 </div>
-
-                <div style="text-align: center; padding: 1.8rem; background: rgba(255,255,255,0.05); border-radius: 20px;">
-                    <div style="font-size: 1.8rem; color: var(--accent); margin-bottom: 1rem;">2개월차</div>
-                    <h4 style="margin-bottom: 1rem; font-size: 1.1rem;">서비스 배포 및 테스트넷 시행</h4>
-                    <p style="font-size: 0.85rem; color: rgba(255,255,255,0.7); line-height: 1.4;">현물·선물 원스톱 연결<br>24/7 고객지원 체계 구축</p>
+                <div style="text-align: center; padding: 2rem; background: linear-gradient(145deg, rgba(76,175,80,0.15), rgba(76,175,80,0.05)); border: 2px solid var(--success); border-radius: 20px; position: relative;">
+                    <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--success); color: white; padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">STEP 2</div>
+                    <div style="font-size: 2rem; color: var(--success); margin: 1rem 0; font-weight: 700;">6개월</div>
+                    <h4 style="margin-bottom: 1rem; font-size: 1.2rem; color: var(--success);">사용자 확보</h4>
+                    <p style="font-size: 0.9rem; color: rgba(255,255,255,0.8); line-height: 1.5;">1,000명 활성 사용자<br>안정적 운영 기반<br>거래량 안정화</p>
                 </div>
-
-                <div style="text-align: center; padding: 1.8rem; background: rgba(255,255,255,0.05); border-radius: 20px;">
-                    <div style="font-size: 1.8rem; color: var(--accent); margin-bottom: 1rem;">3-6개월</div>
-                    <h4 style="margin-bottom: 1rem; font-size: 1.1rem;">시장 진입</h4>
-                    <p style="font-size: 0.85rem; color: rgba(255,255,255,0.7); line-height: 1.4;">정식 런칭 및 고객 확보<br>레퍼럴 네트워크 구축</p>
+                <div style="text-align: center; padding: 2rem; background: linear-gradient(145deg, rgba(76,175,80,0.15), rgba(76,175,80,0.05)); border: 2px solid var(--success); border-radius: 20px; position: relative;">
+                    <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--success); color: white; padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">STEP 3</div>
+                    <div style="font-size: 2rem; color: var(--success); margin: 1rem 0; font-weight: 700;">9개월</div>
+                    <h4 style="margin-bottom: 1rem; font-size: 1.2rem; color: var(--success);">BEP 달성</h4>
+                    <p style="font-size: 0.9rem; color: rgba(255,255,255,0.8); line-height: 1.5;">손익분기점 달성<br>수익성 입증<br>재투자 시작</p>
                 </div>
-
-                <div style="text-align: center; padding: 1.8rem; background: rgba(255,255,255,0.05); border-radius: 20px;">
-                    <div style="font-size: 1.8rem; color: var(--accent); margin-bottom: 1rem;">6-12개월</div>
-                    <h4 style="margin-bottom: 1rem; font-size: 1.1rem;">안정적 운영</h4>
-                    <p style="font-size: 0.85rem; color: rgba(255,255,255,0.7); line-height: 1.4;">수익증대에따른 안정적인 운영<br>추가 플랫폼 구축(카피트레이딩등)</p>
+                <div style="text-align: center; padding: 2rem; background: linear-gradient(145deg, rgba(76,175,80,0.15), rgba(76,175,80,0.05)); border: 2px solid var(--success); border-radius: 20px; position: relative;">
+                    <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--success); color: white; padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">STEP 4</div>
+                    <div style="font-size: 2rem; color: var(--success); margin: 1rem 0; font-weight: 700;">12개월</div>
+                    <h4 style="margin-bottom: 1rem; font-size: 1.2rem; color: var(--success);">목표 달성</h4>
+                    <p style="font-size: 0.9rem; color: rgba(255,255,255,0.8); line-height: 1.5;">2,000명 활성 사용자<br>평균 $10,000+ 예치<br>Phase 2 준비</p>
                 </div>
+            </div>
 
-                <div style="text-align: center; padding: 1.8rem; background: rgba(255,255,255,0.05); border-radius: 20px;">
-                    <div style="font-size: 1.8rem; color: var(--accent); margin-bottom: 1rem;">18개월+</div>
-                    <h4 style="margin-bottom: 1rem; font-size: 1.1rem;">독립 전환</h4>
-                    <p style="font-size: 0.85rem; color: rgba(255,255,255,0.7); line-height: 1.4;">수익 극대화를 위한<br>독립 운영 인프라 팀 구성</p>
+            <div style="background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.03)); border-radius: 24px; border: 1px solid rgba(255,255,255,0.2); padding: 2rem; text-align: center;">
+                <h3 style="color: var(--success); margin-bottom: 1.5rem; font-size: 1.4rem;">◆ Phase 1 핵심 성과 지표</h3>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; font-size: 1rem;">
+                    <div style="padding: 1rem; background: rgba(76,175,80,0.1); border-radius: 12px;">
+                        <span class="custom-symbol" style="color: var(--success); font-size: 2rem; display: block; margin-bottom: 0.5rem;">◇</span>
+                        <strong>2,000명</strong><br>
+                        <span style="color: rgba(255,255,255,0.7);">활성 사용자</span>
+                    </div>
+                    <div style="padding: 1rem; background: rgba(76,175,80,0.1); border-radius: 12px;">
+                        <span class="custom-symbol" style="color: var(--success); font-size: 2rem; display: block; margin-bottom: 0.5rem;">$</span>
+                        <strong>$10,000+</strong><br>
+                        <span style="color: rgba(255,255,255,0.7);">평균 예치금</span>
+                    </div>
+                    <div style="padding: 1rem; background: rgba(76,175,80,0.1); border-radius: 12px;">
+                        <span class="custom-symbol" style="color: var(--success); font-size: 2rem; display: block; margin-bottom: 0.5rem;">▲</span>
+                        <strong>BEP</strong><br>
+                        <span style="color: rgba(255,255,255,0.7);">수익성 확보</span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 17: Next Steps -->
+        <!-- Slide 17: Phase 2 - 독립형 전환 -->
+        <div class="slide demo-slide" style="flex-direction: column; justify-content: center; padding: 30px;">
+            <h2 style="font-size: 2.8rem; text-align: center; margin-bottom: 2rem; background: linear-gradient(135deg, var(--accent) 0%, #ffb74d 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                Phase 2: 독립형 전환
+            </h2>
+            <p style="text-align: center; color: rgba(255,255,255,0.7); margin-bottom: 3rem; font-size: 1.2rem;">
+                12-24개월 | 높은 자유도 확보 | 목표: 글로벌 TOP 100 거래소
+            </p>
+
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; margin-bottom: 3rem;">
+                <div style="text-align: center; padding: 2.5rem; background: linear-gradient(145deg, rgba(255,193,7,0.15), rgba(255,193,7,0.05)); border: 2px solid var(--accent); border-radius: 20px; position: relative;">
+                    <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--accent); color: white; padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">STEP 1</div>
+                    <div style="font-size: 2rem; color: var(--accent); margin: 1rem 0; font-weight: 700;">12-15개월</div>
+                    <h4 style="margin-bottom: 1rem; font-size: 1.2rem; color: var(--accent);">오버랩 정책</h4>
+                    <p style="font-size: 0.9rem; color: rgba(255,255,255,0.8); line-height: 1.5;">화이트라벨 → 독립형<br>자연스러운 전환<br>리스크 최소화</p>
+                </div>
+                <div style="text-align: center; padding: 2.5rem; background: linear-gradient(145deg, rgba(255,193,7,0.15), rgba(255,193,7,0.05)); border: 2px solid var(--accent); border-radius: 20px; position: relative;">
+                    <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--accent); color: white; padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">STEP 2</div>
+                    <div style="font-size: 2rem; color: var(--accent); margin: 1rem 0; font-weight: 700;">18개월</div>
+                    <h4 style="margin-bottom: 1rem; font-size: 1.2rem; color: var(--accent);">독립 완료</h4>
+                    <p style="font-size: 0.9rem; color: rgba(255,255,255,0.8); line-height: 1.5;">자체 운영 체계<br>높은 자유도 확보<br>차별화 전략 실행</p>
+                </div>
+                <div style="text-align: center; padding: 2.5rem; background: linear-gradient(145deg, rgba(255,193,7,0.15), rgba(255,193,7,0.05)); border: 2px solid var(--accent); border-radius: 20px; position: relative;">
+                    <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--accent); color: white; padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">STEP 3</div>
+                    <div style="font-size: 2rem; color: var(--accent); margin: 1rem 0; font-weight: 700;">24개월</div>
+                    <h4 style="margin-bottom: 1rem; font-size: 1.2rem; color: var(--accent);">TOP 100 진입</h4>
+                    <p style="font-size: 0.9rem; color: rgba(255,255,255,0.8); line-height: 1.5;">글로벌 TOP 100<br>거래소 달성<br>브랜드 인지도 확보</p>
+                </div>
+            </div>
+
+            <div style="background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.03)); border-radius: 24px; border: 1px solid rgba(255,255,255,0.2); padding: 2rem;">
+                <h3 style="color: var(--accent); margin-bottom: 1.5rem; font-size: 1.4rem; text-align: center;">◆ Phase 2 핵심 전략</h3>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem;">
+                    <div style="padding: 1.5rem; background: rgba(255,193,7,0.1); border-radius: 16px; border: 1px solid var(--accent);">
+                        <h4 style="color: var(--accent); margin-bottom: 1rem; font-size: 1.1rem;">◇ 전환 전략</h4>
+                        <ul style="font-size: 0.9rem; line-height: 1.6; color: rgba(255,255,255,0.8); list-style: none; padding: 0;">
+                            <li>• 기존 고객 유지율 95% 이상</li>
+                            <li>• 점진적 독립형 기능 추가</li>
+                            <li>• 서비스 중단 없는 마이그레이션</li>
+                        </ul>
+                    </div>
+                    <div style="padding: 1.5rem; background: rgba(255,193,7,0.1); border-radius: 16px; border: 1px solid var(--accent);">
+                        <h4 style="color: var(--accent); margin-bottom: 1rem; font-size: 1.1rem;">▲ 성장 목표</h4>
+                        <ul style="font-size: 0.9rem; line-height: 1.6; color: rgba(255,255,255,0.8); list-style: none; padding: 0;">
+                            <li>• 활성 사용자: 7,500명</li>
+                            <li>• 일 거래량: $50-100백만</li>
+                            <li>• 글로벌 TOP 100 진입</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 18: Phase 3 - 통합 거래소 전략 -->
+        <div class="slide demo-slide" style="flex-direction: column; justify-content: center; padding: 30px;">
+            <h2 style="font-size: 2.8rem; text-align: center; margin-bottom: 2rem; background: linear-gradient(135deg, var(--secondary) 0%, #7986cb 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                Phase 3: 통합 거래소 전략
+            </h2>
+            <p style="text-align: center; color: rgba(255,255,255,0.7); margin-bottom: 3rem; font-size: 1.2rem;">
+                24-36개월 | 5개 하부 거래소 추가 | 목표: 글로벌 TOP 30 진입
+            </p>
+
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 3rem; margin-bottom: 3rem;">
+                <div style="text-align: center; padding: 3rem; background: linear-gradient(145deg, rgba(63,81,181,0.15), rgba(63,81,181,0.05)); border: 2px solid var(--secondary); border-radius: 24px; position: relative;">
+                    <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--secondary); color: white; padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">STEP 1</div>
+                    <div style="font-size: 2.5rem; color: var(--secondary); margin: 1.5rem 0; font-weight: 700;">30개월</div>
+                    <h4 style="margin-bottom: 1.5rem; font-size: 1.3rem; color: var(--secondary);">하부 거래소 확장</h4>
+                    <p style="font-size: 1rem; color: rgba(255,255,255,0.8); line-height: 1.6;">5개 화이트라벨 거래소 추가<br>통합 거래량 급증<br>네트워크 효과 극대화</p>
+                </div>
+                <div style="text-align: center; padding: 3rem; background: linear-gradient(145deg, rgba(63,81,181,0.15), rgba(63,81,181,0.05)); border: 2px solid var(--secondary); border-radius: 24px; position: relative;">
+                    <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--secondary); color: white; padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">STEP 2</div>
+                    <div style="font-size: 2.5rem; color: var(--secondary); margin: 1.5rem 0; font-weight: 700;">36개월</div>
+                    <h4 style="margin-bottom: 1.5rem; font-size: 1.3rem; color: var(--secondary);">TOP 30 진입</h4>
+                    <p style="font-size: 1rem; color: rgba(255,255,255,0.8); line-height: 1.6;">글로벌 TOP 30 위<br>메이저 거래소 도약<br>업계 리더십 확보</p>
+                </div>
+            </div>
+
+            <div style="background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.03)); border-radius: 24px; border: 1px solid rgba(255,255,255,0.2); padding: 2.5rem;">
+                <h3 style="color: var(--secondary); margin-bottom: 2rem; font-size: 1.4rem; text-align: center;">◆ 통합 거래소 네트워크</h3>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;">
+                    <div style="text-align: center; padding: 1.5rem; background: rgba(63,81,181,0.1); border-radius: 16px; border: 1px solid var(--secondary);">
+                        <div style="font-size: 3rem; color: var(--secondary); margin-bottom: 1rem;">■</div>
+                        <h4 style="color: var(--secondary); margin-bottom: 0.5rem; font-size: 1.1rem;">메인 거래소</h4>
+                        <p style="font-size: 0.9rem; color: rgba(255,255,255,0.7);">PLUBIT EXCHANGE<br>통합 관제센터</p>
+                    </div>
+                    <div style="text-align: center; padding: 1.5rem; background: rgba(63,81,181,0.1); border-radius: 16px; border: 1px solid var(--secondary);">
+                        <div style="font-size: 3rem; color: var(--secondary); margin-bottom: 1rem;">◇</div>
+                        <h4 style="color: var(--secondary); margin-bottom: 0.5rem; font-size: 1.1rem;">하부 거래소</h4>
+                        <p style="font-size: 0.9rem; color: rgba(255,255,255,0.7);">5개 지역별<br>특화 거래소</p>
+                    </div>
+                    <div style="text-align: center; padding: 1.5rem; background: rgba(63,81,181,0.1); border-radius: 16px; border: 1px solid var(--secondary);">
+                        <div style="font-size: 3rem; color: var(--secondary); margin-bottom: 1rem;">▲</div>
+                        <h4 style="color: var(--secondary); margin-bottom: 0.5rem; font-size: 1.1rem;">통합 효과</h4>
+                        <p style="font-size: 0.9rem; color: rgba(255,255,255,0.7);">거래량 집중<br>TOP 30 달성</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 19: TOP 30 달성 -->
+        <div class="slide demo-slide">
+            <div class="demo-content">
+                <h2 class="demo-title">글로벌 TOP 30 달성</h2>
+                <p class="demo-description">
+                    36개월 후 메이저 거래소<br>
+                    도약 완성
+                </p>
+                <ul class="demo-features">
+                    <li><span class="custom-icon">◈</span>글로벌 TOP 30 위권 진입</li>
+                    <li><span class="custom-icon">◈</span>30,000+ 활성 사용자</li>
+                    <li><span class="custom-icon">◈</span>월 $60-150억 거래량</li>
+                </ul>
+            </div>
+            <div class="demo-visual">
+                <div style="background: linear-gradient(135deg, var(--accent) 0%, var(--secondary) 100%); border-radius: 24px; padding: 40px; text-align: center;">
+                    <h3 style="font-size: 1.8rem; margin-bottom: 2rem; color: white;">◆ TOP 30 벤치마크</h3>
+                    <div style="display: grid; gap: 1.5rem; font-size: 0.9rem; line-height: 1.6;">
+                        <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 12px;">
+                            <strong>Crypto.com</strong><br>
+                            TOP 30권 / 한국 높은 인지도
+                        </div>
+                        <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 12px;">
+                            <strong>평균 일거래량</strong><br>
+                            $2-5억 / 월 $60-150억
+                        </div>
+                        <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 12px;">
+                            <strong>Bitget, Gate.io, MEXC</strong><br>
+                            TOP 30권 목표 거래소
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Slide 21: Next Steps -->
         <div class="slide keynote-slide">
             <div class="keynote-word">Next Steps</div>
             <p class="keynote-description">
@@ -1195,7 +1372,7 @@
             </p>
         </div>
 
-        <!-- Slide 18: Proven -->
+        <!-- Slide 22: Proven -->
         <div class="slide keynote-slide">
             <div class="keynote-word">Proven</div>
             <p class="keynote-description">
@@ -1205,29 +1382,29 @@
             </p>
         </div>
 
-        <!-- Slide 19: Mocha Bot Advantage -->
+        <!-- Slide 23: Mocha Bot Advantage -->
         <div class="slide demo-slide">
             <div class="demo-content">
                 <h2 class="demo-title">모챗 봇 독점 연동</h2>
                 <p class="demo-description">
                     모챗 트레이딩 봇 사용 시<br>
-                    ROOT Exchange 필수 연동
+                    PLUBIT EXCHANGE 필수 연동
                 </p>
                 <ul class="demo-features">
-                    <li><i class="fas fa-users check-icon"></i>강제적 회원 확장 효과</li>
-                    <li><i class="fas fa-chart-line check-icon"></i>거래대금 자동 증가</li>
-                    <li><i class="fas fa-lock check-icon"></i>고객 Lock-in 효과 극대화</li>
+                    <li><span class="custom-icon">◆</span>강제적 회원 확장 효과</li>
+                    <li><span class="custom-icon">◆</span>거래대금 자동 증가</li>
+                    <li><span class="custom-icon">◆</span>고객 Lock-in 효과 극대화</li>
                 </ul>
             </div>
             <div class="demo-visual">
                 <div style="background: linear-gradient(135deg, var(--accent) 0%, var(--secondary) 100%); border-radius: 24px; padding: 50px; text-align: center; position: relative; overflow: hidden;">
                     <div style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); animation: pulse 3s ease-in-out infinite;"></div>
                     <div style="position: relative; z-index: 2;">
-                        <div style="font-size: 4rem; margin-bottom: 1rem;"><i class="fas fa-robot"></i></div>
-                        <h3 style="font-size: 1.8rem; font-weight: 600; margin-bottom: 1rem;">모챗 봇 = ROOT 거래소</h3>
+                        <div style="font-size: 4rem; margin-bottom: 1rem; color: white;">◉</div>
+                        <h3 style="font-size: 1.8rem; font-weight: 600; margin-bottom: 1rem;">모챗 봇 = PLUBIT 거래소</h3>
                         <div style="font-size: 1rem; opacity: 0.9; line-height: 1.6;">
                             트레이딩 봇 사용자는<br>
-                            <strong>반드시 ROOT Exchange 이용</strong><br>
+                            <strong>반드시 PLUBIT EXCHANGE 이용</strong><br>
                             → 자동 고객 확보 + 거래량 증가
                         </div>
                     </div>
@@ -1242,10 +1419,10 @@
         }
         </style>
 
-        <!-- Slide 20: Closing -->
+        <!-- Slide 24: Closing -->
         <div class="slide hero-slide">
             <div class="hero-tagline">Beyond Simple Exchange</div>
-            <h1 class="hero-title" style="font-size: clamp(3rem, 6vw, 8rem);">ROOT Exchange</h1>
+            <h1 class="hero-title" style="font-size: clamp(3rem, 6vw, 8rem);">PLUBIT EXCHANGE</h1>
             <p class="hero-subtitle">
                 <span style="color: var(--accent); font-weight: 600;">모챗 트레이딩 봇</span>이 함께합니다.<br>
                 새로운 수익 기회를 잡으세요
@@ -1261,7 +1438,7 @@
 
     <!-- Slide Counter -->
     <div class="slide-counter">
-        <span id="currentSlide">1</span> / <span id="totalSlides">20</span>
+        <span id="currentSlide">1</span> / <span id="totalSlides">24</span>
     </div>
 
     <!-- Progress Bar -->
@@ -1306,16 +1483,27 @@
         function calculateRevenue() {
             const activeUsers = parseInt(document.getElementById('activeUsers')?.value) || 500;
             const avgDeposit = parseInt(document.getElementById('avgDeposit')?.value) || 5000;
-            const dailyTrades = parseInt(document.getElementById('dailyTrades')?.value) || 10;
+            const dailyTrades = parseInt(document.getElementById('dailyTrades')?.value) || 8;
+            const leverage = parseInt(document.getElementById('leverage')?.value) || 10;
+            const positionRatio = parseFloat(document.getElementById('positionRatio')?.value) || 20;
             const tradingFee = parseFloat(document.getElementById('tradingFee')?.value) || 0.05;
             const referralRate = parseFloat(document.getElementById('referralRate')?.value) || 80;
             const operatingCost = parseFloat(document.getElementById('operatingCost')?.value) || 3;
 
-            // 계산 로직
-            const monthlyVolume = activeUsers * avgDeposit * dailyTrades * 30;
+            // 현실적인 선물 거래 계산 로직
+            // 1. 포지션당 실제 사용 마진 = 예치금 * 포지션 비율
+            const positionSize = avgDeposit * (positionRatio / 100);
+
+            // 2. 레버리지 적용된 포지션 규모 = 마진 * 레버리지
+            const leveragedPosition = positionSize * leverage;
+
+            // 3. 월 총 거래량 = 활성 고객 * 레버리지 포지션 규모 * 일거래횟수 * 30일
+            const monthlyVolume = activeUsers * leveragedPosition * dailyTrades * 30;
+
+            // 4. 수수료는 레버리지된 포지션 규모에 대해 부과
             const monthlyTradingRevenue = monthlyVolume * (tradingFee / 100);
             const referralRevenue = monthlyTradingRevenue * (referralRate / 100);
-            const operatingExpense = operatingCost;
+            const operatingExpense = operatingCost * 10000; // 만 달러를 달러로 변환
             const netProfit = referralRevenue - operatingExpense;
             const annualProfit = netProfit * 12;
 
@@ -1323,7 +1511,7 @@
                 'monthlyVolume': '$' + (monthlyVolume / 10000).toLocaleString() + '만',
                 'monthlyTradingRevenue': '$' + Math.round(monthlyTradingRevenue / 10000 * 10) / 10 + '만',
                 'referralRevenue': '$' + Math.round(referralRevenue / 10000 * 10) / 10 + '만',
-                'operatingExpense': '-$' + Math.round(operatingExpense * 10) / 10 + '만',
+                'operatingExpense': '-$' + Math.round(operatingExpense / 10000 * 10) / 10 + '만',
                 'netProfit': netProfit >= 0 ? '$' + Math.round(netProfit / 10000 * 10) / 10 + '만' : '-$' + Math.round(Math.abs(netProfit) / 10000 * 10) / 10 + '만',
                 'annualProfit': annualProfit >= 0 ? '$' + Math.round(annualProfit / 10000 * 10) / 10 + '만' : '-$' + Math.round(Math.abs(annualProfit) / 10000 * 10) / 10 + '만'
             };
@@ -1395,11 +1583,11 @@
                 ctx.stroke();
             }
 
-            // 고객 수 시나리오 데이터 (24개월)
+            // 고객 수 시나리오 데이터 (36개월) - 새 로드맵 기반
             const scenarios = {
-                conservative: [100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000, 1000, 1000, 1000, 1000, 1000],
-                realistic: [150, 250, 350, 450, 500, 600, 750, 850, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2000, 2000, 2000, 2000, 2000],
-                optimistic: [200, 350, 500, 650, 750, 900, 1100, 1300, 1500, 1700, 1900, 2100, 2200, 2300, 2400, 2500, 2600, 2700, 2800, 2900, 3000, 3000, 3000, 3000]
+                conservative: [50, 100, 200, 300, 500, 700, 900, 1000, 1100, 1200, 1300, 1500, 1600, 1700, 1800, 1900, 2000, 2100, 2200, 2300, 2400, 2500, 2600, 2700, 2800, 2900, 3000, 3100, 3200, 3300, 3500, 4000, 4500, 5000, 5500, 6000],
+                realistic: [100, 200, 400, 600, 800, 1000, 1200, 1500, 1700, 1900, 2000, 2200, 2400, 2600, 2800, 3000, 3200, 3500, 3800, 4200, 4600, 5000, 5500, 6000, 6500, 7000, 7500, 8500, 9500, 11000, 13000, 15000, 18000, 22000, 26000, 30000],
+                optimistic: [150, 300, 600, 1000, 1400, 1800, 2200, 2500, 2800, 3200, 3600, 4000, 4500, 5000, 5500, 6000, 6500, 7000, 7500, 8000, 9000, 10000, 12000, 14000, 16000, 18000, 20000, 25000, 30000, 35000, 40000, 50000, 60000, 75000, 90000, 100000]
             };
 
             const colors = {
@@ -1408,12 +1596,12 @@
                 optimistic: '#3f51b5'
             };
 
-            // BEP 라인
-            const bepCustomers = 667;
+            // BEP 라인 (새 로드맵 기준 9개월차 달성 목표)
+            const bepCustomers = 1000;
             ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
             ctx.lineWidth = 2;
             ctx.setLineDash([10, 5]);
-            const bepY = height - (bepCustomers / 3000) * height;
+            const bepY = height - (bepCustomers / 100000) * height;
             ctx.beginPath();
             ctx.moveTo(0, bepY);
             ctx.lineTo(width, bepY);
@@ -1423,7 +1611,7 @@
             // BEP 라벨
             ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
             ctx.font = '12px -apple-system, BlinkMacSystemFont, sans-serif';
-            ctx.fillText('BEP: 667명 ($200만)', 10, bepY - 5);
+            ctx.fillText('BEP: 1,000명 (9개월차)', 10, bepY - 5);
 
             if (animate) {
                 // 애니메이션으로 차트 그리기
@@ -1461,7 +1649,7 @@
 
                     ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
                     ctx.font = '12px -apple-system, BlinkMacSystemFont, sans-serif';
-                    ctx.fillText('BEP: 667명 ($200만)', 10, bepY - 5);
+                    ctx.fillText('BEP: 1,000명 (9개월차)', 10, bepY - 5);
 
                     // 진행도에 따라 라인 그리기
                     Object.entries(scenarios).forEach(([scenario, data]) => {
@@ -1474,8 +1662,8 @@
                         data.slice(0, maxIndex + 1).forEach((customers, month) => {
                             if (month > maxIndex) return;
 
-                            const x = (width / 23) * month;
-                            const y = height - (customers / 3000) * height;
+                            const x = (width / 35) * month; // 36개월
+                            const y = height - (customers / 100000) * height; // 최대 100,000명
 
                             if (month === 0) ctx.moveTo(x, y);
                             else ctx.lineTo(x, y);
@@ -1491,7 +1679,7 @@
                         Object.entries(scenarios).forEach(([scenario, data]) => {
                             const lastValue = data[data.length - 1];
                             const lastX = width - 50;
-                            const lastY = height - (lastValue / 3000) * height;
+                            const lastY = height - (lastValue / 100000) * height;
                             ctx.fillStyle = colors[scenario];
                             ctx.font = 'bold 14px -apple-system, BlinkMacSystemFont, sans-serif';
                             ctx.fillText(lastValue + '명', lastX, lastY - 10);
@@ -1508,8 +1696,8 @@
                     ctx.beginPath();
 
                     data.forEach((customers, month) => {
-                        const x = (width / 23) * month;
-                        const y = height - (customers / 3000) * height;
+                        const x = (width / 35) * month; // 36개월
+                        const y = height - (customers / 100000) * height; // 최대 100,000명
                         if (month === 0) ctx.moveTo(x, y);
                         else ctx.lineTo(x, y);
                     });
@@ -1518,7 +1706,7 @@
 
                     const lastValue = data[data.length - 1];
                     const lastX = width - 50;
-                    const lastY = height - (lastValue / 3000) * height;
+                    const lastY = height - (lastValue / 100000) * height;
                     ctx.fillStyle = colors[scenario];
                     ctx.font = 'bold 14px -apple-system, BlinkMacSystemFont, sans-serif';
                     ctx.fillText(lastValue + '명', lastX, lastY - 10);
@@ -1529,16 +1717,20 @@
             ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
             ctx.font = '11px -apple-system, BlinkMacSystemFont, sans-serif';
             for (let i = 0; i <= 5; i++) {
-                const customers = (3000 / 5) * (5 - i);
+                const customers = (100000 / 5) * (5 - i);
                 const y = (height / 5) * i;
-                ctx.fillText(customers + '명', 5, y - 5);
+                if (customers >= 10000) {
+                    ctx.fillText((customers / 10000) + '만명', 5, y - 5);
+                } else {
+                    ctx.fillText(customers + '명', 5, y - 5);
+                }
             }
 
-            // X축 라벨 (분기별)
-            const quarters = ['3M', '6M', '9M', '12M', '15M', '18M', '21M', '24M'];
-            quarters.forEach((quarter, index) => {
-                const x = (width / 7) * index;
-                ctx.fillText(quarter, x - 10, height - 5);
+            // X축 라벨 (6개월 단위)
+            const periods = ['6M', '12M', '18M', '24M', '30M', '36M'];
+            periods.forEach((period, index) => {
+                const x = (width / 5) * index;
+                ctx.fillText(period, x - 10, height - 5);
             });
         }
 
@@ -1576,7 +1768,7 @@
             showSlide(0);
 
             // Calculator inputs
-            const calculatorInputs = document.querySelectorAll('#activeUsers, #avgDeposit, #dailyTrades, #tradingFee, #referralRate, #operatingCost');
+            const calculatorInputs = document.querySelectorAll('#activeUsers, #avgDeposit, #dailyTrades, #leverage, #positionRatio, #tradingFee, #referralRate, #operatingCost');
             calculatorInputs.forEach(input => {
                 input.addEventListener('input', calculateRevenue);
             });
