@@ -461,47 +461,82 @@
                 <div class="card p-6 sm:p-8 mb-6">
                     <h4 class="font-display text-lg font-bold text-white mb-6 flex items-center gap-2">
                         <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z"/></svg>
-                        Quarterly Burn Mechanism
+                        Economic Valuation Models
                     </h4>
 
-                    <!-- Burn Formula -->
+                    <!-- Stock-to-Flow Model -->
                     <div class="bg-zinc-900/50 rounded-xl p-5 sm:p-6 mb-6 border border-zinc-800">
-                        <div class="text-xs text-zinc-500 uppercase tracking-wider mb-3">Burn Amount Formula</div>
-                        <div class="font-mono text-lg sm:text-xl text-white mb-4 overflow-x-auto">
-                            <span class="text-gold">B<sub>q</sub></span> = <span class="text-emerald-400">R<sub>q</sub></span> × <span class="text-blue-400">α</span> × (1 + <span class="text-purple-400">V<sub>growth</sub></span>)
+                        <div class="flex items-center gap-2 mb-3">
+                            <div class="text-xs text-zinc-500 uppercase tracking-wider">Stock-to-Flow Model</div>
+                            <span class="text-[10px] px-2 py-0.5 bg-blue-500/20 text-blue-400 rounded-full">PlanB Model</span>
                         </div>
-                        <div class="grid sm:grid-cols-2 gap-3 text-xs sm:text-sm">
-                            <div class="flex items-center gap-2"><span class="text-gold font-mono font-bold">B<sub>q</sub></span><span class="text-zinc-500">= Quarterly burn amount</span></div>
-                            <div class="flex items-center gap-2"><span class="text-emerald-400 font-mono font-bold">R<sub>q</sub></span><span class="text-zinc-500">= Quarterly platform revenue</span></div>
-                            <div class="flex items-center gap-2"><span class="text-blue-400 font-mono font-bold">α</span><span class="text-zinc-500">= Burn coefficient (20%)</span></div>
-                            <div class="flex items-center gap-2"><span class="text-purple-400 font-mono font-bold">V<sub>growth</sub></span><span class="text-zinc-500">= Volume growth rate</span></div>
+                        <div class="font-mono text-lg sm:text-xl text-white mb-4 overflow-x-auto">
+                            <span class="text-gold">S2F</span> = <span class="text-emerald-400">S</span> / <span class="text-red-400">F</span>  →  <span class="text-gold">ln(P)</span> = <span class="text-blue-400">a</span> × ln(S2F) + <span class="text-purple-400">b</span>
+                        </div>
+                        <div class="grid sm:grid-cols-2 gap-3 text-xs sm:text-sm mb-4">
+                            <div class="flex items-center gap-2"><span class="text-emerald-400 font-mono font-bold">S</span><span class="text-zinc-500">= Current circulating stock</span></div>
+                            <div class="flex items-center gap-2"><span class="text-red-400 font-mono font-bold">F</span><span class="text-zinc-500">= Annual flow (new supply - burn)</span></div>
+                            <div class="flex items-center gap-2"><span class="text-blue-400 font-mono font-bold">a</span><span class="text-zinc-500">= Slope coefficient (≈3.3 for BTC)</span></div>
+                            <div class="flex items-center gap-2"><span class="text-purple-400 font-mono font-bold">b</span><span class="text-zinc-500">= Intercept constant</span></div>
+                        </div>
+                        <div class="text-xs text-zinc-500 bg-zinc-800/50 rounded-lg p-3">
+                            <span class="text-gold">PLB Advantage:</span> With negative flow (burn > issuance), S2F → ∞, indicating increasing scarcity premium
                         </div>
                     </div>
 
-                    <!-- Supply Reduction Formula -->
+                    <!-- Metcalfe's Law -->
                     <div class="bg-zinc-900/50 rounded-xl p-5 sm:p-6 mb-6 border border-zinc-800">
-                        <div class="text-xs text-zinc-500 uppercase tracking-wider mb-3">Circulating Supply Model</div>
+                        <div class="flex items-center gap-2 mb-3">
+                            <div class="text-xs text-zinc-500 uppercase tracking-wider">Network Value Model</div>
+                            <span class="text-[10px] px-2 py-0.5 bg-purple-500/20 text-purple-400 rounded-full">Metcalfe's Law</span>
+                        </div>
                         <div class="font-mono text-lg sm:text-xl text-white mb-4 overflow-x-auto">
-                            <span class="text-gold">S<sub>t</sub></span> = S<sub>0</sub> − Σ<span class="text-red-400">B<sub>i</sub></span> − <span class="text-blue-400">L<sub>staked</sub></span>
+                            <span class="text-gold">NV</span> = <span class="text-blue-400">k</span> × <span class="text-emerald-400">n</span><sup>2</sup>  →  <span class="text-gold">P</span> = (<span class="text-blue-400">k</span> × <span class="text-emerald-400">n</span><sup>2</sup>) / <span class="text-red-400">S<sub>t</sub></span>
                         </div>
-                        <div class="grid sm:grid-cols-3 gap-3 text-xs sm:text-sm">
-                            <div class="flex items-center gap-2"><span class="text-gold font-mono font-bold">S<sub>t</sub></span><span class="text-zinc-500">= Supply at time t</span></div>
-                            <div class="flex items-center gap-2"><span class="text-red-400 font-mono font-bold">ΣB<sub>i</sub></span><span class="text-zinc-500">= Total burned</span></div>
-                            <div class="flex items-center gap-2"><span class="text-blue-400 font-mono font-bold">L<sub>staked</sub></span><span class="text-zinc-500">= Locked in staking</span></div>
-                        </div>
-                    </div>
-
-                    <!-- Price Impact Formula -->
-                    <div class="bg-gradient-to-r from-gold/10 to-transparent rounded-xl p-5 sm:p-6 border border-gold/20">
-                        <div class="text-xs text-gold uppercase tracking-wider mb-3">Price Impact Theory</div>
-                        <div class="font-mono text-lg sm:text-xl text-white mb-4 overflow-x-auto">
-                            <span class="text-gold">P<sub>future</sub></span> = P<sub>current</sub> × (<span class="text-emerald-400">D<sub>t</sub></span> / <span class="text-red-400">S<sub>t</sub></span>) × <span class="text-purple-400">M</span>
-                        </div>
-                        <div class="grid sm:grid-cols-2 gap-3 text-xs sm:text-sm">
-                            <div class="flex items-center gap-2"><span class="text-emerald-400 font-mono font-bold">D<sub>t</sub></span><span class="text-zinc-500">= Token demand (fee payments + staking)</span></div>
+                        <div class="grid sm:grid-cols-2 gap-3 text-xs sm:text-sm mb-4">
+                            <div class="flex items-center gap-2"><span class="text-gold font-mono font-bold">NV</span><span class="text-zinc-500">= Network value (market cap)</span></div>
+                            <div class="flex items-center gap-2"><span class="text-emerald-400 font-mono font-bold">n</span><span class="text-zinc-500">= Active users/addresses</span></div>
+                            <div class="flex items-center gap-2"><span class="text-blue-400 font-mono font-bold">k</span><span class="text-zinc-500">= Network coefficient</span></div>
                             <div class="flex items-center gap-2"><span class="text-red-400 font-mono font-bold">S<sub>t</sub></span><span class="text-zinc-500">= Circulating supply</span></div>
-                            <div class="flex items-center gap-2"><span class="text-purple-400 font-mono font-bold">M</span><span class="text-zinc-500">= Market multiplier</span></div>
-                            <div class="flex items-center gap-2"><span class="text-gold font-mono font-bold">P</span><span class="text-zinc-500">= Token price</span></div>
+                        </div>
+                        <div class="text-xs text-zinc-500 bg-zinc-800/50 rounded-lg p-3">
+                            <span class="text-purple-400">Proven:</span> Facebook, Ethereum, and Bitcoin valuations follow n² relationship (R² > 0.9)
+                        </div>
+                    </div>
+
+                    <!-- Equation of Exchange -->
+                    <div class="bg-zinc-900/50 rounded-xl p-5 sm:p-6 mb-6 border border-zinc-800">
+                        <div class="flex items-center gap-2 mb-3">
+                            <div class="text-xs text-zinc-500 uppercase tracking-wider">Token Velocity Model</div>
+                            <span class="text-[10px] px-2 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full">Fisher Equation</span>
+                        </div>
+                        <div class="font-mono text-lg sm:text-xl text-white mb-4 overflow-x-auto">
+                            <span class="text-gold">M</span> × <span class="text-red-400">V</span> = <span class="text-emerald-400">P</span> × <span class="text-blue-400">Q</span>  →  <span class="text-gold">Token Price</span> = (<span class="text-emerald-400">P</span> × <span class="text-blue-400">Q</span>) / (<span class="text-gold">M</span> × <span class="text-red-400">V</span>)
+                        </div>
+                        <div class="grid sm:grid-cols-2 gap-3 text-xs sm:text-sm mb-4">
+                            <div class="flex items-center gap-2"><span class="text-gold font-mono font-bold">M</span><span class="text-zinc-500">= Total token supply in circulation</span></div>
+                            <div class="flex items-center gap-2"><span class="text-red-400 font-mono font-bold">V</span><span class="text-zinc-500">= Token velocity (turnover rate)</span></div>
+                            <div class="flex items-center gap-2"><span class="text-emerald-400 font-mono font-bold">P</span><span class="text-zinc-500">= Price level of services</span></div>
+                            <div class="flex items-center gap-2"><span class="text-blue-400 font-mono font-bold">Q</span><span class="text-zinc-500">= Quantity of transactions</span></div>
+                        </div>
+                        <div class="text-xs text-zinc-500 bg-zinc-800/50 rounded-lg p-3">
+                            <span class="text-emerald-400">PLB Strategy:</span> Staking reduces V (velocity), directly increasing token value per Fisher equation
+                        </div>
+                    </div>
+
+                    <!-- Combined Valuation Model -->
+                    <div class="bg-gradient-to-r from-gold/10 to-transparent rounded-xl p-5 sm:p-6 border border-gold/20">
+                        <div class="flex items-center gap-2 mb-3">
+                            <div class="text-xs text-gold uppercase tracking-wider">PLB Integrated Valuation</div>
+                            <span class="text-[10px] px-2 py-0.5 bg-gold/20 text-gold rounded-full">Combined Model</span>
+                        </div>
+                        <div class="font-mono text-base sm:text-lg text-white mb-4 overflow-x-auto">
+                            <span class="text-gold">P<sub>PLB</sub></span> = [(<span class="text-blue-400">k</span> × <span class="text-emerald-400">n</span><sup>2</sup>) / <span class="text-red-400">S<sub>t</sub></span>] × [1 + ln(<span class="text-purple-400">S2F</span>)] × [1 / <span class="text-red-400">V</span>]
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 text-xs text-center mt-4">
+                            <div class="bg-zinc-800/50 rounded-lg p-2"><div class="text-emerald-400 font-bold">Network Effect</div><div class="text-zinc-500">n² growth</div></div>
+                            <div class="bg-zinc-800/50 rounded-lg p-2"><div class="text-purple-400 font-bold">Scarcity Premium</div><div class="text-zinc-500">S2F increase</div></div>
+                            <div class="bg-zinc-800/50 rounded-lg p-2"><div class="text-red-400 font-bold">Velocity Sink</div><div class="text-zinc-500">Staking lock</div></div>
                         </div>
                     </div>
                 </div>
@@ -542,6 +577,51 @@
                                 <div><div class="text-white font-semibold text-sm">No Inflation</div><div class="text-zinc-500 text-xs">Fixed supply with no additional minting</div></div>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Theoretical Foundations -->
+                <div class="card p-6 sm:p-8 mt-6 border border-zinc-700/50">
+                    <h4 class="font-display text-lg font-bold text-white mb-6 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/></svg>
+                        Theoretical Foundations
+                    </h4>
+                    <div class="grid sm:grid-cols-3 gap-4">
+                        <div class="bg-zinc-900/50 rounded-xl p-4 border border-zinc-800">
+                            <div class="flex items-center gap-2 mb-3">
+                                <div class="w-8 h-8 bg-blue-500/10 rounded-lg flex items-center justify-center"><span class="text-blue-400 text-xs font-bold">S2F</span></div>
+                                <span class="text-white font-semibold text-sm">Stock-to-Flow</span>
+                            </div>
+                            <p class="text-zinc-500 text-xs leading-relaxed mb-3">Developed by pseudonymous analyst PlanB (2019). Models asset value based on scarcity ratio. Successfully predicted Bitcoin's price movements with R² > 0.95.</p>
+                            <div class="text-[10px] text-zinc-600 border-t border-zinc-800 pt-2 mt-2">
+                                <span class="text-zinc-500">Reference:</span> "Modeling Bitcoin Value with Scarcity" - PlanB, 2019
+                            </div>
+                        </div>
+                        <div class="bg-zinc-900/50 rounded-xl p-4 border border-zinc-800">
+                            <div class="flex items-center gap-2 mb-3">
+                                <div class="w-8 h-8 bg-purple-500/10 rounded-lg flex items-center justify-center"><span class="text-purple-400 text-xs font-bold">n²</span></div>
+                                <span class="text-white font-semibold text-sm">Metcalfe's Law</span>
+                            </div>
+                            <p class="text-zinc-500 text-xs leading-relaxed mb-3">Formulated by Robert Metcalfe (1980). States network value grows proportionally to users squared. Validated across Facebook, Tencent, and major cryptocurrencies.</p>
+                            <div class="text-[10px] text-zinc-600 border-t border-zinc-800 pt-2 mt-2">
+                                <span class="text-zinc-500">Reference:</span> "Metcalfe's Law as a Model for Bitcoin's Value" - Clearblocks, 2017
+                            </div>
+                        </div>
+                        <div class="bg-zinc-900/50 rounded-xl p-4 border border-zinc-800">
+                            <div class="flex items-center gap-2 mb-3">
+                                <div class="w-8 h-8 bg-emerald-500/10 rounded-lg flex items-center justify-center"><span class="text-emerald-400 text-xs font-bold">MV</span></div>
+                                <span class="text-white font-semibold text-sm">Fisher Equation</span>
+                            </div>
+                            <p class="text-zinc-500 text-xs leading-relaxed mb-3">Proposed by Irving Fisher (1911). The Equation of Exchange (MV=PQ) is foundational monetary economics. Adapted for crypto token valuation by Chris Burniske.</p>
+                            <div class="text-[10px] text-zinc-600 border-t border-zinc-800 pt-2 mt-2">
+                                <span class="text-zinc-500">Reference:</span> "Cryptoasset Valuations" - Chris Burniske, 2017
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6 p-4 bg-gradient-to-r from-gold/5 to-transparent rounded-xl border border-gold/10">
+                        <p class="text-zinc-400 text-xs leading-relaxed">
+                            <span class="text-gold font-semibold">Academic Basis:</span> PLB tokenomics integrates three peer-reviewed economic frameworks: scarcity-driven valuation (S2F), network effect theory (Metcalfe), and monetary velocity principles (Fisher). This multi-factor approach provides robust theoretical support for long-term value accrual through systematic supply reduction and utility-driven demand.
+                        </p>
                     </div>
                 </div>
             </div>
