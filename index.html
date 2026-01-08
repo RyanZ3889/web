@@ -7,7 +7,7 @@
     <meta name="description" content="Enterprise-grade crypto futures exchange with institutional liquidity and security">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Bebas+Neue&family=Oswald:wght@700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>tailwind.config={theme:{extend:{colors:{gold:'#B8860B','gold-light':'#DAA520','gold-bright':'#FFD700'},fontFamily:{display:['Space Grotesk','sans-serif'],sans:['Inter','sans-serif']}}}}</script>
     <style>
@@ -47,42 +47,39 @@
         input[type="email"]::placeholder{color:#404050}
         .mobile-menu{transform:translateX(100%);transition:transform 0.3s ease}
         .mobile-menu.open{transform:translateX(0)}
+
+        /* Countdown Styles */
+        .countdown-box{background:linear-gradient(180deg,rgba(184,134,11,0.1) 0%,rgba(184,134,11,0.02) 100%);border:1px solid rgba(184,134,11,0.3);border-radius:16px;padding:16px 20px;min-width:80px;text-align:center}
+        .countdown-number{font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;background:linear-gradient(135deg,#FFD700 0%,#DAA520 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .countdown-label{font-size:0.7rem;color:#71717a;text-transform:uppercase;letter-spacing:0.1em;margin-top:4px}
+        @media(min-width:640px){.countdown-number{font-size:2.5rem}.countdown-box{min-width:100px;padding:20px 24px}}
+
+        /* Typing Animation */
+        .typing-text{border-right:2px solid var(--gold);padding-right:4px;animation:blink 0.7s step-end infinite}
+        @keyframes blink{from,to{border-color:transparent}50%{border-color:var(--gold)}}
+
+        /* Launch Badge */
+        .launch-badge{animation:badgePulse 2s ease-in-out infinite}
+        @keyframes badgePulse{0%,100%{box-shadow:0 0 0 0 rgba(184,134,11,0.4)}50%{box-shadow:0 0 0 10px rgba(184,134,11,0)}}
     </style>
 </head>
 <body>
     <!-- Navigation -->
     <nav class="fixed top-0 left-0 right-0 z-50 bg-[#050507]/80 backdrop-blur-2xl border-b border-white/5">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
-            <a href="#" class="flex items-center gap-3">
-                <div class="logo-mark w-10 h-10 sm:w-11 sm:h-11">
-                    <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#FFD700"/>
-                                <stop offset="50%" stop-color="#DAA520"/>
-                                <stop offset="100%" stop-color="#B8860B"/>
-                            </linearGradient>
-                        </defs>
-                        <path d="M30 3L54.5 17.5V46.5L30 61L5.5 46.5V17.5L30 3Z" stroke="url(#logoGrad)" stroke-width="2" fill="none"/>
-                        <path d="M20 18V46M20 18H35C40 18 44 22 44 28C44 34 40 38 35 38H20" stroke="url(#logoGrad)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                        <circle cx="44" cy="44" r="3" fill="url(#logoGrad)"/>
-                    </svg>
-                </div>
-                <div class="flex flex-col">
-                    <span class="logo-text text-white text-lg sm:text-xl">PLUBIT</span>
-                    <span class="text-[10px] sm:text-xs text-zinc-500 tracking-[0.2em] uppercase">Exchange</span>
-                </div>
+            <a href="#" class="flex items-center">
+                <span class="text-2xl sm:text-3xl tracking-wide" style="font-family:'Bebas Neue',sans-serif;letter-spacing:0.05em"><span class="text-white">PLUB</span><span class="text-gold">I</span><span class="text-white">T</span></span>
             </a>
             <div class="hidden lg:flex items-center gap-10">
                 <a href="#features" class="text-zinc-400 hover:text-white transition-colors text-sm font-medium">Features</a>
                 <a href="#liquidity" class="text-zinc-400 hover:text-white transition-colors text-sm font-medium">Liquidity</a>
                 <a href="#security" class="text-zinc-400 hover:text-white transition-colors text-sm font-medium">Security</a>
                 <a href="#revival" class="text-zinc-400 hover:text-white transition-colors text-sm font-medium">Revival</a>
+                <a href="#plb-token" class="text-gold hover:text-gold-bright transition-colors text-sm font-medium">PLB Token</a>
             </div>
             <div class="flex items-center gap-3 sm:gap-4">
-                <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full">
-                    <span class="w-2 h-2 bg-emerald-400 rounded-full live-pulse"></span>
-                    <span class="text-emerald-400 text-xs font-semibold tracking-wide">LIVE</span>
+                <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-gold/10 border border-gold/30 rounded-full launch-badge">
+                    <span class="text-gold text-xs font-semibold tracking-wide">MAR 2026</span>
                 </div>
                 <a href="#waitlist" class="btn-primary text-sm py-2.5 px-5 sm:py-3 sm:px-6">Get Started</a>
                 <button class="lg:hidden p-2 text-zinc-400" onclick="document.getElementById('mobileMenu').classList.toggle('open')">
@@ -91,37 +88,75 @@
             </div>
         </div>
     </nav>
-    
+
     <div class="mobile-menu fixed inset-0 z-40 bg-[#050507] pt-20 px-6 lg:hidden" id="mobileMenu">
         <div class="flex flex-col gap-8 py-10">
             <a href="#features" onclick="document.getElementById('mobileMenu').classList.remove('open')" class="text-3xl text-white font-semibold">Features</a>
             <a href="#liquidity" onclick="document.getElementById('mobileMenu').classList.remove('open')" class="text-3xl text-white font-semibold">Liquidity</a>
             <a href="#security" onclick="document.getElementById('mobileMenu').classList.remove('open')" class="text-3xl text-white font-semibold">Security</a>
             <a href="#revival" onclick="document.getElementById('mobileMenu').classList.remove('open')" class="text-3xl text-white font-semibold">Revival</a>
+            <a href="#plb-token" onclick="document.getElementById('mobileMenu').classList.remove('open')" class="text-3xl gradient-text font-semibold">PLB Token</a>
             <a href="#waitlist" onclick="document.getElementById('mobileMenu').classList.remove('open')" class="btn-primary text-center py-4 mt-4 text-lg">Get Started</a>
         </div>
     </div>
-    
+
     <div class="fixed top-16 sm:top-20 left-0 right-0 z-30 ticker-wrap">
         <div class="ticker-content py-3" id="ticker"></div>
     </div>
-    
+
     <!-- Hero -->
     <section class="min-h-screen flex items-center pt-36 sm:pt-44 pb-20 px-4 sm:px-6 relative overflow-hidden">
         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gold/5 rounded-full blur-[150px] pointer-events-none"></div>
         <div class="max-w-7xl mx-auto w-full relative z-10">
             <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
                 <div class="fade-up text-center lg:text-left">
-                    <div class="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full mb-8 backdrop-blur-sm">
-                        <span class="w-2 h-2 bg-gold rounded-full"></span>
-                        <span class="text-zinc-300 text-xs sm:text-sm font-medium tracking-wide">Enterprise-Grade Futures Exchange</span>
+                    <!-- Coming Soon Badge -->
+                    <div class="inline-flex items-center gap-3 px-5 py-2.5 bg-gradient-to-r from-gold/20 to-gold/5 border border-gold/30 rounded-full mb-8 backdrop-blur-sm">
+                        <span class="w-2 h-2 bg-gold rounded-full animate-pulse"></span>
+                        <span class="text-gold text-xs sm:text-sm font-bold tracking-wide">COMING MARCH 2026</span>
                     </div>
-                    <h1 class="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] mb-6">
+
+                    <h1 class="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] mb-4">
                         <span class="text-white">Trade Futures</span><br/><span class="gradient-text">Like a Pro</span>
                     </h1>
+
+                    <!-- Typing Animation -->
+                    <div class="h-8 sm:h-10 mb-6 flex items-center justify-center lg:justify-start">
+                        <span class="text-zinc-400 text-base sm:text-lg" id="typing-container">
+                            <span id="typing-text" class="typing-text"></span>
+                        </span>
+                    </div>
+
                     <p class="text-zinc-400 text-base sm:text-lg md:text-xl leading-relaxed mb-10 max-w-xl mx-auto lg:mx-0">Institutional-grade liquidity meets enterprise security. Experience the next generation of futures trading with PLUBIT.</p>
+
+                    <!-- Countdown Timer -->
+                    <div class="mb-3">
+                        <span class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight" style="font-family:'Bebas Neue',sans-serif;letter-spacing:0.02em">
+                            <span class="text-white">2026</span>
+                            <span class="gradient-text">MARCH</span>
+                        </span>
+                    </div>
+                    <div class="flex flex-wrap justify-center lg:justify-start gap-3 sm:gap-4 mb-10">
+                        <div class="countdown-box">
+                            <div class="countdown-number" id="countdown-days">00</div>
+                            <div class="countdown-label">Days</div>
+                        </div>
+                        <div class="countdown-box">
+                            <div class="countdown-number" id="countdown-hours">00</div>
+                            <div class="countdown-label">Hours</div>
+                        </div>
+                        <div class="countdown-box">
+                            <div class="countdown-number" id="countdown-mins">00</div>
+                            <div class="countdown-label">Mins</div>
+                        </div>
+                        <div class="countdown-box">
+                            <div class="countdown-number" id="countdown-secs">00</div>
+                            <div class="countdown-label">Secs</div>
+                        </div>
+                    </div>
+
                     <div class="flex flex-col sm:flex-row gap-4 mb-12 justify-center lg:justify-start">
-                        <a href="#waitlist" class="btn-primary text-base py-4 px-10 flex items-center justify-center gap-3">Start Trading<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg></a>
+                        <a href="#waitlist" class="btn-primary text-base py-4 px-10 flex items-center justify-center gap-3">Join Waitlist<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg></a>
                         <a href="#features" class="py-4 px-10 border border-zinc-700/50 rounded-xl text-white font-semibold hover:bg-white/5 transition-all text-center backdrop-blur-sm">Explore</a>
                     </div>
                     <div class="grid grid-cols-3 gap-6 max-w-lg mx-auto lg:mx-0">
@@ -132,30 +167,16 @@
                 </div>
                 <div class="fade-up hidden lg:flex justify-center items-center" style="transition-delay:0.2s">
                     <div class="relative">
-                        <div class="absolute inset-0 bg-gold/20 blur-[100px] rounded-full scale-150"></div>
-                        <div class="relative float glow-gold">
-                            <svg viewBox="0 0 200 200" class="w-72 h-72" fill="none">
-                                <defs>
-                                    <linearGradient id="heroGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" stop-color="#FFD700"/>
-                                        <stop offset="50%" stop-color="#DAA520"/>
-                                        <stop offset="100%" stop-color="#B8860B"/>
-                                    </linearGradient>
-                                    <filter id="glow"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                                </defs>
-                                <path d="M100 10L181 55V145L100 190L19 145V55L100 10Z" stroke="url(#heroGrad)" stroke-width="2" fill="none" filter="url(#glow)"/>
-                                <path d="M100 35L155 67.5V132.5L100 165L45 132.5V67.5L100 35Z" stroke="url(#heroGrad)" stroke-width="1" fill="none" opacity="0.3"/>
-                                <path d="M65 60V150M65 60H115C133 60 148 75 148 95C148 115 133 130 115 130H65" stroke="url(#heroGrad)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none" filter="url(#glow)"/>
-                                <circle cx="155" cy="155" r="6" fill="url(#heroGrad)" filter="url(#glow)"/>
-                                <circle cx="45" cy="45" r="4" fill="url(#heroGrad)" opacity="0.5"/>
-                            </svg>
+                        <div class="absolute inset-0 bg-gold/30 blur-[120px] rounded-full scale-150"></div>
+                        <div class="relative float">
+                            <span class="text-[80px] xl:text-[110px] tracking-wider" style="font-family:'Bebas Neue',sans-serif;letter-spacing:0.08em;text-shadow:0 0 60px rgba(184,134,11,0.4)"><span class="text-white">PLUB</span><span class="text-gold drop-shadow-[0_0_30px_rgba(255,215,0,0.8)]">I</span><span class="text-white">T</span></span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    
+
     <!-- Features -->
     <section id="features" class="py-24 sm:py-32 px-4 sm:px-6 relative">
         <div class="max-w-7xl mx-auto">
@@ -189,7 +210,7 @@
             </div>
         </div>
     </section>
-    
+
     <!-- Liquidity -->
     <section id="liquidity" class="py-24 sm:py-32 px-4 sm:px-6 bg-[#030305] relative">
         <div class="absolute inset-0 bg-gradient-to-b from-transparent via-gold/[0.02] to-transparent pointer-events-none"></div>
@@ -264,7 +285,7 @@
             </div>
         </div>
     </section>
-    
+
     <!-- Security -->
     <section id="security" class="py-24 sm:py-32 px-4 sm:px-6">
         <div class="max-w-7xl mx-auto">
@@ -293,7 +314,7 @@
             </div>
         </div>
     </section>
-    
+
     <!-- Revival -->
     <section id="revival" class="py-24 sm:py-32 px-4 sm:px-6 bg-[#030305]">
         <div class="max-w-7xl mx-auto">
@@ -314,8 +335,8 @@
                             <div class="card-gold rounded-3xl p-1.5">
                                 <div class="bg-[#08080c] rounded-[22px] p-10 sm:p-14 w-72 sm:w-80 aspect-[4/3] flex flex-col items-center justify-center relative overflow-hidden">
                                     <div class="absolute inset-0 opacity-5" style="background-image:repeating-linear-gradient(0deg,transparent,transparent 30px,rgba(255,215,0,0.5) 30px,rgba(255,215,0,0.5) 31px),repeating-linear-gradient(90deg,transparent,transparent 30px,rgba(255,215,0,0.5) 30px,rgba(255,215,0,0.5) 31px)"></div>
-                                    <div class="w-16 h-16 mb-4 opacity-30">
-                                        <svg viewBox="0 0 60 60" fill="none"><path d="M30 3L54.5 17.5V46.5L30 61L5.5 46.5V17.5L30 3Z" stroke="#DAA520" stroke-width="1.5" fill="none"/><path d="M20 18V46M20 18H35C40 18 44 22 44 28C44 34 40 38 35 38H20" stroke="#DAA520" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+                                    <div class="mb-4">
+                                        <span class="text-2xl tracking-wide opacity-40" style="font-family:'Bebas Neue',sans-serif;letter-spacing:0.05em"><span class="text-white">PLUB</span><span class="text-gold">I</span><span class="text-white">T</span></span>
                                     </div>
                                     <span class="text-gold/40 text-[10px] sm:text-xs tracking-[0.25em] uppercase mb-3 relative z-10">Safe Coupon</span>
                                     <span class="font-display text-5xl sm:text-6xl font-bold gradient-text relative z-10">SAFE</span>
@@ -328,14 +349,264 @@
             </div>
         </div>
     </section>
-    
+
+    <!-- PLB Token -->
+    <section id="plb-token" class="py-24 sm:py-32 px-4 sm:px-6 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-gold/[0.03] to-transparent pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto relative z-10">
+            <!-- Header -->
+            <div class="text-center mb-16 fade-up">
+                <span class="text-gold text-sm font-semibold tracking-wider uppercase">Native Utility Token</span>
+                <h2 class="font-display text-4xl sm:text-5xl md:text-6xl font-bold mt-4 mb-6"><span class="gradient-text">$PLB</span> <span class="text-white">Token</span></h2>
+                <p class="text-zinc-400 text-base sm:text-lg max-w-2xl mx-auto">The backbone of PLUBIT ecosystem. Hold PLB to unlock exclusive benefits and participate in our growth.</p>
+            </div>
+
+            <!-- Exchange Token Growth Comparison -->
+            <div class="mb-16 fade-up">
+                <div class="text-center mb-10">
+                    <h3 class="font-display text-2xl sm:text-3xl font-bold text-white mb-3">Exchange Tokens: <span class="gradient-text">Proven Growth</span></h3>
+                    <p class="text-zinc-500 text-sm sm:text-base">Historical performance of major exchange native tokens</p>
+                </div>
+                <div class="space-y-3 max-w-4xl mx-auto">
+                    <div class="card p-5 sm:p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm" style="background:rgba(243,186,47,0.15);color:#F3BA2F">BNB</div>
+                                <div><div class="font-bold text-white text-sm sm:text-base">Binance Coin</div><div class="text-xs text-zinc-500">Binance Exchange</div></div>
+                            </div>
+                            <div class="text-right"><div class="text-xs text-zinc-500">$0.10 → $720</div><div class="font-bold text-emerald-400 text-sm sm:text-base">+720,000%</div></div>
+                        </div>
+                        <div class="h-7 bg-zinc-800/50 rounded-lg overflow-hidden"><div class="h-full rounded-lg flex items-center justify-end pr-3 text-xs font-bold text-black" style="width:100%;background:#F3BA2F">720K%</div></div>
+                    </div>
+                    <div class="card p-5 sm:p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm" style="background:rgba(0,212,170,0.15);color:#00D4AA">BGB</div>
+                                <div><div class="font-bold text-white text-sm sm:text-base">Bitget Token</div><div class="text-xs text-zinc-500">Bitget Exchange</div></div>
+                            </div>
+                            <div class="text-right"><div class="text-xs text-zinc-500">$0.10 → $8.50</div><div class="font-bold text-emerald-400 text-sm sm:text-base">+8,400%</div></div>
+                        </div>
+                        <div class="h-7 bg-zinc-800/50 rounded-lg overflow-hidden"><div class="h-full rounded-lg flex items-center justify-end pr-3 text-xs font-bold text-black" style="width:85%;background:#00D4AA">8.4K%</div></div>
+                    </div>
+                    <div class="card p-5 sm:p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm" style="background:rgba(0,209,178,0.15);color:#00D1B2">GT</div>
+                                <div><div class="font-bold text-white text-sm sm:text-base">GateToken</div><div class="text-xs text-zinc-500">Gate.io Exchange</div></div>
+                            </div>
+                            <div class="text-right"><div class="text-xs text-zinc-500">$0.50 → $26</div><div class="font-bold text-emerald-400 text-sm sm:text-base">+5,100%</div></div>
+                        </div>
+                        <div class="h-7 bg-zinc-800/50 rounded-lg overflow-hidden"><div class="h-full rounded-lg flex items-center justify-end pr-3 text-xs font-bold text-black" style="width:70%;background:#00D1B2">5.1K%</div></div>
+                    </div>
+                    <!-- PLB - Your Opportunity -->
+                    <div class="card-gold p-5 sm:p-6 relative overflow-hidden">
+                        <div class="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-gold to-transparent"></div>
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-gradient-to-br from-gold-bright to-gold rounded-xl flex items-center justify-center font-bold text-sm text-[#050507]">PLB</div>
+                                <div><div class="font-bold text-white text-sm sm:text-base flex items-center gap-2">PLB Token <span class="px-2 py-0.5 bg-gold text-[#050507] rounded text-[10px] font-bold">EARLY</span></div><div class="text-xs text-zinc-500">PLUBIT Exchange</div></div>
+                            </div>
+                            <div class="text-right"><div class="text-xs text-zinc-500">$0.05 → ???</div><div class="font-display font-bold text-xl sm:text-2xl gradient-text">Your Turn</div></div>
+                        </div>
+                        <div class="h-7 bg-zinc-800/30 rounded-lg border border-dashed border-gold/50 flex items-center justify-center"><span class="text-gold text-xs sm:text-sm font-semibold">Early Access Available Now</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Why PLB Will Appreciate -->
+            <div class="mb-16 fade-up">
+                <div class="text-center mb-10">
+                    <h3 class="font-display text-2xl sm:text-3xl font-bold text-white mb-3">Why PLB <span class="gradient-text">Must Appreciate</span></h3>
+                    <p class="text-zinc-500 text-sm sm:text-base">A logical framework for inevitable value growth</p>
+                </div>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="card p-6 text-center">
+                        <div class="w-12 h-12 mx-auto mb-4 bg-gradient-to-br from-gold/20 to-gold/5 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941"/></svg>
+                        </div>
+                        <h4 class="font-bold text-white mb-2">Exchange Growth</h4>
+                        <p class="text-zinc-500 text-xs sm:text-sm">As PLUBIT grows, trading volume increases, driving demand for PLB utility</p>
+                    </div>
+                    <div class="card p-6 text-center">
+                        <div class="w-12 h-12 mx-auto mb-4 bg-gradient-to-br from-gold/20 to-gold/5 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z"/><path d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1A3.75 3.75 0 0012 18z"/></svg>
+                        </div>
+                        <h4 class="font-bold text-white mb-2">Deflationary Burns</h4>
+                        <p class="text-zinc-500 text-xs sm:text-sm">Quarterly buyback & burn reduces total supply, increasing scarcity over time</p>
+                    </div>
+                    <div class="card p-6 text-center">
+                        <div class="w-12 h-12 mx-auto mb-4 bg-gradient-to-br from-gold/20 to-gold/5 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
+                        </div>
+                        <h4 class="font-bold text-white mb-2">Staking Lock-up</h4>
+                        <p class="text-zinc-500 text-xs sm:text-sm">High APY staking incentivizes holding, reducing circulating supply significantly</p>
+                    </div>
+                    <div class="card p-6 text-center">
+                        <div class="w-12 h-12 mx-auto mb-4 bg-gradient-to-br from-gold/20 to-gold/5 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        </div>
+                        <h4 class="font-bold text-white mb-2">Fee Discount Demand</h4>
+                        <p class="text-zinc-500 text-xs sm:text-sm">40% fee discount creates constant buying pressure from active traders</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tokenomics - Deflationary Model -->
+            <div class="mb-16 fade-up">
+                <div class="text-center mb-10">
+                    <h3 class="font-display text-2xl sm:text-3xl font-bold text-white mb-3">Deflationary <span class="gradient-text">Tokenomics</span></h3>
+                    <p class="text-zinc-500 text-sm sm:text-base">Mathematically designed for sustainable value appreciation</p>
+                </div>
+
+                <div class="card p-6 sm:p-8 mb-6">
+                    <h4 class="font-display text-lg font-bold text-white mb-6 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z"/></svg>
+                        Quarterly Burn Mechanism
+                    </h4>
+
+                    <!-- Burn Formula -->
+                    <div class="bg-zinc-900/50 rounded-xl p-5 sm:p-6 mb-6 border border-zinc-800">
+                        <div class="text-xs text-zinc-500 uppercase tracking-wider mb-3">Burn Amount Formula</div>
+                        <div class="font-mono text-lg sm:text-xl text-white mb-4 overflow-x-auto">
+                            <span class="text-gold">B<sub>q</sub></span> = <span class="text-emerald-400">R<sub>q</sub></span> × <span class="text-blue-400">α</span> × (1 + <span class="text-purple-400">V<sub>growth</sub></span>)
+                        </div>
+                        <div class="grid sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+                            <div class="flex items-center gap-2"><span class="text-gold font-mono font-bold">B<sub>q</sub></span><span class="text-zinc-500">= Quarterly burn amount</span></div>
+                            <div class="flex items-center gap-2"><span class="text-emerald-400 font-mono font-bold">R<sub>q</sub></span><span class="text-zinc-500">= Quarterly platform revenue</span></div>
+                            <div class="flex items-center gap-2"><span class="text-blue-400 font-mono font-bold">α</span><span class="text-zinc-500">= Burn coefficient (20%)</span></div>
+                            <div class="flex items-center gap-2"><span class="text-purple-400 font-mono font-bold">V<sub>growth</sub></span><span class="text-zinc-500">= Volume growth rate</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Supply Reduction Formula -->
+                    <div class="bg-zinc-900/50 rounded-xl p-5 sm:p-6 mb-6 border border-zinc-800">
+                        <div class="text-xs text-zinc-500 uppercase tracking-wider mb-3">Circulating Supply Model</div>
+                        <div class="font-mono text-lg sm:text-xl text-white mb-4 overflow-x-auto">
+                            <span class="text-gold">S<sub>t</sub></span> = S<sub>0</sub> − Σ<span class="text-red-400">B<sub>i</sub></span> − <span class="text-blue-400">L<sub>staked</sub></span>
+                        </div>
+                        <div class="grid sm:grid-cols-3 gap-3 text-xs sm:text-sm">
+                            <div class="flex items-center gap-2"><span class="text-gold font-mono font-bold">S<sub>t</sub></span><span class="text-zinc-500">= Supply at time t</span></div>
+                            <div class="flex items-center gap-2"><span class="text-red-400 font-mono font-bold">ΣB<sub>i</sub></span><span class="text-zinc-500">= Total burned</span></div>
+                            <div class="flex items-center gap-2"><span class="text-blue-400 font-mono font-bold">L<sub>staked</sub></span><span class="text-zinc-500">= Locked in staking</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Price Impact Formula -->
+                    <div class="bg-gradient-to-r from-gold/10 to-transparent rounded-xl p-5 sm:p-6 border border-gold/20">
+                        <div class="text-xs text-gold uppercase tracking-wider mb-3">Price Impact Theory</div>
+                        <div class="font-mono text-lg sm:text-xl text-white mb-4 overflow-x-auto">
+                            <span class="text-gold">P<sub>future</sub></span> = P<sub>current</sub> × (<span class="text-emerald-400">D<sub>t</sub></span> / <span class="text-red-400">S<sub>t</sub></span>) × <span class="text-purple-400">M</span>
+                        </div>
+                        <div class="grid sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+                            <div class="flex items-center gap-2"><span class="text-emerald-400 font-mono font-bold">D<sub>t</sub></span><span class="text-zinc-500">= Token demand (fee payments + staking)</span></div>
+                            <div class="flex items-center gap-2"><span class="text-red-400 font-mono font-bold">S<sub>t</sub></span><span class="text-zinc-500">= Circulating supply</span></div>
+                            <div class="flex items-center gap-2"><span class="text-purple-400 font-mono font-bold">M</span><span class="text-zinc-500">= Market multiplier</span></div>
+                            <div class="flex items-center gap-2"><span class="text-gold font-mono font-bold">P</span><span class="text-zinc-500">= Token price</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projected Supply Reduction -->
+                <div class="grid sm:grid-cols-2 gap-6">
+                    <div class="card p-6">
+                        <h5 class="font-bold text-white mb-4 text-sm">5-Year Supply Projection</h5>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center"><span class="text-zinc-500 text-xs sm:text-sm">Year 0 (Launch)</span><span class="text-white font-mono text-sm">2.1B PLB</span></div>
+                            <div class="w-full h-2 bg-zinc-800 rounded-full"><div class="h-full bg-gradient-to-r from-gold to-gold-light rounded-full" style="width:100%"></div></div>
+                            <div class="flex justify-between items-center"><span class="text-zinc-500 text-xs sm:text-sm">Year 1</span><span class="text-white font-mono text-sm">1.89B PLB <span class="text-red-400 text-xs">(-10%)</span></span></div>
+                            <div class="w-full h-2 bg-zinc-800 rounded-full"><div class="h-full bg-gradient-to-r from-gold to-gold-light rounded-full" style="width:90%"></div></div>
+                            <div class="flex justify-between items-center"><span class="text-zinc-500 text-xs sm:text-sm">Year 3</span><span class="text-white font-mono text-sm">1.47B PLB <span class="text-red-400 text-xs">(-30%)</span></span></div>
+                            <div class="w-full h-2 bg-zinc-800 rounded-full"><div class="h-full bg-gradient-to-r from-gold to-gold-light rounded-full" style="width:70%"></div></div>
+                            <div class="flex justify-between items-center"><span class="text-zinc-500 text-xs sm:text-sm">Year 5</span><span class="text-white font-mono text-sm">1.05B PLB <span class="text-red-400 text-xs">(-50%)</span></span></div>
+                            <div class="w-full h-2 bg-zinc-800 rounded-full"><div class="h-full bg-gradient-to-r from-gold to-gold-light rounded-full" style="width:50%"></div></div>
+                        </div>
+                    </div>
+
+                    <div class="card p-6">
+                        <h5 class="font-bold text-white mb-4 text-sm">Deflationary Drivers</h5>
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-3">
+                                <div class="w-8 h-8 bg-red-500/10 rounded-lg flex items-center justify-center shrink-0 mt-0.5"><span class="text-red-400 text-xs font-bold">20%</span></div>
+                                <div><div class="text-white font-semibold text-sm">Revenue Burn</div><div class="text-zinc-500 text-xs">20% of quarterly revenue used for buyback & burn</div></div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-8 h-8 bg-blue-500/10 rounded-lg flex items-center justify-center shrink-0 mt-0.5"><span class="text-blue-400 text-xs font-bold">40%</span></div>
+                                <div><div class="text-white font-semibold text-sm">Staking Lock</div><div class="text-zinc-500 text-xs">Target 40% of supply locked in staking pools</div></div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-8 h-8 bg-purple-500/10 rounded-lg flex items-center justify-center shrink-0 mt-0.5"><span class="text-purple-400 text-xs font-bold">5%</span></div>
+                                <div><div class="text-white font-semibold text-sm">Fee Consumption</div><div class="text-zinc-500 text-xs">PLB used for fees partially burned</div></div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-8 h-8 bg-emerald-500/10 rounded-lg flex items-center justify-center shrink-0 mt-0.5"><span class="text-emerald-400 text-xs font-bold">∞</span></div>
+                                <div><div class="text-white font-semibold text-sm">No Inflation</div><div class="text-zinc-500 text-xs">Fixed supply with no additional minting</div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Token Info & Benefits -->
+            <div class="grid lg:grid-cols-2 gap-6 fade-up">
+                <!-- Token Info -->
+                <div class="card p-6 sm:p-8">
+                    <h4 class="font-display text-xl font-bold text-white mb-6 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"/></svg>
+                        Token Information
+                    </h4>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center py-3 border-b border-zinc-800"><span class="text-zinc-500 text-sm">Token Name</span><span class="text-white font-semibold">PLUBIT Token (PLB)</span></div>
+                        <div class="flex justify-between items-center py-3 border-b border-zinc-800"><span class="text-zinc-500 text-sm">Network</span><span class="text-white font-semibold">BNB Chain (BEP-20)</span></div>
+                        <div class="flex justify-between items-center py-3 border-b border-zinc-800"><span class="text-zinc-500 text-sm">Total Supply</span><span class="text-white font-semibold">2,100,000,000 PLB</span></div>
+                        <div class="flex justify-between items-center py-3 border-b border-zinc-800"><span class="text-zinc-500 text-sm">Initial Price</span><span class="text-white font-semibold">$0.05</span></div>
+                        <div class="flex justify-between items-center py-3"><span class="text-zinc-500 text-sm">Token Type</span><span class="gradient-text font-bold">Deflationary</span></div>
+                    </div>
+                </div>
+
+                <!-- Holder Benefits -->
+                <div class="card p-6 sm:p-8">
+                    <h4 class="font-display text-xl font-bold text-white mb-6 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z"/></svg>
+                        PLB Holder Benefits
+                    </h4>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4 p-4 bg-zinc-800/30 rounded-xl">
+                            <div class="w-10 h-10 bg-gold/10 rounded-lg flex items-center justify-center shrink-0"><svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
+                            <div><div class="text-white font-semibold text-sm">40% Trading Fee Discount</div><div class="text-zinc-500 text-xs">Pay fees with PLB and save significantly</div></div>
+                        </div>
+                        <div class="flex items-center gap-4 p-4 bg-zinc-800/30 rounded-xl">
+                            <div class="w-10 h-10 bg-gold/10 rounded-lg flex items-center justify-center shrink-0"><svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+                            <div><div class="text-white font-semibold text-sm">Up to 20% APY Staking</div><div class="text-zinc-500 text-xs">Earn passive income by staking PLB</div></div>
+                        </div>
+                        <div class="flex items-center gap-4 p-4 bg-zinc-800/30 rounded-xl">
+                            <div class="w-10 h-10 bg-gold/10 rounded-lg flex items-center justify-center shrink-0"><svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.58-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/></svg></div>
+                            <div><div class="text-white font-semibold text-sm">Priority Launchpad Access</div><div class="text-zinc-500 text-xs">Get early access to new token launches</div></div>
+                        </div>
+                        <div class="flex items-center gap-4 p-4 bg-zinc-800/30 rounded-xl">
+                            <div class="w-10 h-10 bg-gold/10 rounded-lg flex items-center justify-center shrink-0"><svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg></div>
+                            <div><div class="text-white font-semibold text-sm">Governance Voting Rights</div><div class="text-zinc-500 text-xs">Participate in key platform decisions</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="text-center mt-12 fade-up">
+                <a href="#waitlist" class="btn-primary inline-flex items-center gap-3 text-base py-4 px-10">
+                    Get PLB Early Access
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- Waitlist -->
     <section id="waitlist" class="py-24 sm:py-32 px-4 sm:px-6">
         <div class="max-w-md mx-auto">
             <div class="card-gold rounded-3xl p-7 sm:p-10 fade-up">
                 <div class="text-center mb-8">
-                    <div class="w-12 h-12 mx-auto mb-4 opacity-50">
-                        <svg viewBox="0 0 60 60" fill="none"><path d="M30 3L54.5 17.5V46.5L30 61L5.5 46.5V17.5L30 3Z" stroke="#DAA520" stroke-width="1.5" fill="none"/><path d="M20 18V46M20 18H35C40 18 44 22 44 28C44 34 40 38 35 38H20" stroke="#DAA520" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+                    <div class="mb-4">
+                        <span class="text-4xl tracking-wide" style="font-family:'Bebas Neue',sans-serif;letter-spacing:0.05em"><span class="text-white">PLUB</span><span class="text-gold">I</span><span class="text-white">T</span></span>
                     </div>
                     <h3 class="font-display text-2xl sm:text-3xl font-bold text-white mb-2">Get Early Access</h3>
                     <p class="text-zinc-400 text-sm sm:text-base">Join our beta program today</p>
@@ -345,10 +616,10 @@
                     <input type="hidden" name="_captcha" value="false">
                     <input type="hidden" name="_template" value="box">
                     <input type="hidden" name="_next" value="https://ryanz3889.github.io/web/thanks.html">
-                    
+
                     <div><label class="block text-zinc-500 text-xs sm:text-sm font-medium mb-2">Interest</label><div class="grid grid-cols-3 gap-2"><button type="button" class="interest-btn py-3 bg-zinc-800/50 border border-zinc-700/50 rounded-xl text-zinc-400 text-xs sm:text-sm font-medium transition-all" data-value="spot" onclick="setInterest('spot')">Spot</button><button type="button" class="interest-btn py-3 bg-zinc-800/50 border border-zinc-700/50 rounded-xl text-zinc-400 text-xs sm:text-sm font-medium transition-all" data-value="futures" onclick="setInterest('futures')">Futures</button><button type="button" class="interest-btn py-3 bg-gold border border-gold rounded-xl text-black text-xs sm:text-sm font-bold" data-value="both" onclick="setInterest('both')">Both</button></div></div>
                     <input type="hidden" name="interest" id="interest-input" value="both">
-                    
+
                     <div><label class="block text-zinc-500 text-xs sm:text-sm font-medium mb-2">Email</label><input type="email" name="email" id="email-input" required placeholder="you@example.com"></div>
                     <div class="flex items-start gap-3 p-4 bg-zinc-800/30 border border-zinc-700/30 rounded-xl"><input type="checkbox" id="consent" required class="mt-0.5 w-4 h-4 accent-gold"><label for="consent" class="text-zinc-500 text-xs sm:text-sm leading-relaxed"><span class="text-gold font-semibold">[Required]</span> I agree to the collection and use of personal information.</label></div>
                     <button type="submit" class="btn-primary w-full py-4 text-sm sm:text-base font-bold">Submit</button>
@@ -356,21 +627,20 @@
             </div>
         </div>
     </section>
-    
+
     <!-- Footer -->
     <footer class="py-12 sm:py-16 px-4 sm:px-6 border-t border-zinc-800/50">
         <div class="max-w-7xl mx-auto">
             <div class="flex flex-col sm:flex-row justify-between items-center gap-6">
-                <a href="#" class="flex items-center gap-2">
-                    <div class="w-8 h-8"><svg viewBox="0 0 60 60" fill="none"><defs><linearGradient id="fGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FFD700"/><stop offset="100%" stop-color="#B8860B"/></linearGradient></defs><path d="M30 3L54.5 17.5V46.5L30 61L5.5 46.5V17.5L30 3Z" stroke="url(#fGrad)" stroke-width="1.5" fill="none"/><path d="M20 18V46M20 18H35C40 18 44 22 44 28C44 34 40 38 35 38H20" stroke="url(#fGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div>
-                    <span class="logo-text text-white text-lg">PLUBIT</span>
+                <a href="#" class="flex items-center">
+                    <span class="text-xl tracking-wide" style="font-family:'Bebas Neue',sans-serif;letter-spacing:0.05em"><span class="text-white">PLUB</span><span class="text-gold">I</span><span class="text-white">T</span></span>
                 </a>
                 <div class="flex items-center gap-6 text-xs sm:text-sm text-zinc-500"><a href="#" class="hover:text-white transition-colors">Terms</a><a href="#" class="hover:text-white transition-colors">Privacy</a><a href="#" class="hover:text-white transition-colors">Risk</a></div>
                 <span class="text-zinc-600 text-xs sm:text-sm">2025 PLUBIT. All rights reserved.</span>
             </div>
         </div>
     </footer>
-    
+
     <script>
         const coinData={BTC:{price:97842.50},ETH:{price:3456.78},SOL:{price:198.45}};let currentCoin='BTC';
         const tickerData=[{symbol:'BTC/USDT',price:97842.50,change:2.34},{symbol:'ETH/USDT',price:3456.78,change:-1.23},{symbol:'SOL/USDT',price:198.45,change:5.67},{symbol:'XRP/USDT',price:2.34,change:8.91},{symbol:'DOGE/USDT',price:0.3456,change:-2.45}];
@@ -386,6 +656,58 @@
         const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:0.1});document.querySelectorAll('.fade-up').forEach(el=>observer.observe(el));
         const liqObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){updateCharts();setTimeout(()=>{animateGoodOrderbook();addLiveTrade()},500);liqObs.unobserve(e.target)}})},{threshold:0.2});const ls=document.getElementById('liquidity');if(ls)liqObs.observe(ls);
         function setInterest(value){document.getElementById('interest-input').value=value;document.querySelectorAll('.interest-btn').forEach(b=>{b.classList.remove('bg-gold','border-gold','text-black','font-bold');b.classList.add('bg-zinc-800/50','border-zinc-700/50','text-zinc-400');if(b.dataset.value===value){b.classList.remove('bg-zinc-800/50','border-zinc-700/50','text-zinc-400');b.classList.add('bg-gold','border-gold','text-black','font-bold')}})}
+
+        // Countdown Timer - Target: March 30, 2026
+        function updateCountdown(){
+            const target=new Date('2026-03-30T00:00:00').getTime();
+            const now=new Date().getTime();
+            const diff=target-now;
+            if(diff>0){
+                const days=Math.floor(diff/(1000*60*60*24));
+                const hours=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+                const mins=Math.floor((diff%(1000*60*60))/(1000*60));
+                const secs=Math.floor((diff%(1000*60))/1000);
+                document.getElementById('countdown-days').textContent=String(days).padStart(2,'0');
+                document.getElementById('countdown-hours').textContent=String(hours).padStart(2,'0');
+                document.getElementById('countdown-mins').textContent=String(mins).padStart(2,'0');
+                document.getElementById('countdown-secs').textContent=String(secs).padStart(2,'0');
+            }
+        }
+        updateCountdown();
+        setInterval(updateCountdown,1000);
+
+        // Typing Animation
+        const typingTexts=[
+            'Institutional-grade liquidity.',
+            'Zero slippage execution.',
+            'Enterprise security.',
+            'AI-powered risk control.',
+            'Up to 50% liquidation revival.'
+        ];
+        let textIndex=0,charIndex=0,isDeleting=false;
+        function typeText(){
+            const el=document.getElementById('typing-text');
+            if(!el)return;
+            const current=typingTexts[textIndex];
+            if(isDeleting){
+                el.textContent=current.substring(0,charIndex-1);
+                charIndex--;
+            }else{
+                el.textContent=current.substring(0,charIndex+1);
+                charIndex++;
+            }
+            let delay=isDeleting?30:80;
+            if(!isDeleting&&charIndex===current.length){
+                delay=2000;
+                isDeleting=true;
+            }else if(isDeleting&&charIndex===0){
+                isDeleting=false;
+                textIndex=(textIndex+1)%typingTexts.length;
+                delay=500;
+            }
+            setTimeout(typeText,delay);
+        }
+        setTimeout(typeText,1000);
     </script>
 </body>
 </html>
