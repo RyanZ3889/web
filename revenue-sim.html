@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PLUBIT - Revenue Simulation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a237e;
+            --secondary: #3f51b5;
+            --accent: #ffc107;
+            --gold: #FFD700;
+            --success: #00C853;
+            --warning: #ff9800;
+            --danger: #FF5252;
+            --white: #ffffff;
+            --dark: #0a0e1a;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        html, body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--dark);
+            color: var(--white);
+            min-height: 100vh;
+            min-height: 100dvh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(ellipse 80% 50% at 20% 40%, rgba(26, 35, 126, 0.4) 0%, transparent 50%),
+                radial-gradient(ellipse 60% 40% at 80% 60%, rgba(63, 81, 181, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse 40% 30% at 50% 80%, rgba(255, 193, 7, 0.15) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Floating Orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            z-index: 0;
+            animation: float 20s ease-in-out infinite;
+        }
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 193, 7, 0.15);
+            top: -100px;
+            right: -100px;
+            animation-delay: 0s;
+        }
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: rgba(63, 81, 181, 0.2);
+            bottom: -50px;
+            left: -50px;
+            animation-delay: -10s;
+        }
+        .orb-3 {
+            width: 200px;
+            height: 200px;
+            background: rgba(0, 200, 83, 0.1);
+            top: 50%;
+            left: 50%;
+            animation-delay: -5s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(20px, -20px) scale(1.05); }
+            50% { transform: translate(-10px, 10px) scale(0.95); }
+            75% { transform: translate(-20px, -10px) scale(1.02); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0 25px 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            text-decoration: none;
+            color: var(--white);
+            letter-spacing: -0.02em;
+        }
+        .logo span {
+            color: var(--accent);
+            text-shadow: 0 0 20px rgba(255, 193, 7, 0.5);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .exchange-btn {
+            display: none;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, var(--accent), #ffb300);
+            color: #000;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+        }
+        .exchange-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 193, 7, 0.4);
+        }
+
+        .lang-toggle {
+            display: flex;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 4px;
+            backdrop-filter: blur(10px);
+        }
+
+        .lang-btn {
+            padding: 8px 18px;
+            border: none;
+            border-radius: 25px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .lang-btn.active {
+            background: linear-gradient(135deg, var(--accent), var(--secondary));
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 10px 0;
+        }
+
+        /* Title Section */
+        .title-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: linear-gradient(135deg, rgba(255, 193, 7, 0.2), rgba(255, 193, 7, 0.05));
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .page-title {
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.8) 50%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-subtitle {
+            color: rgba(255,255,255,0.6);
+            font-size: clamp(0.85rem, 2vw, 1.1rem);
+            font-weight: 400;
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Calculator Container */
+        .calculator-container {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 28px;
+            padding: 35px;
+            backdrop-filter: blur(40px);
+            box-shadow:
+                0 25px 80px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .calculator-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 193, 7, 0.5), transparent);
+        }
+
+        /* Section Label */
+        .section-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+        .section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.1), transparent);
+        }
+
+        /* Input Grid */
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 18px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .input-group::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            padding: 1px;
+            background: linear-gradient(135deg, transparent, rgba(255, 193, 7, 0.3), transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .input-group:hover::before,
+        .input-group:focus-within::before {
+            opacity: 1;
+        }
+
+        .input-group:hover, .input-group:focus-within {
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 500;
+        }
+
+        .input-group input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 14px 16px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(255, 193, 7, 0.05);
+            box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.15);
+        }
+
+        /* Results Section */
+        .results-section {
+            margin-top: 10px;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 14px;
+        }
+
+        .result-item {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            padding: 22px 14px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .result-item:hover::before {
+            left: 100%;
+        }
+
+        .result-item:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .result-label {
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 10px;
+            line-height: 1.4;
+            font-weight: 500;
+        }
+
+        .result-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.9);
+            transition: all 0.5s ease;
+            letter-spacing: -0.02em;
+        }
+
+        .result-value.counting {
+            animation: pulse 0.6s ease-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.9); opacity: 0.6; }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Result Item Variants */
+        .result-referral {
+            background: linear-gradient(145deg, rgba(255, 193, 7, 0.12), rgba(255, 193, 7, 0.03));
+            border-color: rgba(255, 193, 7, 0.25);
+        }
+        .result-referral .result-value { color: var(--accent); }
+
+        .result-cost {
+            background: linear-gradient(145deg, rgba(255, 82, 82, 0.12), rgba(255, 82, 82, 0.03));
+            border-color: rgba(255, 82, 82, 0.25);
+        }
+        .result-cost .result-value { color: var(--danger); }
+
+        .result-net {
+            background: linear-gradient(135deg, var(--accent), #ff8f00);
+            border: none;
+            transform: scale(1.03);
+            box-shadow: 0 10px 40px rgba(255, 193, 7, 0.3);
+        }
+        .result-net .result-label { color: rgba(0, 0, 0, 0.6); }
+        .result-net .result-value { color: #000; font-size: 1.7rem; }
+        .result-net:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 20px 50px rgba(255, 193, 7, 0.4);
+        }
+
+        .result-annual {
+            background: linear-gradient(145deg, rgba(0, 200, 83, 0.15), rgba(0, 200, 83, 0.03));
+            border-color: rgba(0, 200, 83, 0.3);
+        }
+        .result-annual .result-value { color: var(--success); }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 25px 0 15px 0;
+            margin-top: auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 12px 24px;
+            border-radius: 30px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .footer-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .footer-link.primary {
+            background: linear-gradient(135deg, var(--accent), #ff8f00);
+            border: none;
+            color: #000;
+            font-weight: 600;
+        }
+        .footer-link.primary:hover {
+            box-shadow: 0 8px 25px rgba(255, 193, 7, 0.4);
+        }
+
+        /* Responsive - Tablet */
+        @media (max-width: 1024px) {
+            .calculator-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 14px;
+            }
+            .results-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 12px;
+            }
+            .result-value { font-size: 1.3rem; }
+            .result-net .result-value { font-size: 1.5rem; }
+            .exchange-btn { display: inline-flex; }
+        }
+
+        /* Responsive - Mobile */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            .header {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 12px;
+            }
+            .header-right {
+                width: 100%;
+                justify-content: center;
+            }
+            .exchange-btn { display: none; }
+            .title-section {
+                margin-bottom: 20px;
+            }
+            .badge {
+                padding: 6px 16px;
+                font-size: 0.65rem;
+            }
+            .calculator-container {
+                padding: 22px 18px;
+                border-radius: 22px;
+            }
+            .section-label {
+                font-size: 0.65rem;
+                margin-bottom: 15px;
+            }
+            .calculator-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            .input-group {
+                padding: 14px;
+                border-radius: 14px;
+            }
+            .input-group label {
+                font-size: 0.6rem;
+                margin-bottom: 8px;
+            }
+            .input-group input {
+                padding: 12px 14px;
+                font-size: 1rem;
+                border-radius: 10px;
+            }
+            .results-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+            .result-item {
+                padding: 16px 10px;
+                border-radius: 14px;
+            }
+            .result-label {
+                font-size: 0.55rem;
+                margin-bottom: 8px;
+            }
+            .result-value {
+                font-size: 1.05rem;
+            }
+            .result-net .result-value {
+                font-size: 1.2rem;
+            }
+            .lang-btn {
+                padding: 7px 14px;
+                font-size: 12px;
+            }
+            .footer-links {
+                gap: 12px;
+            }
+            .footer-link {
+                padding: 10px 18px;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Responsive - Small Mobile */
+        @media (max-width: 480px) {
+            .container {
+                padding: 12px;
+            }
+            .page-title {
+                font-size: 1.8rem;
+            }
+            .page-subtitle {
+                font-size: 0.8rem;
+            }
+            .calculator-container {
+                padding: 18px 14px;
+                border-radius: 18px;
+            }
+            .calculator-grid {
+                gap: 8px;
+            }
+            .input-group {
+                padding: 12px;
+                border-radius: 12px;
+            }
+            .input-group label {
+                font-size: 0.55rem;
+                margin-bottom: 6px;
+            }
+            .input-group input {
+                padding: 10px 12px;
+                font-size: 0.95rem;
+                border-radius: 9px;
+            }
+            .results-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 7px;
+            }
+            .result-item {
+                padding: 14px 8px;
+                border-radius: 12px;
+            }
+            .result-label {
+                font-size: 0.5rem;
+                margin-bottom: 6px;
+            }
+            .result-value {
+                font-size: 0.95rem;
+            }
+            .result-net .result-value {
+                font-size: 1.1rem;
+            }
+            .footer-link {
+                padding: 10px 16px;
+                font-size: 0.75rem;
+            }
+        }
+
+        /* Very Small Mobile */
+        @media (max-width: 360px) {
+            .calculator-container {
+                padding: 15px 12px;
+            }
+            .input-group {
+                padding: 10px;
+            }
+            .input-group input {
+                padding: 9px 10px;
+                font-size: 0.9rem;
+            }
+            .result-item {
+                padding: 12px 6px;
+            }
+            .result-label {
+                font-size: 0.45rem;
+            }
+            .result-value {
+                font-size: 0.85rem;
+            }
+            .result-net .result-value {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-gradient"></div>
+    <div class="bg-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <a href="index.html" class="logo">PLUB<span>I</span>T</a>
+            <div class="header-right">
+                <a href="https://plubit.xyz" class="exchange-btn" target="_blank">Visit Exchange</a>
+                <div class="lang-toggle">
+                    <button class="lang-btn active" data-lang="en" onclick="setLanguage('en')">EN</button>
+                    <button class="lang-btn" data-lang="ko" onclick="setLanguage('ko')">KO</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Title Section -->
+            <div class="title-section">
+                <div class="badge" data-en="Investment Calculator" data-ko="투자 수익 계산기">Investment Calculator</div>
+                <h1 class="page-title" data-en="Revenue Simulation" data-ko="수익 시뮬레이션">Revenue Simulation</h1>
+                <p class="page-subtitle" data-en="Calculate realistic revenue based on leveraged futures trading parameters" data-ko="레버리지 선물거래 기반 현실적인 수익을 계산해보세요">Calculate realistic revenue based on leveraged futures trading parameters</p>
+            </div>
+
+            <div class="calculator-container">
+                <!-- Input Section -->
+                <div class="section-label" data-en="Parameters" data-ko="파라미터">Parameters</div>
+                <div class="calculator-grid">
+                    <div class="input-group">
+                        <label data-en="Active Users" data-ko="활성 고객 수">Active Users</label>
+                        <input type="number" id="activeUsers" value="500" min="100" max="50000" step="50">
+                    </div>
+                    <div class="input-group">
+                        <label data-en="Average Deposit ($)" data-ko="평균 예치금 ($)">Average Deposit ($)</label>
+                        <input type="number" id="avgDeposit" value="5000" min="1000" max="500000" step="1000">
+                    </div>
+                    <div class="input-group">
+                        <label data-en="Daily Trades / User" data-ko="일평균 거래 횟수">Daily Trades / User</label>
+                        <input type="number" id="dailyTrades" value="8" min="1" max="100">
+                    </div>
+                    <div class="input-group">
+                        <label data-en="Average Leverage" data-ko="평균 레버리지">Average Leverage</label>
+                        <input type="number" id="leverage" value="10" min="1" max="125" step="1">
+                    </div>
+                    <div class="input-group">
+                        <label data-en="Position Ratio (%)" data-ko="포지션 비율 (%)">Position Ratio (%)</label>
+                        <input type="number" id="positionRatio" value="20" min="5" max="100" step="5">
+                    </div>
+                    <div class="input-group">
+                        <label data-en="Trading Fee (%)" data-ko="거래 수수료 (%)">Trading Fee (%)</label>
+                        <input type="number" id="tradingFee" value="0.05" min="0.01" max="0.2" step="0.01">
+                    </div>
+                    <div class="input-group">
+                        <label data-en="Referral Rate (%)" data-ko="레퍼럴 배분율 (%)">Referral Rate (%)</label>
+                        <input type="number" id="referralRate" value="80" min="50" max="100">
+                    </div>
+                    <div class="input-group">
+                        <label data-en="Operating Cost ($10K)" data-ko="운영비 ($만)">Operating Cost ($10K)</label>
+                        <input type="number" id="operatingCost" value="3" min="1" max="50" step="0.5">
+                    </div>
+                </div>
+
+                <!-- Results Section -->
+                <div class="results-section">
+                    <div class="section-label" data-en="Projected Revenue" data-ko="예상 수익">Projected Revenue</div>
+                    <div class="results-grid">
+                        <div class="result-item">
+                            <div class="result-label" data-en="Monthly Volume" data-ko="월 거래량">Monthly Volume</div>
+                            <div class="result-value" id="monthlyVolume">$120M</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label" data-en="Trading Fees" data-ko="거래 수수료">Trading Fees</div>
+                            <div class="result-value" id="monthlyTradingRevenue">$60K</div>
+                        </div>
+                        <div class="result-item result-referral">
+                            <div class="result-label" data-en="PLUBIT Revenue" data-ko="PLUBIT 수익">PLUBIT Revenue</div>
+                            <div class="result-value" id="referralRevenue">$48K</div>
+                        </div>
+                        <div class="result-item result-cost">
+                            <div class="result-label" data-en="Operating Cost" data-ko="운영비">Operating Cost</div>
+                            <div class="result-value" id="operatingExpense">-$30K</div>
+                        </div>
+                        <div class="result-item result-net">
+                            <div class="result-label" data-en="Monthly Profit" data-ko="월 순이익">Monthly Profit</div>
+                            <div class="result-value" id="netProfit">$18K</div>
+                        </div>
+                        <div class="result-item result-annual">
+                            <div class="result-label" data-en="Annual Profit" data-ko="연간 순이익">Annual Profit</div>
+                            <div class="result-value" id="annualProfit">$0.22M</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-links">
+                <a href="index.html" class="footer-link">
+                    <span data-en="Back to Home" data-ko="홈으로">Back to Home</span>
+                </a>
+                <a href="plubitinfo.html" class="footer-link">
+                    <span data-en="About PLUBIT" data-ko="PLUBIT 소개">About PLUBIT</span>
+                </a>
+                <a href="https://plubit.xyz" class="footer-link primary" target="_blank">
+                    <span data-en="Visit Exchange" data-ko="거래소 방문">Visit Exchange</span>
+                </a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        let currentLang = 'en';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.lang === lang) {
+                    btn.classList.add('active');
+                }
+            });
+            document.querySelectorAll('[data-en][data-ko]').forEach(el => {
+                const text = el.getAttribute('data-' + lang);
+                if (text) {
+                    el.textContent = text;
+                }
+            });
+        }
+
+        function calculateRevenue() {
+            const activeUsers = parseInt(document.getElementById('activeUsers').value) || 500;
+            const avgDeposit = parseInt(document.getElementById('avgDeposit').value) || 5000;
+            const dailyTrades = parseInt(document.getElementById('dailyTrades').value) || 8;
+            const leverage = parseFloat(document.getElementById('leverage').value) || 10;
+            const positionRatio = parseFloat(document.getElementById('positionRatio').value) || 20;
+            const tradingFee = parseFloat(document.getElementById('tradingFee').value) || 0.05;
+            const referralRate = parseFloat(document.getElementById('referralRate').value) || 80;
+            const operatingCost = parseFloat(document.getElementById('operatingCost').value) || 3;
+
+            const positionSize = avgDeposit * (positionRatio / 100);
+            const leveragedPosition = positionSize * leverage;
+            const monthlyVolume = activeUsers * leveragedPosition * dailyTrades * 30;
+            const monthlyTradingRevenue = monthlyVolume * (tradingFee / 100);
+            const referralRevenue = monthlyTradingRevenue * (referralRate / 100);
+            const operatingExpense = operatingCost * 10000;
+            const netProfit = referralRevenue - operatingExpense;
+            const annualProfit = netProfit * 12;
+
+            const formatNumber = (num) => {
+                if (Math.abs(num) >= 1000000000) {
+                    return '$' + (num / 1000000000).toFixed(2) + 'B';
+                } else if (Math.abs(num) >= 1000000) {
+                    return '$' + (num / 1000000).toFixed(2) + 'M';
+                } else if (Math.abs(num) >= 1000) {
+                    return '$' + Math.round(num / 1000).toLocaleString() + 'K';
+                } else {
+                    return '$' + Math.round(num).toLocaleString();
+                }
+            };
+
+            const elements = {
+                'monthlyVolume': formatNumber(monthlyVolume),
+                'monthlyTradingRevenue': formatNumber(monthlyTradingRevenue),
+                'referralRevenue': formatNumber(referralRevenue),
+                'operatingExpense': '-' + formatNumber(operatingExpense),
+                'netProfit': netProfit >= 0 ? formatNumber(netProfit) : '-' + formatNumber(Math.abs(netProfit)),
+                'annualProfit': annualProfit >= 0 ? formatNumber(annualProfit) : '-' + formatNumber(Math.abs(annualProfit))
+            };
+
+            Object.entries(elements).forEach(([id, value]) => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.classList.add('counting');
+                    setTimeout(() => { element.textContent = value; }, 50);
+                    setTimeout(() => { element.classList.remove('counting'); }, 600);
+                }
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            setLanguage('en');
+            calculateRevenue();
+
+            // Add event listeners to all inputs
+            document.querySelectorAll('.input-group input').forEach(input => {
+                input.addEventListener('input', calculateRevenue);
+                input.addEventListener('change', calculateRevenue);
+            });
+        });
+    </script>
+</body>
+</html>
