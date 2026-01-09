@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PLUBIT - Revenue Simulation</title>
+    <title>PLUBIT - Investment Revenue Simulator</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -20,21 +20,47 @@
             --accent: #ffc107;
             --gold: #FFD700;
             --success: #00C853;
+            --success-glow: rgba(0, 200, 83, 0.4);
             --warning: #ff9800;
             --danger: #FF5252;
             --white: #ffffff;
             --dark: #0a0e1a;
+            --darker: #050810;
             --glass: rgba(255, 255, 255, 0.05);
             --glass-border: rgba(255, 255, 255, 0.1);
         }
 
         html, body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--dark);
+            background: var(--darker);
             color: var(--white);
             min-height: 100vh;
             min-height: 100dvh;
             overflow-x: hidden;
+        }
+
+        /* SVG Icon Styles */
+        .icon {
+            width: 24px;
+            height: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .icon-lg {
+            width: 28px;
+            height: 28px;
+        }
+
+        .icon-xl {
+            width: 32px;
+            height: 32px;
         }
 
         /* Animated Background */
@@ -45,9 +71,9 @@
             width: 100%;
             height: 100%;
             background:
-                radial-gradient(ellipse 80% 50% at 20% 40%, rgba(26, 35, 126, 0.4) 0%, transparent 50%),
-                radial-gradient(ellipse 60% 40% at 80% 60%, rgba(63, 81, 181, 0.3) 0%, transparent 50%),
-                radial-gradient(ellipse 40% 30% at 50% 80%, rgba(255, 193, 7, 0.15) 0%, transparent 50%);
+                radial-gradient(ellipse 100% 80% at 20% 30%, rgba(0, 200, 83, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse 80% 50% at 80% 50%, rgba(255, 193, 7, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse 60% 40% at 50% 90%, rgba(63, 81, 181, 0.15) 0%, transparent 50%);
             pointer-events: none;
             z-index: 0;
         }
@@ -59,60 +85,89 @@
             width: 100%;
             height: 100%;
             background-image:
-                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-            background-size: 60px 60px;
+                linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+            background-size: 80px 80px;
             pointer-events: none;
             z-index: 0;
+        }
+
+        /* Particle Container */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--success);
+            border-radius: 50%;
+            opacity: 0;
+            animation: particle-rise 8s ease-in-out infinite;
+        }
+
+        @keyframes particle-rise {
+            0% { opacity: 0; transform: translateY(100vh) scale(0); }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { opacity: 0; transform: translateY(-100px) scale(1); }
         }
 
         /* Floating Orbs */
         .orb {
             position: fixed;
             border-radius: 50%;
-            filter: blur(80px);
+            filter: blur(100px);
             pointer-events: none;
             z-index: 0;
-            animation: float 20s ease-in-out infinite;
+            animation: float 25s ease-in-out infinite;
         }
         .orb-1 {
-            width: 400px;
-            height: 400px;
-            background: rgba(255, 193, 7, 0.15);
-            top: -100px;
+            width: 500px;
+            height: 500px;
+            background: rgba(0, 200, 83, 0.12);
+            top: -150px;
             right: -100px;
             animation-delay: 0s;
         }
         .orb-2 {
-            width: 300px;
-            height: 300px;
-            background: rgba(63, 81, 181, 0.2);
-            bottom: -50px;
-            left: -50px;
-            animation-delay: -10s;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 193, 7, 0.15);
+            bottom: -100px;
+            left: -100px;
+            animation-delay: -12s;
         }
         .orb-3 {
-            width: 200px;
-            height: 200px;
-            background: rgba(0, 200, 83, 0.1);
-            top: 50%;
-            left: 50%;
-            animation-delay: -5s;
+            width: 300px;
+            height: 300px;
+            background: rgba(63, 81, 181, 0.1);
+            top: 40%;
+            left: 60%;
+            animation-delay: -6s;
         }
 
         @keyframes float {
             0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(20px, -20px) scale(1.05); }
-            50% { transform: translate(-10px, 10px) scale(0.95); }
-            75% { transform: translate(-20px, -10px) scale(1.02); }
+            25% { transform: translate(30px, -30px) scale(1.05); }
+            50% { transform: translate(-20px, 20px) scale(0.95); }
+            75% { transform: translate(-30px, -15px) scale(1.02); }
         }
 
         .container {
             position: relative;
             z-index: 1;
-            max-width: 1100px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 20px 30px;
             min-height: 100vh;
             min-height: 100dvh;
             display: flex;
@@ -124,7 +179,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 0 25px 0;
+            padding: 15px 0 30px 0;
         }
 
         .logo {
@@ -133,6 +188,10 @@
             text-decoration: none;
             color: var(--white);
             letter-spacing: -0.02em;
+            transition: transform 0.3s ease;
+        }
+        .logo:hover {
+            transform: scale(1.05);
         }
         .logo span {
             color: var(--accent);
@@ -146,20 +205,35 @@
         }
 
         .exchange-btn {
-            display: none;
-            padding: 10px 20px;
-            background: linear-gradient(135deg, var(--accent), #ffb300);
-            color: #000;
+            display: inline-flex;
+            padding: 12px 28px;
+            background: linear-gradient(135deg, var(--success), #00a844);
+            color: #fff;
             text-decoration: none;
             border-radius: 30px;
-            font-weight: 600;
-            font-size: 0.85rem;
+            font-weight: 700;
+            font-size: 0.9rem;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 200, 83, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        .exchange-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+        .exchange-btn:hover::before {
+            left: 100%;
         }
         .exchange-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 193, 7, 0.4);
+            box-shadow: 0 8px 30px rgba(0, 200, 83, 0.5);
         }
 
         .lang-toggle {
@@ -194,272 +268,1137 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            padding: 10px 0;
+            gap: 30px;
         }
 
-        /* Title Section */
-        .title-section {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 8px 20px;
-            background: linear-gradient(135deg, rgba(255, 193, 7, 0.2), rgba(255, 193, 7, 0.05));
-            border: 1px solid rgba(255, 193, 7, 0.3);
-            border-radius: 30px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--accent);
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            margin-bottom: 15px;
-        }
-
-        .page-title {
-            font-size: clamp(2rem, 6vw, 3.5rem);
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            margin-bottom: 12px;
-            background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.8) 50%, var(--accent) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .page-subtitle {
-            color: rgba(255,255,255,0.6);
-            font-size: clamp(0.85rem, 2vw, 1.1rem);
-            font-weight: 400;
-            max-width: 500px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-
-        /* Calculator Container */
-        .calculator-container {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 28px;
-            padding: 35px;
-            backdrop-filter: blur(40px);
-            box-shadow:
-                0 25px 80px rgba(0, 0, 0, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        /* Hero Stats Banner */
+        .hero-banner {
+            background: linear-gradient(135deg, rgba(0, 200, 83, 0.15) 0%, rgba(255, 193, 7, 0.1) 50%, rgba(63, 81, 181, 0.1) 100%);
+            border: 1px solid rgba(0, 200, 83, 0.3);
+            border-radius: 24px;
+            padding: 30px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
             position: relative;
             overflow: hidden;
         }
 
-        .calculator-container::before {
+        .hero-banner::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 193, 7, 0.5), transparent);
+            background: linear-gradient(90deg, transparent, rgba(0, 200, 83, 0.6), transparent);
         }
 
-        /* Section Label */
-        .section-label {
-            display: flex;
+        .hero-banner::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 200, 83, 0.05));
+            pointer-events: none;
+        }
+
+        .hero-content {
+            flex: 1;
+        }
+
+        .hero-badge {
+            display: inline-flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 8px;
+            padding: 6px 16px;
+            background: rgba(0, 200, 83, 0.2);
+            border: 1px solid rgba(0, 200, 83, 0.4);
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--success);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 12px;
+        }
+
+        .hero-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 200, 83, 0.4); }
+            50% { opacity: 0.8; transform: scale(1.2); box-shadow: 0 0 0 8px rgba(0, 200, 83, 0); }
+        }
+
+        .hero-title {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.9) 50%, var(--success) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            color: rgba(255,255,255,0.6);
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .hero-stat {
+            text-align: center;
+            padding: 20px 30px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 200, 83, 0.3);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .hero-stat:hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: var(--success);
+            box-shadow: 0 20px 40px rgba(0, 200, 83, 0.2);
+        }
+
+        .hero-stat::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 200, 83, 0.1) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .hero-stat:hover::before {
+            opacity: 1;
+        }
+
+        .hero-stat-value {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--success);
+            text-shadow: 0 0 40px rgba(0, 200, 83, 0.6);
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-stat-label {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-top: 6px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Live Indicator */
+        .live-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(0, 200, 83, 0.15);
+            border: 1px solid rgba(0, 200, 83, 0.3);
+            border-radius: 30px;
             font-size: 0.75rem;
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.5);
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-        }
-        .section-label::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: linear-gradient(90deg, rgba(255,255,255,0.1), transparent);
+            color: var(--success);
+            margin-top: 15px;
         }
 
-        /* Input Grid */
-        .calculator-grid {
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: live-pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes live-pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 200, 83, 0.7); }
+            50% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(0, 200, 83, 0); }
+        }
+
+        /* Key Metrics Row */
+        .key-metrics {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 16px;
-            margin-bottom: 30px;
         }
 
-        .input-group {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            padding: 18px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        .metric-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 24px;
+            text-align: center;
             position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
         }
 
-        .input-group::before {
+        .metric-card::before {
             content: '';
             position: absolute;
-            inset: 0;
-            border-radius: 16px;
-            padding: 1px;
-            background: linear-gradient(135deg, transparent, rgba(255, 193, 7, 0.3), transparent);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--success), var(--accent));
             opacity: 0;
             transition: opacity 0.3s ease;
         }
 
-        .input-group:hover::before,
-        .input-group:focus-within::before {
+        .metric-card:hover::before {
             opacity: 1;
         }
 
-        .input-group:hover, .input-group:focus-within {
-            background: rgba(255, 255, 255, 0.06);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        .metric-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+            border-color: rgba(0, 200, 83, 0.4);
         }
 
-        .input-group label {
-            display: block;
+        .metric-icon {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 15px;
+            background: linear-gradient(135deg, rgba(0, 200, 83, 0.2), rgba(0, 200, 83, 0.05));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .metric-icon svg {
+            width: 26px;
+            height: 26px;
+        }
+
+        .metric-card:hover .metric-icon {
+            transform: scale(1.15) rotate(5deg);
+        }
+
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 6px;
+            letter-spacing: -0.02em;
+        }
+
+        .metric-label {
             font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 10px;
+            color: rgba(255, 255, 255, 0.5);
             text-transform: uppercase;
             letter-spacing: 0.08em;
-            font-weight: 500;
         }
 
-        .input-group input {
-            width: 100%;
-            background: rgba(0, 0, 0, 0.3);
+        .metric-change {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 10px;
+            padding: 4px 10px;
+            background: rgba(0, 200, 83, 0.15);
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--success);
+        }
+
+        /* Main Layout */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 25px;
+        }
+
+        /* Calculator Panel */
+        .calculator-panel {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 14px 16px;
-            color: white;
+            border-radius: 24px;
+            padding: 30px;
+            backdrop-filter: blur(40px);
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+
+        .panel-title {
             font-size: 1.1rem;
             font-weight: 700;
-            font-family: inherit;
+            color: var(--white);
+        }
+
+        .panel-badge {
+            padding: 5px 12px;
+            background: rgba(255, 193, 7, 0.15);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .calculator-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Slider Input Group */
+        .slider-group {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 18px 20px;
             transition: all 0.3s ease;
         }
 
-        .input-group input:focus {
-            outline: none;
-            border-color: var(--accent);
-            background: rgba(255, 193, 7, 0.05);
-            box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.15);
+        .slider-group:hover, .slider-group:focus-within {
+            border-color: rgba(255, 193, 7, 0.4);
+            background: rgba(0, 0, 0, 0.4);
+            transform: translateX(5px);
         }
 
-        /* Results Section */
-        .results-section {
-            margin-top: 10px;
+        .slider-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
         }
 
-        .results-grid {
+        .slider-label {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-weight: 500;
+        }
+
+        .slider-value-display {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--accent);
+            min-width: 80px;
+            text-align: right;
+        }
+
+        .slider-wrapper {
+            position: relative;
+            padding: 10px 0;
+        }
+
+        .slider-track {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            transform: translateY(-50%);
+        }
+
+        .slider-fill {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--success), var(--accent));
+            border-radius: 3px;
+            transform: translateY(-50%);
+            transition: width 0.1s ease;
+            box-shadow: 0 0 15px rgba(0, 200, 83, 0.4);
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            background: transparent;
+            cursor: pointer;
+            position: relative;
+            z-index: 2;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--accent), #ff8f00);
+            border-radius: 50%;
+            cursor: grab;
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.5);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 3px solid white;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+            box-shadow: 0 6px 25px rgba(255, 193, 7, 0.7);
+        }
+
+        input[type="range"]::-webkit-slider-thumb:active {
+            cursor: grabbing;
+            transform: scale(1.2);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--accent), #ff8f00);
+            border-radius: 50%;
+            cursor: grab;
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.5);
+            border: 3px solid white;
+        }
+
+        .slider-range {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.3);
+            margin-top: 8px;
+        }
+
+        /* Results Panel */
+        .results-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Profit Highlight Card */
+        .profit-highlight {
+            background: linear-gradient(135deg, var(--success) 0%, #00a844 50%, #008f3b 100%);
+            border-radius: 24px;
+            padding: 35px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 200, 83, 0.3);
+            cursor: pointer;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .profit-highlight:hover {
+            transform: scale(1.02);
+            box-shadow: 0 30px 80px rgba(0, 200, 83, 0.4);
+        }
+
+        .profit-highlight::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 50%);
+            pointer-events: none;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { transform: rotate(0deg) scale(1); opacity: 1; }
+            50% { transform: rotate(10deg) scale(1.1); opacity: 0.7; }
+        }
+
+        .profit-highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60%;
+            background: linear-gradient(to top, rgba(0,0,0,0.2), transparent);
+            pointer-events: none;
+        }
+
+        .profit-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .profit-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .profit-main {
+            flex: 1;
+        }
+
+        .profit-label {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .profit-value {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: -0.03em;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            line-height: 1;
+            transition: transform 0.3s ease;
+        }
+
+        .profit-highlight:hover .profit-value {
+            transform: scale(1.05);
+        }
+
+        .profit-period {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.7);
+            margin-left: 8px;
+        }
+
+        .profit-annual {
+            text-align: right;
+        }
+
+        .profit-annual-label {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 4px;
+        }
+
+        .profit-annual-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .profit-metrics {
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .profit-metric {
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .profit-metric:hover {
+            transform: scale(1.1);
+        }
+
+        .profit-metric-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .profit-metric-label {
+            font-size: 0.6rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-top: 4px;
+        }
+
+        /* Chart Section */
+        .chart-section {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+        }
+
+        .chart-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .chart-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--white);
+        }
+
+        .chart-tabs {
+            display: flex;
+            gap: 8px;
+        }
+
+        .chart-tab {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: transparent;
+            color: rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .chart-tab.active {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        .chart-tab:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .chart-container {
+            height: 180px;
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            padding: 10px 0;
+        }
+
+        .chart-bar-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chart-bar {
+            width: 100%;
+            border-radius: 6px 6px 0 0;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .chart-bar:hover {
+            filter: brightness(1.2);
+            transform: scaleY(1.05);
+            transform-origin: bottom;
+        }
+
+        .chart-bar.profit {
+            background: linear-gradient(to top, var(--success), #00e676);
+        }
+
+        .chart-bar.revenue {
+            background: linear-gradient(to top, var(--accent), #ffe57f);
+        }
+
+        .chart-bar-label {
+            font-size: 0.6rem;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+        }
+
+        .chart-bar-value {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--white);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .chart-bar:hover .chart-bar-value {
+            opacity: 1;
+        }
+
+        /* Breakdown Grid */
+        .breakdown-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
             gap: 14px;
         }
 
-        .result-item {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+        .breakdown-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 18px;
-            padding: 22px 14px;
-            text-align: center;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 22px;
+            transition: all 0.4s ease;
+            cursor: pointer;
             position: relative;
             overflow: hidden;
         }
 
-        .result-item::before {
+        .breakdown-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
             transition: left 0.5s ease;
         }
 
-        .result-item:hover::before {
+        .breakdown-card:hover::before {
             left: 100%;
         }
 
-        .result-item:hover {
+        .breakdown-card:hover {
             transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
         }
 
-        .result-label {
+        .breakdown-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .breakdown-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .breakdown-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .breakdown-card:hover .breakdown-icon {
+            transform: rotate(10deg) scale(1.1);
+        }
+
+        .breakdown-card.volume .breakdown-icon {
+            background: rgba(63, 81, 181, 0.2);
+        }
+
+        .breakdown-card.fees .breakdown-icon {
+            background: rgba(255, 193, 7, 0.2);
+        }
+
+        .breakdown-card.revenue .breakdown-icon {
+            background: rgba(0, 200, 83, 0.2);
+        }
+
+        .breakdown-card.cost .breakdown-icon {
+            background: rgba(255, 82, 82, 0.2);
+        }
+
+        .breakdown-label {
             font-size: 0.65rem;
             color: rgba(255, 255, 255, 0.5);
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 10px;
-            line-height: 1.4;
-            font-weight: 500;
+            letter-spacing: 0.06em;
         }
 
-        .result-value {
-            font-size: 1.5rem;
+        .breakdown-value {
+            font-size: 1.6rem;
             font-weight: 800;
-            color: rgba(255, 255, 255, 0.9);
-            transition: all 0.5s ease;
+            color: var(--white);
             letter-spacing: -0.02em;
         }
 
-        .result-value.counting {
-            animation: pulse 0.6s ease-out;
+        .breakdown-card.volume .breakdown-value { color: #7986CB; }
+        .breakdown-card.fees .breakdown-value { color: var(--accent); }
+        .breakdown-card.revenue .breakdown-value { color: var(--success); }
+        .breakdown-card.cost .breakdown-value { color: var(--danger); }
+
+        .breakdown-sub {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.4);
+            margin-top: 6px;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(0.9); opacity: 0.6; }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); opacity: 1; }
+        /* Progress Bar */
+        .breakdown-progress {
+            margin-top: 12px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
         }
 
-        /* Result Item Variants */
-        .result-referral {
-            background: linear-gradient(145deg, rgba(255, 193, 7, 0.12), rgba(255, 193, 7, 0.03));
-            border-color: rgba(255, 193, 7, 0.25);
+        .breakdown-progress-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.8s ease;
         }
-        .result-referral .result-value { color: var(--accent); }
 
-        .result-cost {
-            background: linear-gradient(145deg, rgba(255, 82, 82, 0.12), rgba(255, 82, 82, 0.03));
-            border-color: rgba(255, 82, 82, 0.25);
+        .breakdown-card.volume .breakdown-progress-fill { background: #7986CB; }
+        .breakdown-card.fees .breakdown-progress-fill { background: var(--accent); }
+        .breakdown-card.revenue .breakdown-progress-fill { background: var(--success); }
+        .breakdown-card.cost .breakdown-progress-fill { background: var(--danger); }
+
+        /* ROI Comparison Section */
+        .roi-section {
+            background: linear-gradient(145deg, rgba(255, 193, 7, 0.1) 0%, rgba(255, 193, 7, 0.02) 100%);
+            border: 1px solid rgba(255, 193, 7, 0.2);
+            border-radius: 24px;
+            padding: 30px;
         }
-        .result-cost .result-value { color: var(--danger); }
 
-        .result-net {
+        .roi-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+
+        .roi-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .roi-icon {
+            width: 40px;
+            height: 40px;
             background: linear-gradient(135deg, var(--accent), #ff8f00);
-            border: none;
-            transform: scale(1.03);
-            box-shadow: 0 10px 40px rgba(255, 193, 7, 0.3);
-        }
-        .result-net .result-label { color: rgba(0, 0, 0, 0.6); }
-        .result-net .result-value { color: #000; font-size: 1.7rem; }
-        .result-net:hover {
-            transform: scale(1.05) translateY(-5px);
-            box-shadow: 0 20px 50px rgba(255, 193, 7, 0.4);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .result-annual {
-            background: linear-gradient(145deg, rgba(0, 200, 83, 0.15), rgba(0, 200, 83, 0.03));
-            border-color: rgba(0, 200, 83, 0.3);
+        .roi-icon svg {
+            width: 22px;
+            height: 22px;
         }
-        .result-annual .result-value { color: var(--success); }
+
+        .roi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .roi-item {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 20px 16px;
+            text-align: center;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .roi-item:hover {
+            transform: translateY(-5px) scale(1.03);
+            border-color: rgba(255, 193, 7, 0.4);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .roi-item.highlight {
+            background: linear-gradient(135deg, rgba(0, 200, 83, 0.25), rgba(0, 200, 83, 0.08));
+            border-color: rgba(0, 200, 83, 0.5);
+            animation: highlight-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes highlight-pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(0, 200, 83, 0.4); }
+            50% { box-shadow: 0 0 30px 5px rgba(0, 200, 83, 0.2); }
+        }
+
+        .roi-name {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .roi-value {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--white);
+        }
+
+        .roi-item.highlight .roi-value {
+            color: var(--success);
+            text-shadow: 0 0 20px rgba(0, 200, 83, 0.5);
+        }
+
+        .roi-item.highlight .roi-name {
+            color: var(--success);
+        }
+
+        .roi-comparison {
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.4);
+            margin-top: 8px;
+        }
+
+        .roi-comparison.positive {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        /* ROI Bar */
+        .roi-bar {
+            margin-top: 12px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .roi-bar-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 1s ease;
+        }
+
+        .roi-item:nth-child(1) .roi-bar-fill { background: rgba(255, 255, 255, 0.3); width: 5%; }
+        .roi-item:nth-child(2) .roi-bar-fill { background: rgba(255, 255, 255, 0.3); width: 10%; }
+        .roi-item:nth-child(3) .roi-bar-fill { background: rgba(255, 255, 255, 0.3); width: 8%; }
+        .roi-item:nth-child(4) .roi-bar-fill { background: var(--success); width: 100%; }
+
+        /* Investment Appeal Section */
+        .appeal-section {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .appeal-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .appeal-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.05));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .appeal-card:hover::before {
+            opacity: 1;
+        }
+
+        .appeal-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .appeal-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.4s ease;
+        }
+
+        .appeal-icon svg {
+            width: 30px;
+            height: 30px;
+        }
+
+        .appeal-card:hover .appeal-icon {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        .appeal-card:nth-child(1) .appeal-icon {
+            background: linear-gradient(135deg, rgba(0, 200, 83, 0.2), rgba(0, 200, 83, 0.05));
+        }
+
+        .appeal-card:nth-child(2) .appeal-icon {
+            background: linear-gradient(135deg, rgba(255, 193, 7, 0.2), rgba(255, 193, 7, 0.05));
+        }
+
+        .appeal-card:nth-child(3) .appeal-icon {
+            background: linear-gradient(135deg, rgba(63, 81, 181, 0.2), rgba(63, 81, 181, 0.05));
+        }
+
+        .appeal-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 8px;
+        }
+
+        .appeal-desc {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.5;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, rgba(0, 200, 83, 0.2) 0%, rgba(255, 193, 7, 0.15) 100%);
+            border: 2px solid rgba(0, 200, 83, 0.4);
+            border-radius: 24px;
+            padding: 40px 45px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: -100%;
+            width: 300%;
+            height: 300%;
+            background: radial-gradient(circle, rgba(0, 200, 83, 0.1) 0%, transparent 40%);
+            animation: cta-glow 5s ease-in-out infinite;
+        }
+
+        @keyframes cta-glow {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(10%, 10%); }
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-content h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 8px;
+        }
+
+        .cta-content p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-btn {
+            padding: 16px 36px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-btn.primary {
+            background: linear-gradient(135deg, var(--success), #00a844);
+            color: #fff;
+            box-shadow: 0 8px 30px rgba(0, 200, 83, 0.5);
+        }
+
+        .cta-btn.primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-btn.primary:hover::before {
+            left: 100%;
+        }
+
+        .cta-btn.primary:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 15px 45px rgba(0, 200, 83, 0.6);
+        }
+
+        .cta-btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .cta-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-4px);
+        }
 
         /* Footer */
         .footer {
             text-align: center;
-            padding: 25px 0 15px 0;
+            padding: 30px 0 20px 0;
             margin-top: auto;
         }
 
@@ -469,52 +1408,78 @@
             align-items: center;
             gap: 20px;
             flex-wrap: wrap;
+            margin-bottom: 20px;
         }
 
         .footer-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
             color: rgba(255, 255, 255, 0.5);
             text-decoration: none;
             font-size: 0.85rem;
             font-weight: 500;
-            padding: 12px 24px;
-            border-radius: 30px;
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
             transition: all 0.3s ease;
         }
 
         .footer-link:hover {
-            background: rgba(255, 255, 255, 0.1);
             color: white;
-            transform: translateY(-2px);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
         }
 
-        .footer-link.primary {
-            background: linear-gradient(135deg, var(--accent), #ff8f00);
-            border: none;
-            color: #000;
-            font-weight: 600;
+        .footer-divider {
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
         }
-        .footer-link.primary:hover {
-            box-shadow: 0 8px 25px rgba(255, 193, 7, 0.4);
+
+        /* Disclaimer */
+        .disclaimer {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.3);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Confetti Effect */
+        .confetti {
+            position: fixed;
+            top: -10px;
+            width: 10px;
+            height: 10px;
+            pointer-events: none;
+            z-index: 1000;
+            animation: confetti-fall 3s ease-out forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
         }
 
         /* Responsive - Tablet */
-        @media (max-width: 1024px) {
-            .calculator-grid {
+        @media (max-width: 1200px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+            .hero-banner {
+                flex-direction: column;
+                text-align: center;
+            }
+            .hero-stats {
+                justify-content: center;
+            }
+            .key-metrics {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 14px;
             }
-            .results-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 12px;
+            .roi-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
-            .result-value { font-size: 1.3rem; }
-            .result-net .result-value { font-size: 1.5rem; }
-            .exchange-btn { display: inline-flex; }
+            .cta-section {
+                flex-direction: column;
+                text-align: center;
+            }
         }
 
         /* Responsive - Mobile */
@@ -525,154 +1490,163 @@
             .header {
                 flex-wrap: wrap;
                 justify-content: center;
-                gap: 12px;
+                gap: 15px;
             }
             .header-right {
                 width: 100%;
                 justify-content: center;
             }
-            .exchange-btn { display: none; }
-            .title-section {
-                margin-bottom: 20px;
+            .exchange-btn {
+                display: none;
             }
-            .badge {
-                padding: 6px 16px;
-                font-size: 0.65rem;
+            .hero-banner {
+                padding: 25px 20px;
             }
-            .calculator-container {
+            .hero-title {
+                font-size: 1.6rem;
+            }
+            .hero-stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .hero-stat {
+                padding: 15px 25px;
+            }
+            .hero-stat-value {
+                font-size: 2rem;
+            }
+            .key-metrics {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            .metric-card {
+                padding: 18px;
+            }
+            .metric-icon {
+                width: 40px;
+                height: 40px;
+                margin-bottom: 12px;
+            }
+            .metric-value {
+                font-size: 1.4rem;
+            }
+            .calculator-panel {
                 padding: 22px 18px;
-                border-radius: 22px;
             }
-            .section-label {
-                font-size: 0.65rem;
-                margin-bottom: 15px;
+            .slider-group {
+                padding: 14px 16px;
             }
-            .calculator-grid {
+            .profit-highlight {
+                padding: 25px 20px;
+            }
+            .profit-value {
+                font-size: 2.5rem;
+            }
+            .profit-annual-value {
+                font-size: 1.5rem;
+            }
+            .profit-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+            .profit-annual {
+                text-align: left;
+            }
+            .profit-metrics {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+            .profit-metric-value {
+                font-size: 1.1rem;
+            }
+            .chart-container {
+                height: 140px;
+            }
+            .breakdown-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 10px;
             }
-            .input-group {
-                padding: 14px;
-                border-radius: 14px;
+            .breakdown-card {
+                padding: 16px;
             }
-            .input-group label {
-                font-size: 0.6rem;
-                margin-bottom: 8px;
+            .breakdown-value {
+                font-size: 1.3rem;
             }
-            .input-group input {
-                padding: 12px 14px;
-                font-size: 1rem;
-                border-radius: 10px;
+            .roi-section {
+                padding: 22px 18px;
             }
-            .results-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 8px;
+            .roi-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
             }
-            .result-item {
-                padding: 16px 10px;
-                border-radius: 14px;
+            .roi-item {
+                padding: 16px 12px;
             }
-            .result-label {
-                font-size: 0.55rem;
-                margin-bottom: 8px;
+            .roi-value {
+                font-size: 1.3rem;
             }
-            .result-value {
-                font-size: 1.05rem;
+            .appeal-section {
+                grid-template-columns: 1fr;
+                gap: 14px;
             }
-            .result-net .result-value {
+            .appeal-card {
+                padding: 20px;
+            }
+            .cta-section {
+                padding: 28px 22px;
+            }
+            .cta-content h3 {
                 font-size: 1.2rem;
             }
-            .lang-btn {
-                padding: 7px 14px;
-                font-size: 12px;
+            .cta-buttons {
+                flex-direction: column;
+                width: 100%;
             }
-            .footer-links {
-                gap: 12px;
+            .cta-btn {
+                width: 100%;
+                justify-content: center;
+                padding: 14px 24px;
             }
-            .footer-link {
-                padding: 10px 18px;
-                font-size: 0.8rem;
+            .disclaimer {
+                font-size: 0.6rem;
+                padding: 0 10px;
             }
         }
 
-        /* Responsive - Small Mobile */
+        /* Small Mobile */
         @media (max-width: 480px) {
-            .container {
-                padding: 12px;
+            .hero-title {
+                font-size: 1.4rem;
             }
-            .page-title {
-                font-size: 1.8rem;
-            }
-            .page-subtitle {
-                font-size: 0.8rem;
-            }
-            .calculator-container {
-                padding: 18px 14px;
-                border-radius: 18px;
-            }
-            .calculator-grid {
-                gap: 8px;
-            }
-            .input-group {
-                padding: 12px;
-                border-radius: 12px;
-            }
-            .input-group label {
-                font-size: 0.55rem;
-                margin-bottom: 6px;
-            }
-            .input-group input {
-                padding: 10px 12px;
-                font-size: 0.95rem;
-                border-radius: 9px;
-            }
-            .results-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 7px;
-            }
-            .result-item {
-                padding: 14px 8px;
-                border-radius: 12px;
-            }
-            .result-label {
-                font-size: 0.5rem;
-                margin-bottom: 6px;
-            }
-            .result-value {
-                font-size: 0.95rem;
-            }
-            .result-net .result-value {
-                font-size: 1.1rem;
-            }
-            .footer-link {
-                padding: 10px 16px;
-                font-size: 0.75rem;
-            }
-        }
-
-        /* Very Small Mobile */
-        @media (max-width: 360px) {
-            .calculator-container {
-                padding: 15px 12px;
-            }
-            .input-group {
-                padding: 10px;
-            }
-            .input-group input {
-                padding: 9px 10px;
-                font-size: 0.9rem;
-            }
-            .result-item {
-                padding: 12px 6px;
-            }
-            .result-label {
-                font-size: 0.45rem;
-            }
-            .result-value {
+            .hero-subtitle {
                 font-size: 0.85rem;
             }
-            .result-net .result-value {
-                font-size: 1rem;
+            .profit-value {
+                font-size: 2rem;
+            }
+            .profit-metrics {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .profit-metric {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px 0;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+            .profit-metric:last-child {
+                border-bottom: none;
+            }
+            .profit-metric-label {
+                margin-top: 0;
+            }
+            .breakdown-grid {
+                grid-template-columns: 1fr;
+            }
+            .key-metrics {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -681,6 +1655,7 @@
     <!-- Background Effects -->
     <div class="bg-gradient"></div>
     <div class="bg-grid"></div>
+    <div class="particles" id="particles"></div>
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
     <div class="orb orb-3"></div>
@@ -690,7 +1665,7 @@
         <header class="header">
             <a href="index.html" class="logo">PLUB<span>I</span>T</a>
             <div class="header-right">
-                <a href="https://plubit.xyz" class="exchange-btn" target="_blank">Visit Exchange</a>
+                <a href="https://plubit.xyz" class="exchange-btn" target="_blank" data-en="Start Investing" data-ko="투자 시작하기">Start Investing</a>
                 <div class="lang-toggle">
                     <button class="lang-btn active" data-lang="en" onclick="setLanguage('en')">EN</button>
                     <button class="lang-btn" data-lang="ko" onclick="setLanguage('ko')">KO</button>
@@ -700,80 +1675,392 @@
 
         <!-- Main Content -->
         <main class="main-content">
-            <!-- Title Section -->
-            <div class="title-section">
-                <div class="badge" data-en="Investment Calculator" data-ko="투자 수익 계산기">Investment Calculator</div>
-                <h1 class="page-title" data-en="Revenue Simulation" data-ko="수익 시뮬레이션">Revenue Simulation</h1>
-                <p class="page-subtitle" data-en="Calculate realistic revenue based on leveraged futures trading parameters" data-ko="레버리지 선물거래 기반 현실적인 수익을 계산해보세요">Calculate realistic revenue based on leveraged futures trading parameters</p>
+            <!-- Hero Banner -->
+            <div class="hero-banner">
+                <div class="hero-content">
+                    <div class="hero-badge" data-en="Live Profit Simulator" data-ko="실시간 수익 시뮬레이터">
+                        Live Profit Simulator
+                    </div>
+                    <h1 class="hero-title" data-en="Calculate Your Exchange Revenue" data-ko="거래소 투자 수익을 계산하세요">Calculate Your Exchange Revenue</h1>
+                    <p class="hero-subtitle" data-en="Adjust the sliders below and watch your potential earnings update in real-time" data-ko="아래 슬라이더를 조정하고 잠재적 수익이 실시간으로 업데이트되는 것을 확인하세요">Adjust the sliders below and watch your potential earnings update in real-time</p>
+                    <div class="live-indicator">
+                        <div class="live-dot"></div>
+                        <span data-en="Live Calculation" data-ko="실시간 계산">Live Calculation</span>
+                    </div>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat" onclick="triggerConfetti()">
+                        <div class="hero-stat-value" id="roiDisplay">576%</div>
+                        <div class="hero-stat-label" data-en="Annual ROI" data-ko="연간 ROI">Annual ROI</div>
+                    </div>
+                    <div class="hero-stat" onclick="triggerConfetti()">
+                        <div class="hero-stat-value" id="paybackDisplay">2.1</div>
+                        <div class="hero-stat-label" data-en="Months Payback" data-ko="개월 회수">Months Payback</div>
+                    </div>
+                </div>
             </div>
 
-            <div class="calculator-container">
-                <!-- Input Section -->
-                <div class="section-label" data-en="Parameters" data-ko="파라미터">Parameters</div>
-                <div class="calculator-grid">
-                    <div class="input-group">
-                        <label data-en="Active Users" data-ko="활성 고객 수">Active Users</label>
-                        <input type="number" id="activeUsers" value="500" min="100" max="50000" step="50">
+            <!-- Key Metrics -->
+            <div class="key-metrics">
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 3v18h18"/>
+                            <path d="M18 17V9"/>
+                            <path d="M13 17V5"/>
+                            <path d="M8 17v-3"/>
+                        </svg>
                     </div>
-                    <div class="input-group">
-                        <label data-en="Average Deposit ($)" data-ko="평균 예치금 ($)">Average Deposit ($)</label>
-                        <input type="number" id="avgDeposit" value="5000" min="1000" max="500000" step="1000">
+                    <div class="metric-value" id="totalVolumeMetric">$120M</div>
+                    <div class="metric-label" data-en="Monthly Volume" data-ko="월 거래량">Monthly Volume</div>
+                    <div class="metric-change">↑ <span data-en="High liquidity" data-ko="높은 유동성">High liquidity</span></div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 6v6l4 2"/>
+                        </svg>
                     </div>
-                    <div class="input-group">
-                        <label data-en="Daily Trades / User" data-ko="일평균 거래 횟수">Daily Trades / User</label>
-                        <input type="number" id="dailyTrades" value="8" min="1" max="100">
+                    <div class="metric-value" id="totalRevenueMetric">$60K</div>
+                    <div class="metric-label" data-en="Fee Revenue" data-ko="수수료 수익">Fee Revenue</div>
+                    <div class="metric-change">↑ <span data-en="Consistent" data-ko="안정적">Consistent</span></div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <circle cx="12" cy="12" r="6"/>
+                            <circle cx="12" cy="12" r="2"/>
+                        </svg>
                     </div>
-                    <div class="input-group">
-                        <label data-en="Average Leverage" data-ko="평균 레버리지">Average Leverage</label>
-                        <input type="number" id="leverage" value="10" min="1" max="125" step="1">
+                    <div class="metric-value" id="plubitShareMetric">$48K</div>
+                    <div class="metric-label" data-en="PLUBIT Revenue" data-ko="PLUBIT 수익">PLUBIT Revenue</div>
+                    <div class="metric-change">↑ <span data-en="Up to 80%" data-ko="최대 80%">Up to 80%</span></div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                        </svg>
                     </div>
-                    <div class="input-group">
-                        <label data-en="Position Ratio (%)" data-ko="포지션 비율 (%)">Position Ratio (%)</label>
-                        <input type="number" id="positionRatio" value="20" min="5" max="100" step="5">
+                    <div class="metric-value" id="activeUsersMetric">500</div>
+                    <div class="metric-label" data-en="Active Traders" data-ko="활성 트레이더">Active Traders</div>
+                    <div class="metric-change">↑ <span data-en="Growing" data-ko="성장중">Growing</span></div>
+                </div>
+            </div>
+
+            <!-- Main Layout -->
+            <div class="main-layout">
+                <!-- Calculator Panel -->
+                <div class="calculator-panel">
+                    <div class="panel-header">
+                        <div class="panel-title" data-en="Simulation Parameters" data-ko="시뮬레이션 파라미터">Simulation Parameters</div>
+                        <div class="panel-badge" data-en="Drag to Adjust" data-ko="드래그하여 조정">Drag to Adjust</div>
                     </div>
-                    <div class="input-group">
-                        <label data-en="Trading Fee (%)" data-ko="거래 수수료 (%)">Trading Fee (%)</label>
-                        <input type="number" id="tradingFee" value="0.05" min="0.01" max="0.2" step="0.01">
-                    </div>
-                    <div class="input-group">
-                        <label data-en="Referral Rate (%)" data-ko="레퍼럴 배분율 (%)">Referral Rate (%)</label>
-                        <input type="number" id="referralRate" value="80" min="50" max="100">
-                    </div>
-                    <div class="input-group">
-                        <label data-en="Operating Cost ($10K)" data-ko="운영비 ($만)">Operating Cost ($10K)</label>
-                        <input type="number" id="operatingCost" value="3" min="1" max="50" step="0.5">
+                    <div class="calculator-grid">
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <span class="slider-label" data-en="Active Users" data-ko="활성 고객 수">Active Users</span>
+                                <span class="slider-value-display" id="activeUsersDisplay">500</span>
+                            </div>
+                            <div class="slider-wrapper">
+                                <div class="slider-track"></div>
+                                <div class="slider-fill" id="activeUsersFill" style="width: 10%;"></div>
+                                <input type="range" id="activeUsers" value="500" min="100" max="5000" step="50">
+                            </div>
+                            <div class="slider-range">
+                                <span>100</span>
+                                <span>5,000</span>
+                            </div>
+                        </div>
+
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <span class="slider-label" data-en="Avg. Deposit ($)" data-ko="평균 예치금 ($)">Avg. Deposit ($)</span>
+                                <span class="slider-value-display" id="avgDepositDisplay">$5,000</span>
+                            </div>
+                            <div class="slider-wrapper">
+                                <div class="slider-track"></div>
+                                <div class="slider-fill" id="avgDepositFill" style="width: 20%;"></div>
+                                <input type="range" id="avgDeposit" value="5000" min="1000" max="20000" step="500">
+                            </div>
+                            <div class="slider-range">
+                                <span>$1K</span>
+                                <span>$20K</span>
+                            </div>
+                        </div>
+
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <span class="slider-label" data-en="Daily Trades / User" data-ko="일평균 거래 횟수">Daily Trades / User</span>
+                                <span class="slider-value-display" id="dailyTradesDisplay">8</span>
+                            </div>
+                            <div class="slider-wrapper">
+                                <div class="slider-track"></div>
+                                <div class="slider-fill" id="dailyTradesFill" style="width: 35%;"></div>
+                                <input type="range" id="dailyTrades" value="8" min="1" max="20" step="1">
+                            </div>
+                            <div class="slider-range">
+                                <span>1</span>
+                                <span>20</span>
+                            </div>
+                        </div>
+
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <span class="slider-label" data-en="Average Leverage" data-ko="평균 레버리지">Average Leverage</span>
+                                <span class="slider-value-display" id="leverageDisplay">10x</span>
+                            </div>
+                            <div class="slider-wrapper">
+                                <div class="slider-track"></div>
+                                <div class="slider-fill" id="leverageFill" style="width: 20%;"></div>
+                                <input type="range" id="leverage" value="10" min="1" max="50" step="1">
+                            </div>
+                            <div class="slider-range">
+                                <span>1x</span>
+                                <span>50x</span>
+                            </div>
+                        </div>
+
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <span class="slider-label" data-en="Position Ratio (%)" data-ko="포지션 비율 (%)">Position Ratio (%)</span>
+                                <span class="slider-value-display" id="positionRatioDisplay">20%</span>
+                            </div>
+                            <div class="slider-wrapper">
+                                <div class="slider-track"></div>
+                                <div class="slider-fill" id="positionRatioFill" style="width: 20%;"></div>
+                                <input type="range" id="positionRatio" value="20" min="5" max="50" step="5">
+                            </div>
+                            <div class="slider-range">
+                                <span>5%</span>
+                                <span>50%</span>
+                            </div>
+                        </div>
+
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <span class="slider-label" data-en="Operating Cost ($10K)" data-ko="운영비 ($만)">Operating Cost ($10K)</span>
+                                <span class="slider-value-display" id="operatingCostDisplay">$30K</span>
+                            </div>
+                            <div class="slider-wrapper">
+                                <div class="slider-track"></div>
+                                <div class="slider-fill" id="operatingCostFill" style="width: 30%;"></div>
+                                <input type="range" id="operatingCost" value="3" min="1" max="10" step="0.5">
+                            </div>
+                            <div class="slider-range">
+                                <span>$10K</span>
+                                <span>$100K</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Results Section -->
-                <div class="results-section">
-                    <div class="section-label" data-en="Projected Revenue" data-ko="예상 수익">Projected Revenue</div>
-                    <div class="results-grid">
-                        <div class="result-item">
-                            <div class="result-label" data-en="Monthly Volume" data-ko="월 거래량">Monthly Volume</div>
-                            <div class="result-value" id="monthlyVolume">$120M</div>
-                        </div>
-                        <div class="result-item">
-                            <div class="result-label" data-en="Trading Fees" data-ko="거래 수수료">Trading Fees</div>
-                            <div class="result-value" id="monthlyTradingRevenue">$60K</div>
-                        </div>
-                        <div class="result-item result-referral">
-                            <div class="result-label" data-en="PLUBIT Revenue" data-ko="PLUBIT 수익">PLUBIT Revenue</div>
-                            <div class="result-value" id="referralRevenue">$48K</div>
-                        </div>
-                        <div class="result-item result-cost">
-                            <div class="result-label" data-en="Operating Cost" data-ko="운영비">Operating Cost</div>
-                            <div class="result-value" id="operatingExpense">-$30K</div>
-                        </div>
-                        <div class="result-item result-net">
-                            <div class="result-label" data-en="Monthly Profit" data-ko="월 순이익">Monthly Profit</div>
-                            <div class="result-value" id="netProfit">$18K</div>
-                        </div>
-                        <div class="result-item result-annual">
-                            <div class="result-label" data-en="Annual Profit" data-ko="연간 순이익">Annual Profit</div>
-                            <div class="result-value" id="annualProfit">$0.22M</div>
+                <!-- Results Panel -->
+                <div class="results-panel">
+                    <!-- Profit Highlight -->
+                    <div class="profit-highlight" onclick="triggerConfetti()">
+                        <div class="profit-content">
+                            <div class="profit-row">
+                                <div class="profit-main">
+                                    <div class="profit-label" data-en="Your Monthly Net Profit" data-ko="월 순이익">Your Monthly Net Profit</div>
+                                    <div class="profit-value" id="netProfit">$18K<span class="profit-period">/mo</span></div>
+                                </div>
+                                <div class="profit-annual">
+                                    <div class="profit-annual-label" data-en="Annual" data-ko="연간">Annual</div>
+                                    <div class="profit-annual-value" id="annualProfit">$216K</div>
+                                </div>
+                            </div>
+                            <div class="profit-metrics">
+                                <div class="profit-metric">
+                                    <div class="profit-metric-value" id="profitMargin">60%</div>
+                                    <div class="profit-metric-label" data-en="Profit Margin" data-ko="이익률">Profit Margin</div>
+                                </div>
+                                <div class="profit-metric">
+                                    <div class="profit-metric-value" id="dailyProfit">$600</div>
+                                    <div class="profit-metric-label" data-en="Daily Profit" data-ko="일 수익">Daily Profit</div>
+                                </div>
+                                <div class="profit-metric">
+                                    <div class="profit-metric-value" id="breakeven">2.1mo</div>
+                                    <div class="profit-metric-label" data-en="Breakeven" data-ko="손익분기">Breakeven</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
+                    <!-- Chart Section -->
+                    <div class="chart-section">
+                        <div class="chart-header">
+                            <span class="chart-title" data-en="12-Month Projection" data-ko="12개월 예상">12-Month Projection</span>
+                            <div class="chart-tabs">
+                                <button class="chart-tab active" data-en="Profit" data-ko="수익">Profit</button>
+                                <button class="chart-tab" data-en="Revenue" data-ko="매출">Revenue</button>
+                            </div>
+                        </div>
+                        <div class="chart-container" id="chartContainer">
+                            <!-- Chart bars will be generated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Breakdown Grid -->
+                    <div class="breakdown-grid">
+                        <div class="breakdown-card volume">
+                            <div class="breakdown-header">
+                                <div class="breakdown-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="#7986CB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+                                        <polyline points="17 6 23 6 23 12"/>
+                                    </svg>
+                                </div>
+                                <div class="breakdown-label" data-en="Monthly Volume" data-ko="월 거래량">Monthly Volume</div>
+                            </div>
+                            <div class="breakdown-value" id="monthlyVolume">$120M</div>
+                            <div class="breakdown-sub" data-en="Leveraged trading volume" data-ko="레버리지 거래량">Leveraged trading volume</div>
+                            <div class="breakdown-progress">
+                                <div class="breakdown-progress-fill" id="volumeProgress" style="width: 80%;"></div>
+                            </div>
+                        </div>
+                        <div class="breakdown-card fees">
+                            <div class="breakdown-header">
+                                <div class="breakdown-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="#ffc107" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                                    </svg>
+                                </div>
+                                <div class="breakdown-label" data-en="Trading Fees" data-ko="거래 수수료">Trading Fees</div>
+                            </div>
+                            <div class="breakdown-value" id="monthlyTradingRevenue">$60K</div>
+                            <div class="breakdown-sub" data-en="0.05% per trade" data-ko="거래당 0.05%">0.05% per trade</div>
+                            <div class="breakdown-progress">
+                                <div class="breakdown-progress-fill" id="feesProgress" style="width: 60%;"></div>
+                            </div>
+                        </div>
+                        <div class="breakdown-card revenue">
+                            <div class="breakdown-header">
+                                <div class="breakdown-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="#00C853" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <circle cx="12" cy="12" r="6"/>
+                                        <circle cx="12" cy="12" r="2"/>
+                                    </svg>
+                                </div>
+                                <div class="breakdown-label" data-en="PLUBIT Revenue" data-ko="PLUBIT 수익">PLUBIT Revenue</div>
+                            </div>
+                            <div class="breakdown-value" id="referralRevenue">$48K</div>
+                            <div class="breakdown-sub" data-en="Up to 80% share" data-ko="최대 80% 배분">Up to 80% share</div>
+                            <div class="breakdown-progress">
+                                <div class="breakdown-progress-fill" id="revenueProgress" style="width: 70%;"></div>
+                            </div>
+                        </div>
+                        <div class="breakdown-card cost">
+                            <div class="breakdown-header">
+                                <div class="breakdown-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="#FF5252" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="3"/>
+                                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                                    </svg>
+                                </div>
+                                <div class="breakdown-label" data-en="Operating Cost" data-ko="운영비">Operating Cost</div>
+                            </div>
+                            <div class="breakdown-value" id="operatingExpense">-$30K</div>
+                            <div class="breakdown-sub" data-en="Server & maintenance" data-ko="서버 & 유지보수">Server & maintenance</div>
+                            <div class="breakdown-progress">
+                                <div class="breakdown-progress-fill" id="costProgress" style="width: 30%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROI Comparison Section -->
+            <div class="roi-section">
+                <div class="roi-header">
+                    <div class="roi-title">
+                        <div class="roi-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="20" x2="18" y2="10"/>
+                                <line x1="12" y1="20" x2="12" y2="4"/>
+                                <line x1="6" y1="20" x2="6" y2="14"/>
+                            </svg>
+                        </div>
+                        <span data-en="ROI Comparison vs Traditional Investments" data-ko="전통 투자 대비 ROI 비교">ROI Comparison vs Traditional Investments</span>
+                    </div>
+                </div>
+                <div class="roi-grid">
+                    <div class="roi-item">
+                        <div class="roi-name" data-en="Bank Savings" data-ko="은행 예금">Bank Savings</div>
+                        <div class="roi-value">3-5%</div>
+                        <div class="roi-comparison" data-en="Annual return" data-ko="연간 수익률">Annual return</div>
+                        <div class="roi-bar"><div class="roi-bar-fill"></div></div>
+                    </div>
+                    <div class="roi-item">
+                        <div class="roi-name" data-en="Stock Market" data-ko="주식 시장">Stock Market</div>
+                        <div class="roi-value">8-12%</div>
+                        <div class="roi-comparison" data-en="Average annual" data-ko="연평균">Average annual</div>
+                        <div class="roi-bar"><div class="roi-bar-fill"></div></div>
+                    </div>
+                    <div class="roi-item">
+                        <div class="roi-name" data-en="Real Estate" data-ko="부동산">Real Estate</div>
+                        <div class="roi-value">5-10%</div>
+                        <div class="roi-comparison" data-en="Rental yield" data-ko="임대 수익률">Rental yield</div>
+                        <div class="roi-bar"><div class="roi-bar-fill"></div></div>
+                    </div>
+                    <div class="roi-item highlight">
+                        <div class="roi-name" data-en="PLUBIT Exchange" data-ko="PLUBIT 거래소">PLUBIT Exchange</div>
+                        <div class="roi-value" id="roiComparison">576%</div>
+                        <div class="roi-comparison positive" id="roiMultiplier" data-en="48x vs savings" data-ko="예금 대비 48배">48x vs savings</div>
+                        <div class="roi-bar"><div class="roi-bar-fill"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Investment Appeal Section -->
+            <div class="appeal-section">
+                <div class="appeal-card">
+                    <div class="appeal-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#00C853" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                    </div>
+                    <div class="appeal-title" data-en="High Volume = High Profit" data-ko="높은 거래량 = 높은 수익">High Volume = High Profit</div>
+                    <div class="appeal-desc" data-en="Leverage amplifies trading volume by 10-100x, generating consistent fee revenue regardless of market direction" data-ko="레버리지가 거래량을 10-100배 증폭시켜, 시장 방향에 관계없이 안정적인 수수료 수익 창출">Leverage amplifies trading volume by 10-100x, generating consistent fee revenue regardless of market direction</div>
+                </div>
+                <div class="appeal-card">
+                    <div class="appeal-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#ffc107" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                    </div>
+                    <div class="appeal-title" data-en="Proven Business Model" data-ko="검증된 비즈니스 모델">Proven Business Model</div>
+                    <div class="appeal-desc" data-en="Global top exchange-backed infrastructure with up to 80% revenue share through partnership program" data-ko="글로벌 탑 거래소 기반 인프라, 파트너십을 통한 최대 80% 수익 배분">Global top exchange-backed infrastructure with up to 80% revenue share through partnership program</div>
+                </div>
+                <div class="appeal-card">
+                    <div class="appeal-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#7986CB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                        </svg>
+                    </div>
+                    <div class="appeal-title" data-en="Rapid ROI Recovery" data-ko="빠른 투자금 회수">Rapid ROI Recovery</div>
+                    <div class="appeal-desc" data-en="Initial investment recovered within 2-3 months, followed by pure profit generation" data-ko="초기 투자금 2-3개월 내 회수, 이후 순수익 창출">Initial investment recovered within 2-3 months, followed by pure profit generation</div>
+                </div>
+            </div>
+
+            <!-- CTA Section -->
+            <div class="cta-section">
+                <div class="cta-content">
+                    <h3 data-en="Ready to Start Earning?" data-ko="수익 창출을 시작할 준비가 되셨나요?">Ready to Start Earning?</h3>
+                    <p data-en="Join PLUBIT and experience the profitability of crypto exchange investment firsthand" data-ko="PLUBIT에 참여하여 암호화폐 거래소 투자의 수익성을 직접 경험하세요">Join PLUBIT and experience the profitability of crypto exchange investment firsthand</p>
+                </div>
+                <div class="cta-buttons">
+                    <a href="https://plubit.xyz" class="cta-btn primary" target="_blank">
+                        <span data-en="Start Investing Now" data-ko="지금 투자 시작">Start Investing Now</span>
+                        →
+                    </a>
+                    <a href="plubitinfo.html" class="cta-btn secondary">
+                        <span data-en="Learn More" data-ko="자세히 알아보기">Learn More</span>
+                    </a>
                 </div>
             </div>
         </main>
@@ -781,21 +2068,19 @@
         <!-- Footer -->
         <footer class="footer">
             <div class="footer-links">
-                <a href="index.html" class="footer-link">
-                    <span data-en="Back to Home" data-ko="홈으로">Back to Home</span>
-                </a>
-                <a href="plubitinfo.html" class="footer-link">
-                    <span data-en="About PLUBIT" data-ko="PLUBIT 소개">About PLUBIT</span>
-                </a>
-                <a href="https://plubit.xyz" class="footer-link primary" target="_blank">
-                    <span data-en="Visit Exchange" data-ko="거래소 방문">Visit Exchange</span>
-                </a>
+                <a href="index.html" class="footer-link" data-en="Home" data-ko="홈">Home</a>
+                <div class="footer-divider"></div>
+                <a href="plubitinfo.html" class="footer-link" data-en="About PLUBIT" data-ko="PLUBIT 소개">About PLUBIT</a>
+                <div class="footer-divider"></div>
+                <a href="https://plubit.xyz" class="footer-link" target="_blank" data-en="Exchange" data-ko="거래소">Exchange</a>
             </div>
+            <div class="disclaimer" data-en="Disclaimer: The revenue projections shown above are for illustrative purposes only and do not guarantee actual returns. Actual results may vary based on market conditions, trading activity, and other factors. Past performance is not indicative of future results. Please conduct your own research before making investment decisions." data-ko="고지사항: 위에 표시된 수익 예상치는 설명 목적으로만 제공되며 실제 수익을 보장하지 않습니다. 실제 결과는 시장 상황, 거래 활동 및 기타 요인에 따라 달라질 수 있습니다. 과거 실적이 미래 결과를 보장하지 않습니다. 투자 결정 전 충분한 조사를 진행하시기 바랍니다.">Disclaimer: The revenue projections shown above are for illustrative purposes only and do not guarantee actual returns. Actual results may vary based on market conditions, trading activity, and other factors. Past performance is not indicative of future results. Please conduct your own research before making investment decisions.</div>
         </footer>
     </div>
 
     <script>
         let currentLang = 'en';
+        let chartMode = 'profit';
 
         function setLanguage(lang) {
             currentLang = lang;
@@ -808,9 +2093,100 @@
             document.querySelectorAll('[data-en][data-ko]').forEach(el => {
                 const text = el.getAttribute('data-' + lang);
                 if (text) {
-                    el.textContent = text;
+                    if (el.tagName === 'INPUT') {
+                        el.placeholder = text;
+                    } else {
+                        el.textContent = text;
+                    }
                 }
             });
+            calculateRevenue();
+        }
+
+        // Create floating particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (6 + Math.random() * 4) + 's';
+                particle.style.background = Math.random() > 0.5 ? 'var(--success)' : 'var(--accent)';
+                container.appendChild(particle);
+            }
+        }
+
+        // Confetti effect
+        function triggerConfetti() {
+            const colors = ['#00C853', '#ffc107', '#3f51b5', '#ff9800', '#fff'];
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                    document.body.appendChild(confetti);
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 30);
+            }
+        }
+
+        function formatNumber(num) {
+            if (Math.abs(num) >= 1000000000) {
+                return '$' + (num / 1000000000).toFixed(2) + 'B';
+            } else if (Math.abs(num) >= 1000000) {
+                return '$' + (num / 1000000).toFixed(2) + 'M';
+            } else if (Math.abs(num) >= 1000) {
+                return '$' + Math.round(num / 1000).toLocaleString() + 'K';
+            } else {
+                return '$' + Math.round(num).toLocaleString();
+            }
+        }
+
+        function updateSliderFill(slider, fillId) {
+            const percent = ((slider.value - slider.min) / (slider.max - slider.min)) * 100;
+            document.getElementById(fillId).style.width = percent + '%';
+        }
+
+        function updateChart(monthlyProfit, monthlyRevenue) {
+            const container = document.getElementById('chartContainer');
+            container.innerHTML = '';
+
+            const months = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
+            const maxHeight = 140;
+
+            for (let i = 0; i < 12; i++) {
+                const growth = 1 + (i * 0.05);
+                const value = chartMode === 'profit' ? monthlyProfit * growth : monthlyRevenue * growth;
+                const maxValue = chartMode === 'profit' ? monthlyProfit * 1.55 : monthlyRevenue * 1.55;
+                const height = (value / maxValue) * maxHeight;
+
+                const wrapper = document.createElement('div');
+                wrapper.className = 'chart-bar-wrapper';
+
+                const bar = document.createElement('div');
+                bar.className = `chart-bar ${chartMode}`;
+                bar.style.height = '0px';
+
+                const valueLabel = document.createElement('span');
+                valueLabel.className = 'chart-bar-value';
+                valueLabel.textContent = formatNumber(value);
+                bar.appendChild(valueLabel);
+
+                const label = document.createElement('div');
+                label.className = 'chart-bar-label';
+                label.textContent = months[i];
+
+                wrapper.appendChild(bar);
+                wrapper.appendChild(label);
+                container.appendChild(wrapper);
+
+                setTimeout(() => {
+                    bar.style.height = height + 'px';
+                }, i * 50);
+            }
         }
 
         function calculateRevenue() {
@@ -819,9 +2195,23 @@
             const dailyTrades = parseInt(document.getElementById('dailyTrades').value) || 8;
             const leverage = parseFloat(document.getElementById('leverage').value) || 10;
             const positionRatio = parseFloat(document.getElementById('positionRatio').value) || 20;
-            const tradingFee = parseFloat(document.getElementById('tradingFee').value) || 0.05;
-            const referralRate = parseFloat(document.getElementById('referralRate').value) || 80;
+            const tradingFee = 0.05;
+            const referralRate = 80;
             const operatingCost = parseFloat(document.getElementById('operatingCost').value) || 3;
+
+            document.getElementById('activeUsersDisplay').textContent = activeUsers.toLocaleString();
+            document.getElementById('avgDepositDisplay').textContent = '$' + avgDeposit.toLocaleString();
+            document.getElementById('dailyTradesDisplay').textContent = dailyTrades;
+            document.getElementById('leverageDisplay').textContent = leverage + 'x';
+            document.getElementById('positionRatioDisplay').textContent = positionRatio + '%';
+            document.getElementById('operatingCostDisplay').textContent = '$' + (operatingCost * 10) + 'K';
+
+            updateSliderFill(document.getElementById('activeUsers'), 'activeUsersFill');
+            updateSliderFill(document.getElementById('avgDeposit'), 'avgDepositFill');
+            updateSliderFill(document.getElementById('dailyTrades'), 'dailyTradesFill');
+            updateSliderFill(document.getElementById('leverage'), 'leverageFill');
+            updateSliderFill(document.getElementById('positionRatio'), 'positionRatioFill');
+            updateSliderFill(document.getElementById('operatingCost'), 'operatingCostFill');
 
             const positionSize = avgDeposit * (positionRatio / 100);
             const leveragedPosition = positionSize * leverage;
@@ -831,47 +2221,82 @@
             const operatingExpense = operatingCost * 10000;
             const netProfit = referralRevenue - operatingExpense;
             const annualProfit = netProfit * 12;
+            const dailyProfit = netProfit / 30;
+            const profitMargin = referralRevenue > 0 ? (netProfit / referralRevenue * 100) : 0;
 
-            const formatNumber = (num) => {
-                if (Math.abs(num) >= 1000000000) {
-                    return '$' + (num / 1000000000).toFixed(2) + 'B';
-                } else if (Math.abs(num) >= 1000000) {
-                    return '$' + (num / 1000000).toFixed(2) + 'M';
-                } else if (Math.abs(num) >= 1000) {
-                    return '$' + Math.round(num / 1000).toLocaleString() + 'K';
-                } else {
-                    return '$' + Math.round(num).toLocaleString();
-                }
-            };
+            const initialInvestment = operatingExpense;
+            const annualROI = initialInvestment > 0 ? (annualProfit / initialInvestment * 100) : 0;
+            const paybackMonths = netProfit > 0 ? (initialInvestment / netProfit) : 0;
+            const roiMultiplier = Math.round(annualROI / 12);
 
-            const elements = {
-                'monthlyVolume': formatNumber(monthlyVolume),
-                'monthlyTradingRevenue': formatNumber(monthlyTradingRevenue),
-                'referralRevenue': formatNumber(referralRevenue),
-                'operatingExpense': '-' + formatNumber(operatingExpense),
-                'netProfit': netProfit >= 0 ? formatNumber(netProfit) : '-' + formatNumber(Math.abs(netProfit)),
-                'annualProfit': annualProfit >= 0 ? formatNumber(annualProfit) : '-' + formatNumber(Math.abs(annualProfit))
-            };
+            updateElement('totalVolumeMetric', formatNumber(monthlyVolume));
+            updateElement('totalRevenueMetric', formatNumber(monthlyTradingRevenue));
+            updateElement('plubitShareMetric', formatNumber(referralRevenue));
+            updateElement('activeUsersMetric', activeUsers.toLocaleString());
 
-            Object.entries(elements).forEach(([id, value]) => {
-                const element = document.getElementById(id);
-                if (element) {
-                    element.classList.add('counting');
-                    setTimeout(() => { element.textContent = value; }, 50);
-                    setTimeout(() => { element.classList.remove('counting'); }, 600);
-                }
-            });
+            updateElement('roiDisplay', Math.round(annualROI) + '%');
+            updateElement('paybackDisplay', paybackMonths.toFixed(1));
+
+            document.getElementById('netProfit').innerHTML = formatNumber(netProfit) + '<span class="profit-period">/mo</span>';
+            updateElement('annualProfit', formatNumber(annualProfit));
+            updateElement('profitMargin', Math.round(profitMargin) + '%');
+            updateElement('dailyProfit', formatNumber(dailyProfit));
+            updateElement('breakeven', paybackMonths.toFixed(1) + 'mo');
+
+            updateElement('monthlyVolume', formatNumber(monthlyVolume));
+            updateElement('monthlyTradingRevenue', formatNumber(monthlyTradingRevenue));
+            updateElement('referralRevenue', formatNumber(referralRevenue));
+            updateElement('operatingExpense', '-' + formatNumber(operatingExpense));
+
+            const maxVolume = 500000000;
+            const maxFees = 250000;
+            const maxRevenue = 200000;
+            const maxCost = 100000;
+
+            document.getElementById('volumeProgress').style.width = Math.min((monthlyVolume / maxVolume) * 100, 100) + '%';
+            document.getElementById('feesProgress').style.width = Math.min((monthlyTradingRevenue / maxFees) * 100, 100) + '%';
+            document.getElementById('revenueProgress').style.width = Math.min((referralRevenue / maxRevenue) * 100, 100) + '%';
+            document.getElementById('costProgress').style.width = Math.min((operatingExpense / maxCost) * 100, 100) + '%';
+
+            updateElement('roiComparison', Math.round(annualROI) + '%');
+            const multiplierText = currentLang === 'ko' ?
+                `예금 대비 ${roiMultiplier}배` :
+                `${roiMultiplier}x vs savings`;
+            updateElement('roiMultiplier', multiplierText);
+
+            updateChart(netProfit, referralRevenue);
         }
 
-        // Initialize
+        function updateElement(id, value) {
+            const element = document.getElementById(id);
+            if (element && element.textContent !== value) {
+                element.style.transform = 'scale(1.05)';
+                element.style.transition = 'transform 0.2s ease, opacity 0.2s ease';
+                setTimeout(() => {
+                    element.textContent = value;
+                    element.style.transform = 'scale(1)';
+                }, 100);
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             setLanguage('en');
+            createParticles();
             calculateRevenue();
 
-            // Add event listeners to all inputs
-            document.querySelectorAll('.input-group input').forEach(input => {
-                input.addEventListener('input', calculateRevenue);
-                input.addEventListener('change', calculateRevenue);
+            document.querySelectorAll('input[type="range"]').forEach(slider => {
+                slider.addEventListener('input', calculateRevenue);
+                slider.addEventListener('change', calculateRevenue);
+            });
+
+            document.querySelectorAll('.chart-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    document.querySelectorAll('.chart-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    chartMode = this.textContent.toLowerCase().includes('profit') ||
+                                this.textContent.includes('수익') ? 'profit' : 'revenue';
+                    calculateRevenue();
+                });
             });
         });
     </script>
