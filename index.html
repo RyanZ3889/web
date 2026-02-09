@@ -9,7 +9,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Bebas+Neue&family=Oswald:wght@700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>tailwind.config={theme:{extend:{colors:{gold:'#B8860B','gold-light':'#DAA520','gold-bright':'#FFD700'},fontFamily:{display:['Space Grotesk','sans-serif'],sans:['Inter','sans-serif']}}}}</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>tailwind.config={theme:{extend:{colors:{gold:'#B8860B','gold-light':'#DAA520','gold-bright':'#FFD700'},fontFamily:{display:['Space Grotesk','sans-serif'],sans:['Inter','sans-serif'],mono:['JetBrains Mono','monospace']}}}}</script>
     <style>
         :root{--gold:#B8860B;--gold-light:#DAA520;--gold-bright:#FFD700}
         *{margin:0;padding:0;box-sizing:border-box}
@@ -38,10 +41,30 @@
         .float{animation:float 6s ease-in-out infinite}
         @keyframes float{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-20px) rotate(2deg)}}
         .glow-gold{box-shadow:0 0 60px rgba(184,134,11,0.15),0 0 120px rgba(184,134,11,0.05)}
-        .ob-flash-green{animation:flashG 0.15s ease}
-        .ob-flash-red{animation:flashR 0.15s ease}
-        @keyframes flashG{50%{background:rgba(34,197,94,0.5)}}
-        @keyframes flashR{50%{background:rgba(239,68,68,0.5)}}
+        .ob-flash-green{animation:flashG 0.4s ease-out}
+        .ob-flash-red{animation:flashR 0.4s ease-out}
+        @keyframes flashG{0%{background:rgba(34,197,94,0.7);box-shadow:inset 0 0 20px rgba(34,197,94,0.4);transform:scaleX(1.02)}60%{background:rgba(34,197,94,0.3)}100%{background:transparent;transform:scaleX(1)}}
+        @keyframes flashR{0%{background:rgba(239,68,68,0.7);box-shadow:inset 0 0 20px rgba(239,68,68,0.4);transform:scaleX(1.02)}60%{background:rgba(239,68,68,0.3)}100%{background:transparent;transform:scaleX(1)}}
+
+        /* Trade execution burst */
+        .ob-execute{position:relative}
+        .ob-execute::after{content:'';position:absolute;right:8px;top:50%;width:6px;height:6px;border-radius:50%;transform:translate(0,-50%) scale(0);animation:execBurst 0.6s ease-out forwards}
+        .ob-execute-green::after{background:#22c55e;box-shadow:0 0 12px #22c55e,0 0 24px rgba(34,197,94,0.5)}
+        .ob-execute-red::after{background:#ef4444;box-shadow:0 0 12px #ef4444,0 0 24px rgba(239,68,68,0.5)}
+        @keyframes execBurst{0%{transform:translate(0,-50%) scale(0);opacity:1}50%{transform:translate(0,-50%) scale(2.5);opacity:0.8}100%{transform:translate(0,-50%) scale(4);opacity:0}}
+
+        /* Amount eaten animation */
+        .ob-amount-shrink{animation:amountShrink 0.3s ease-out}
+        @keyframes amountShrink{0%{color:#fbbf24;transform:scale(1.1)}100%{color:inherit;transform:scale(1)}}
+
+        /* Spread pulse on tight spread */
+        .spread-pulse{animation:spreadPulse 0.5s ease-out}
+        @keyframes spreadPulse{0%{transform:scale(1.15);text-shadow:0 0 10px currentColor}100%{transform:scale(1);text-shadow:none}}
+
+        /* Trade execution bar */
+        .exec-indicator{position:absolute;left:0;right:0;height:1px;opacity:0;pointer-events:none}
+        .exec-indicator.fire{opacity:1;animation:execLine 0.8s ease-out forwards}
+        @keyframes execLine{0%{opacity:1;height:2px;box-shadow:0 0 10px currentColor}100%{opacity:0;height:0}}
         input[type="email"]{background:#0c0c12;border:1px solid #1a1a25;border-radius:14px;padding:16px 20px;color:#fff;width:100%;font-size:16px;transition:all 0.3s}
         input[type="email"]:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,134,11,0.1)}
         input[type="email"]::placeholder{color:#404050}
@@ -61,9 +84,40 @@
         /* Launch Badge */
         .launch-badge{animation:badgePulse 2s ease-in-out infinite}
         @keyframes badgePulse{0%,100%{box-shadow:0 0 0 0 rgba(184,134,11,0.4)}50%{box-shadow:0 0 0 10px rgba(184,134,11,0)}}
+
+        /* Particle Canvas */
+        #particle-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0.6}
+
+        /* Trust Section */
+        .trust-logo{opacity:0.4;transition:opacity 0.3s ease;filter:grayscale(100%) brightness(2)}
+        .trust-logo:hover{opacity:0.8;filter:grayscale(0%) brightness(1)}
+        .trust-scroll{display:flex;animation:trustScroll 25s linear infinite}
+        @keyframes trustScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+        /* Enhanced glow effects */
+        .glow-orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;opacity:0.08}
+
+        /* Number counter animation */
+        .counter-num{font-variant-numeric:tabular-nums}
+
+        /* Shimmer button effect */
+        .btn-shimmer{position:relative;overflow:hidden}
+        .btn-shimmer::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(45deg,transparent 30%,rgba(255,255,255,0.15) 50%,transparent 70%);animation:btnShimmer 3s ease-in-out infinite}
+        @keyframes btnShimmer{0%{transform:translateX(-100%) rotate(45deg)}100%{transform:translateX(100%) rotate(45deg)}}
+
+        /* Mid-page CTA */
+        .mid-cta{background:linear-gradient(135deg,rgba(184,134,11,0.08) 0%,rgba(184,134,11,0.02) 100%);border:1px solid rgba(184,134,11,0.15);backdrop-filter:blur(10px)}
     </style>
 </head>
 <body>
+    <!-- Particle Canvas Background -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Ambient Glow Orbs -->
+    <div class="glow-orb" style="width:600px;height:600px;background:radial-gradient(circle,rgba(184,134,11,0.3),transparent 70%);top:10%;left:-10%"></div>
+    <div class="glow-orb" style="width:500px;height:500px;background:radial-gradient(circle,rgba(184,134,11,0.2),transparent 70%);top:50%;right:-10%"></div>
+    <div class="glow-orb" style="width:400px;height:400px;background:radial-gradient(circle,rgba(218,165,32,0.15),transparent 70%);bottom:10%;left:30%"></div>
+
     <!-- Navigation -->
     <nav class="fixed top-0 left-0 right-0 z-50 bg-[#050507]/80 backdrop-blur-2xl border-b border-white/5">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
@@ -156,7 +210,7 @@
                     </div>
 
                     <div class="flex flex-col sm:flex-row gap-4 mb-12 justify-center lg:justify-start">
-                        <a href="#waitlist" class="btn-primary text-base py-4 px-10 flex items-center justify-center gap-3">Join Waitlist<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg></a>
+                        <a href="#waitlist" class="btn-primary btn-shimmer text-base py-4 px-10 flex items-center justify-center gap-3">Join Waitlist<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg></a>
                         <a href="#features" class="py-4 px-10 border border-zinc-700/50 rounded-xl text-white font-semibold hover:bg-white/5 transition-all text-center backdrop-blur-sm">Explore</a>
                     </div>
                     <div class="grid grid-cols-3 gap-6 max-w-lg mx-auto lg:mx-0">
@@ -605,6 +659,49 @@
         </div>
     </section>
 
+    <!-- Trust Partners -->
+    <section class="py-12 sm:py-16 px-4 sm:px-6 border-y border-zinc-800/30 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="text-center mb-8 fade-up">
+                <span class="text-zinc-600 text-xs sm:text-sm font-medium tracking-wider uppercase">Trusted Infrastructure Partners</span>
+            </div>
+            <div class="overflow-hidden">
+                <div class="trust-scroll">
+                    <div class="flex items-center gap-12 sm:gap-20 px-6">
+                        <div class="trust-logo flex items-center gap-2 shrink-0"><svg class="w-6 h-6 text-blue-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><span class="text-zinc-400 font-semibold text-sm sm:text-base whitespace-nowrap">Chainlink</span></div>
+                        <div class="trust-logo flex items-center gap-2 shrink-0"><svg class="w-6 h-6 text-orange-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg><span class="text-zinc-400 font-semibold text-sm sm:text-base whitespace-nowrap">AWS</span></div>
+                        <div class="trust-logo flex items-center gap-2 shrink-0"><svg class="w-6 h-6 text-purple-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg><span class="text-zinc-400 font-semibold text-sm sm:text-base whitespace-nowrap">Fireblocks</span></div>
+                        <div class="trust-logo flex items-center gap-2 shrink-0"><svg class="w-6 h-6 text-cyan-400" viewBox="0 0 24 24" fill="currentColor"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span class="text-zinc-400 font-semibold text-sm sm:text-base whitespace-nowrap">CertiK</span></div>
+                        <div class="trust-logo flex items-center gap-2 shrink-0"><svg class="w-6 h-6 text-indigo-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg><span class="text-zinc-400 font-semibold text-sm sm:text-base whitespace-nowrap">Chainalysis</span></div>
+                        <div class="trust-logo flex items-center gap-2 shrink-0"><svg class="w-6 h-6 text-green-400" viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm0 2v4h16V6H4zm0 6v6h16v-6H4z"/></svg><span class="text-zinc-400 font-semibold text-sm sm:text-base whitespace-nowrap">Cloudflare</span></div>
+                        <div class="trust-logo flex items-center gap-2 shrink-0"><svg class="w-6 h-6 text-yellow-400" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg><span class="text-zinc-400 font-semibold text-sm sm:text-base whitespace-nowrap">Hacken</span></div>
+                    </div>
+                    <div class="flex items-center gap-12 sm:gap-20 px-6">
+                        <div class="trust-logo flex items-center gap-2 shrink-0"><svg class="w-6 h-6 text-blue-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><span class="text-zinc-400 font-semibold text-sm sm:text-base whitespace-nowrap">Chainlink</span></div>
+                        <div class="trust-logo flex items-center gap-2 shrink-0"><svg class="w-6 h-6 text-orange-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg><span class="text-zinc-400 font-semibold text-sm sm:text-base whitespace-nowrap">AWS</span></div>
+                        <div class="trust-logo flex items-center gap-2 shrink-0"><svg class="w-6 h-6 text-purple-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg><span class="text-zinc-400 font-semibold text-sm sm:text-base whitespace-nowrap">Fireblocks</span></div>
+                        <div class="trust-logo flex items-center gap-2 shrink-0"><svg class="w-6 h-6 text-cyan-400" viewBox="0 0 24 24" fill="currentColor"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span class="text-zinc-400 font-semibold text-sm sm:text-base whitespace-nowrap">CertiK</span></div>
+                        <div class="trust-logo flex items-center gap-2 shrink-0"><svg class="w-6 h-6 text-indigo-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg><span class="text-zinc-400 font-semibold text-sm sm:text-base whitespace-nowrap">Chainalysis</span></div>
+                        <div class="trust-logo flex items-center gap-2 shrink-0"><svg class="w-6 h-6 text-green-400" viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm0 2v4h16V6H4zm0 6v6h16v-6H4z"/></svg><span class="text-zinc-400 font-semibold text-sm sm:text-base whitespace-nowrap">Cloudflare</span></div>
+                        <div class="trust-logo flex items-center gap-2 shrink-0"><svg class="w-6 h-6 text-yellow-400" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg><span class="text-zinc-400 font-semibold text-sm sm:text-base whitespace-nowrap">Hacken</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mid CTA -->
+    <section class="py-10 sm:py-14 px-4 sm:px-6">
+        <div class="max-w-3xl mx-auto mid-cta rounded-2xl p-8 sm:p-10 text-center fade-up">
+            <h3 class="font-display text-xl sm:text-2xl font-bold text-white mb-3">Be Among the First 1,000 Traders</h3>
+            <p class="text-zinc-400 text-sm sm:text-base mb-6">Early adopters get exclusive PLB token airdrop + lifetime fee discount</p>
+            <a href="#waitlist" class="btn-primary btn-shimmer inline-flex items-center gap-2 text-sm py-3 px-8">
+                Claim Your Spot
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+            </a>
+        </div>
+    </section>
+
     <!-- Liquidity -->
     <section id="liquidity" class="py-24 sm:py-32 px-4 sm:px-6 bg-[#030305] relative">
         <div class="absolute inset-0 bg-gradient-to-b from-transparent via-gold/[0.02] to-transparent pointer-events-none"></div>
@@ -628,12 +725,12 @@
                     </div>
                     <div class="bg-black/30 rounded-2xl p-4 mb-5">
                         <div class="flex items-center justify-between mb-3"><span class="text-zinc-600 text-xs font-medium">1M Chart</span><span class="text-zinc-500 text-xs font-mono">BTC/USDT</span></div>
-                        <div class="h-28 sm:h-36 flex items-end justify-between gap-px" id="chart-poor"></div>
+                        <canvas id="chart-poor" class="w-full" style="height:144px"></canvas>
                     </div>
                     <div class="bg-black/30 rounded-2xl p-4">
                         <div class="flex items-center justify-between"><span class="text-zinc-600 text-xs font-medium">Orderbook</span><span class="text-red-400 text-[10px] font-mono">Thin Depth</span></div>
                         <div class="mt-3 space-y-1" id="orderbook-poor"></div>
-                        <div class="text-center py-2 my-2 border-y border-zinc-800/50"><span class="text-zinc-600 text-xs">Spread </span><span class="text-red-400 text-sm font-bold">$48.50</span></div>
+                        <div class="text-center py-2 my-2 border-y border-zinc-800/50"><span class="text-zinc-600 text-xs">Spread </span><span class="text-red-400 text-sm font-bold font-mono" id="spread-poor">$48.50</span></div>
                         <div class="space-y-1" id="orderbook-poor-bids"></div>
                     </div>
                     <div class="grid grid-cols-2 gap-3 mt-5">
@@ -653,12 +750,12 @@
                     </div>
                     <div class="bg-black/30 rounded-2xl p-4 mb-5 border border-gold/10">
                         <div class="flex items-center justify-between mb-3"><span class="text-zinc-600 text-xs font-medium">1M Chart</span><span class="text-gold text-xs font-mono">BTC/USDT</span></div>
-                        <div class="h-28 sm:h-36 flex items-end justify-between gap-px" id="chart-good"></div>
+                        <canvas id="chart-good" class="w-full" style="height:144px"></canvas>
                     </div>
                     <div class="bg-black/30 rounded-2xl p-4 border border-gold/10">
                         <div class="flex items-center justify-between"><span class="text-zinc-600 text-xs font-medium">Orderbook</span><span class="text-emerald-400 text-[10px] font-mono">Deep Liquidity</span></div>
                         <div class="mt-3 space-y-0.5" id="orderbook-good"></div>
-                        <div class="text-center py-2 my-2 border-y border-gold/10"><span class="text-zinc-600 text-xs">Spread </span><span class="text-emerald-400 text-sm font-bold">$0.50</span></div>
+                        <div class="text-center py-2 my-2 border-y border-gold/10"><span class="text-zinc-600 text-xs">Spread </span><span class="text-emerald-400 text-sm font-bold font-mono" id="spread-good">$0.50</span></div>
                         <div class="space-y-0.5" id="orderbook-good-bids"></div>
                     </div>
                     <div class="grid grid-cols-2 gap-3 mt-5">
@@ -705,6 +802,17 @@
                     <div class="card p-6 sm:p-8 text-center"><div class="font-display text-3xl sm:text-4xl font-bold text-white">95%</div><div class="text-zinc-500 text-xs sm:text-sm mt-2">Cold Storage</div></div>
                     <div class="card p-6 sm:p-8 text-center"><div class="font-display text-3xl sm:text-4xl font-bold gradient-text">AAA</div><div class="text-zinc-500 text-xs sm:text-sm mt-2">Audit Grade</div></div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mid CTA 2 -->
+    <section class="py-10 sm:py-14 px-4 sm:px-6 bg-[#030305]">
+        <div class="max-w-4xl mx-auto text-center fade-up">
+            <div class="flex flex-wrap justify-center gap-6 sm:gap-10">
+                <div class="text-center"><div class="font-display text-3xl sm:text-4xl font-bold gradient-text counter-num" id="stat-traders">12,400+</div><div class="text-zinc-500 text-xs sm:text-sm mt-1">Pre-registered Traders</div></div>
+                <div class="text-center"><div class="font-display text-3xl sm:text-4xl font-bold text-white counter-num">$84M+</div><div class="text-zinc-500 text-xs sm:text-sm mt-1">Committed Volume</div></div>
+                <div class="text-center"><div class="font-display text-3xl sm:text-4xl font-bold text-white counter-num">47</div><div class="text-zinc-500 text-xs sm:text-sm mt-1">Countries</div></div>
             </div>
         </div>
     </section>
@@ -1083,7 +1191,23 @@
                         <span class="text-4xl tracking-wide" style="font-family:'Bebas Neue',sans-serif;letter-spacing:0.05em"><span class="text-white">PLUB</span><span class="text-gold">I</span><span class="text-white">T</span></span>
                     </div>
                     <h3 class="font-display text-2xl sm:text-3xl font-bold text-white mb-2">Get Early Access</h3>
-                    <p class="text-zinc-400 text-sm sm:text-base">Join our beta program today</p>
+                    <p class="text-zinc-400 text-sm sm:text-base mb-4">Join our beta program today</p>
+
+                    <!-- Social Proof Counter -->
+                    <div class="flex items-center justify-center gap-3 py-3 px-5 bg-zinc-800/30 rounded-xl border border-zinc-700/30 mx-auto max-w-xs">
+                        <div class="flex -space-x-2">
+                            <div class="w-7 h-7 rounded-full bg-gradient-to-br from-gold to-amber-600 border-2 border-[#08080c] flex items-center justify-center text-[8px] text-black font-bold">JK</div>
+                            <div class="w-7 h-7 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 border-2 border-[#08080c] flex items-center justify-center text-[8px] text-white font-bold">RM</div>
+                            <div class="w-7 h-7 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 border-2 border-[#08080c] flex items-center justify-center text-[8px] text-white font-bold">SH</div>
+                        </div>
+                        <div class="text-left">
+                            <div class="text-white text-sm font-bold counter-num"><span id="waitlist-counter">847</span><span class="text-zinc-500">/1,000</span></div>
+                            <div class="text-zinc-500 text-[10px]">spots claimed</div>
+                        </div>
+                        <div class="w-24 h-2 bg-zinc-700 rounded-full overflow-hidden">
+                            <div class="h-full bg-gradient-to-r from-gold to-gold-bright rounded-full" style="width:84.7%"></div>
+                        </div>
+                    </div>
                 </div>
                 <form id="waitlist-form" class="space-y-5" action="https://formsubmit.co/windy064745@gmail.com" method="POST">
                     <input type="hidden" name="_subject" value="New PLUBIT Beta Application">
@@ -1121,14 +1245,383 @@
         function renderTicker(){const t=document.getElementById('ticker');const items=[...tickerData,...tickerData,...tickerData];t.innerHTML=items.map(c=>`<div class="flex items-center gap-4 mx-6 sm:mx-10 whitespace-nowrap"><span class="text-zinc-500 text-xs sm:text-sm font-medium">${c.symbol}</span><span class="text-white font-semibold text-xs sm:text-sm">$${c.price.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</span><span class="text-xs sm:text-sm font-semibold ${c.change>=0?'text-emerald-400':'text-red-400'}">${c.change>=0?'+':''}${c.change.toFixed(2)}%</span></div>`).join('')}
         renderTicker();setInterval(()=>{tickerData.forEach(c=>{c.price*=(1+(Math.random()-0.5)*0.001);c.change+=(Math.random()-0.5)*0.05});renderTicker()},2500);
         document.querySelectorAll('.coin-btn').forEach(btn=>{btn.addEventListener('click',()=>{document.querySelectorAll('.coin-btn').forEach(b=>{b.classList.remove('bg-gold','text-black');b.classList.add('bg-zinc-800/50','text-zinc-400')});btn.classList.remove('bg-zinc-800/50','text-zinc-400');btn.classList.add('bg-gold','text-black');currentCoin=btn.dataset.coin;updateCharts()})});
-        function generateChart(id,isGood){const c=document.getElementById(id);if(!c)return;const bp=coinData[currentCoin].price;let html='',price=bp;const cnt=window.innerWidth<640?30:50;for(let i=0;i<cnt;i++){const v=0.006,ch=(Math.random()-0.5)*v,o=price,cl=price*(1+ch),hi=Math.max(o,cl)*(1+Math.random()*0.003),lo=Math.min(o,cl)*(1-Math.random()*0.003),g=cl>=o,bh=Math.max(Math.abs(cl-o)/bp*15000,4),wt=(hi-Math.max(o,cl))/bp*15000,wb=(Math.min(o,cl)-lo)/bp*15000,col=g?'#22c55e':'#ef4444';html+=`<div class="flex flex-col items-center flex-1"><div style="width:1px;height:${wt}px;background:${col}"></div><div style="width:4px;height:${bh}px;background:${col};border-radius:1px"></div><div style="width:1px;height:${wb}px;background:${col}"></div></div>`;price=cl}c.innerHTML=html}
-        function generateOrderbook(askId,bidId,isDense){const askC=document.getElementById(askId),bidC=document.getElementById(bidId);if(!askC||!bidC)return;const bp=coinData[currentCoin].price,rows=isDense?6:4;let ah='',bh='';for(let i=rows-1;i>=0;i--){const sm=isDense?0.00005:0.0008,pr=bp*(1+(i+1)*sm),am=isDense?(Math.random()*80+20).toFixed(4):(Math.random()*0.5+0.02).toFixed(4),bw=isDense?(Math.random()*30+65):(Math.random()*15+5);ah+=`<div class="orderbook-row flex items-center py-0.5 relative text-[10px] sm:text-xs font-mono" data-type="ask"><div class="absolute right-0 top-0 bottom-0 bg-red-500/${isDense?'30':'15'} rounded-sm" style="width:${bw}%"></div><span class="w-16 sm:w-20 text-red-400 relative z-10">${pr.toFixed(2)}</span><span class="flex-1 text-right text-zinc-${isDense?'300':'500'} relative z-10 font-${isDense?'semibold':'normal'}">${am}</span></div>`}for(let i=0;i<rows;i++){const sm=isDense?0.00005:0.0008,pr=bp*(1-(i+1)*sm),am=isDense?(Math.random()*80+20).toFixed(4):(Math.random()*0.5+0.02).toFixed(4),bw=isDense?(Math.random()*30+65):(Math.random()*15+5);bh+=`<div class="orderbook-row flex items-center py-0.5 relative text-[10px] sm:text-xs font-mono" data-type="bid"><div class="absolute left-0 top-0 bottom-0 bg-emerald-500/${isDense?'30':'15'} rounded-sm" style="width:${bw}%"></div><span class="w-16 sm:w-20 text-emerald-400 relative z-10">${pr.toFixed(2)}</span><span class="flex-1 text-right text-zinc-${isDense?'300':'500'} relative z-10 font-${isDense?'semibold':'normal'}">${am}</span></div>`}askC.innerHTML=ah;bidC.innerHTML=bh}
-        function animateGoodOrderbook(){const asks=document.querySelectorAll('#orderbook-good .orderbook-row'),bids=document.querySelectorAll('#orderbook-good-bids .orderbook-row'),all=[...asks,...bids];setInterval(()=>{const row=all[Math.floor(Math.random()*all.length)];if(row){const t=row.dataset.type;row.classList.add(t==='ask'?'ob-flash-red':'ob-flash-green');const ae=row.querySelector('span:nth-child(2)');if(ae)ae.textContent=(Math.random()*80+20).toFixed(4);setTimeout(()=>row.classList.remove('ob-flash-red','ob-flash-green'),150)}},80)}
+        // ===== Canvas Candlestick Chart (TradingView style) =====
+        const chartStates = {};
+
+        function generateCandleData(basePrice, count, volatility) {
+            const candles = [];
+            let price = basePrice;
+            // Generate trend bias for realistic movement
+            let trend = (Math.random() - 0.5) * 0.002;
+            for (let i = 0; i < count; i++) {
+                if (Math.random() < 0.1) trend = (Math.random() - 0.5) * 0.002; // trend shift
+                const change = trend + (Math.random() - 0.5) * volatility;
+                const open = price;
+                const close = price * (1 + change);
+                const high = Math.max(open, close) * (1 + Math.random() * volatility * 0.6);
+                const low = Math.min(open, close) * (1 - Math.random() * volatility * 0.6);
+                candles.push({ o: open, h: high, l: low, c: close });
+                price = close;
+            }
+            return candles;
+        }
+
+        function drawCandleChart(canvasId, candles, isGood) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+            const W = rect.width, H = rect.height;
+            ctx.clearRect(0, 0, W, H);
+
+            const allH = candles.flatMap(c => [c.h]), allL = candles.flatMap(c => [c.l]);
+            const maxP = Math.max(...allH), minP = Math.min(...allL);
+            const range = maxP - minP || 1;
+            const pad = 4;
+            const cW = (W - pad * 2) / candles.length;
+            const bodyW = Math.max(cW * 0.6, 2);
+
+            const toY = p => pad + (1 - (p - minP) / range) * (H - pad * 2);
+
+            // Grid lines
+            ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+            ctx.lineWidth = 0.5;
+            for (let i = 0; i < 5; i++) {
+                const y = pad + (i / 4) * (H - pad * 2);
+                ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+            }
+
+            // Volume bars (subtle background)
+            candles.forEach((c, i) => {
+                const x = pad + i * cW + cW / 2;
+                const vol = Math.abs(c.c - c.o) / range;
+                const vH = Math.max(vol * H * 3, 2);
+                const green = c.c >= c.o;
+                ctx.fillStyle = green ? 'rgba(34,197,94,0.06)' : 'rgba(239,68,68,0.06)';
+                ctx.fillRect(x - bodyW / 2, H - vH, bodyW, vH);
+            });
+
+            // Candles
+            candles.forEach((c, i) => {
+                const x = pad + i * cW + cW / 2;
+                const green = c.c >= c.o;
+                const color = green ? '#22c55e' : '#ef4444';
+                const glow = green ? 'rgba(34,197,94,0.3)' : 'rgba(239,68,68,0.3)';
+
+                // Wick
+                ctx.strokeStyle = color;
+                ctx.lineWidth = isGood ? 1.2 : 0.8;
+                ctx.beginPath();
+                ctx.moveTo(x, toY(c.h));
+                ctx.lineTo(x, toY(c.l));
+                ctx.stroke();
+
+                // Body
+                const top = toY(Math.max(c.o, c.c));
+                const bot = toY(Math.min(c.o, c.c));
+                const bH = Math.max(bot - top, 1);
+
+                if (isGood) {
+                    // Glow for PLUBIT chart
+                    ctx.shadowColor = glow;
+                    ctx.shadowBlur = 4;
+                }
+                ctx.fillStyle = color;
+                ctx.fillRect(x - bodyW / 2, top, bodyW, bH);
+                ctx.shadowBlur = 0;
+            });
+
+            // Moving average line (EMA-like)
+            if (isGood) {
+                ctx.beginPath();
+                ctx.strokeStyle = 'rgba(218,165,32,0.5)';
+                ctx.lineWidth = 1.5;
+                let ema = candles[0].c;
+                const k = 2 / (10 + 1);
+                candles.forEach((c, i) => {
+                    ema = c.c * k + ema * (1 - k);
+                    const x = pad + i * cW + cW / 2;
+                    const y = toY(ema);
+                    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                });
+                ctx.stroke();
+            }
+
+            // Last price line
+            const lastC = candles[candles.length - 1];
+            const lastY = toY(lastC.c);
+            ctx.setLineDash([3, 3]);
+            ctx.strokeStyle = lastC.c >= lastC.o ? 'rgba(34,197,94,0.5)' : 'rgba(239,68,68,0.5)';
+            ctx.lineWidth = 0.8;
+            ctx.beginPath(); ctx.moveTo(0, lastY); ctx.lineTo(W, lastY); ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Price label
+            ctx.font = '600 9px JetBrains Mono, monospace';
+            ctx.fillStyle = lastC.c >= lastC.o ? '#22c55e' : '#ef4444';
+            ctx.textAlign = 'right';
+            ctx.fillText(lastC.c.toFixed(2), W - 2, lastY - 4);
+        }
+
+        function initChart(canvasId, isGood) {
+            const bp = coinData[currentCoin].price;
+            const vol = isGood ? 0.004 : 0.008; // Poor has more volatile/erratic
+            const count = window.innerWidth < 640 ? 40 : 60;
+            const candles = generateCandleData(bp, count, vol);
+            chartStates[canvasId] = { candles, isGood, vol };
+            drawCandleChart(canvasId, candles, isGood);
+        }
+
+        // Live candle animation - adds new candle periodically
+        function animateCharts() {
+            Object.keys(chartStates).forEach(id => {
+                const st = chartStates[id];
+                if (!st) return;
+                const last = st.candles[st.candles.length - 1];
+                // Update last candle (simulate live tick)
+                const tick = (Math.random() - 0.5) * st.vol * 0.3;
+                last.c *= (1 + tick);
+                last.h = Math.max(last.h, last.c);
+                last.l = Math.min(last.l, last.c);
+                drawCandleChart(id, st.candles, st.isGood);
+            });
+        }
+
+        // New candle every 2 seconds
+        function addNewCandle() {
+            Object.keys(chartStates).forEach(id => {
+                const st = chartStates[id];
+                if (!st) return;
+                const last = st.candles[st.candles.length - 1];
+                const trend = (Math.random() - 0.5) * 0.001;
+                const change = trend + (Math.random() - 0.5) * st.vol;
+                const open = last.c;
+                const close = open * (1 + change);
+                const high = Math.max(open, close) * (1 + Math.random() * st.vol * 0.5);
+                const low = Math.min(open, close) * (1 - Math.random() * st.vol * 0.5);
+                st.candles.push({ o: open, h: high, l: low, c: close });
+                if (st.candles.length > (window.innerWidth < 640 ? 40 : 60)) st.candles.shift();
+                drawCandleChart(id, st.candles, st.isGood);
+            });
+        }
+
+        // ===== Realistic Orderbook =====
+        const obStates = {};
+
+        function initOrderbook(askId, bidId, isDense, spreadElId) {
+            const bp = coinData[currentCoin].price;
+            const rows = isDense ? 8 : 5;
+            const step = isDense ? bp * 0.00003 : bp * 0.0006;
+            const asks = [], bids = [];
+            for (let i = 0; i < rows; i++) {
+                // PLUBIT: huge amounts (deep liquidity), tight spread
+                // Poor: tiny amounts, wide gaps
+                const baseAmt = isDense ? Math.random() * 80 + 40 : Math.random() * 1.2 + 0.02;
+                // Larger amounts near spread (realistic depth profile)
+                const depthMult = isDense ? (1 + i * 0.3) : 1;
+                asks.push({
+                    price: bp + (i + 1) * step + (isDense ? 0 : Math.random() * step * 3),
+                    amount: baseAmt * depthMult,
+                    targetAmount: 0
+                });
+                bids.push({
+                    price: bp - (i + 1) * step - (isDense ? 0 : Math.random() * step * 3),
+                    amount: baseAmt * depthMult,
+                    targetAmount: 0
+                });
+            }
+            asks.sort((a, b) => a.price - b.price);
+            bids.sort((a, b) => b.price - a.price);
+            const key = askId;
+            obStates[key] = { askId, bidId, isDense, asks, bids, spreadElId };
+            renderOrderbook(key);
+        }
+
+        function renderOrderbook(key) {
+            const st = obStates[key];
+            if (!st) return;
+            const { askId, bidId, isDense, asks, bids, spreadElId } = st;
+            const askC = document.getElementById(askId);
+            const bidC = document.getElementById(bidId);
+            if (!askC || !bidC) return;
+
+            const maxAskAmt = Math.max(...asks.map(a => a.amount));
+            const maxBidAmt = Math.max(...bids.map(b => b.amount));
+
+            // Asks (sell orders) - reversed to show lowest at bottom
+            const sortedAsks = [...asks].reverse();
+            askC.innerHTML = sortedAsks.map(a => {
+                const depthW = isDense
+                    ? (a.amount / maxAskAmt * 85 + 10).toFixed(1)
+                    : (a.amount / maxAskAmt * 40 + 3).toFixed(1);
+                const opacity = isDense ? 0.25 : 0.08;
+                return `<div class="orderbook-row flex items-center py-[3px] relative text-[10px] sm:text-xs font-mono overflow-hidden" data-type="ask">
+                    <div class="ob-depth-bar absolute right-0 top-0 bottom-0 rounded-sm transition-all duration-300 ease-out" style="width:${depthW}%;background:linear-gradient(to left,rgba(239,68,68,${opacity}),transparent)"></div>
+                    <span class="w-20 sm:w-24 text-red-400 relative z-10">${a.price.toFixed(2)}</span>
+                    <span class="flex-1 text-right text-zinc-${isDense?'300':'600'} relative z-10 tabular-nums">${a.amount.toFixed(4)}</span>
+                </div>`;
+            }).join('');
+
+            bidC.innerHTML = bids.map(b => {
+                const depthW = isDense
+                    ? (b.amount / maxBidAmt * 85 + 10).toFixed(1)
+                    : (b.amount / maxBidAmt * 40 + 3).toFixed(1);
+                const opacity = isDense ? 0.25 : 0.08;
+                return `<div class="orderbook-row flex items-center py-[3px] relative text-[10px] sm:text-xs font-mono overflow-hidden" data-type="bid">
+                    <div class="ob-depth-bar absolute left-0 top-0 bottom-0 rounded-sm transition-all duration-300 ease-out" style="width:${depthW}%;background:linear-gradient(to right,rgba(34,197,94,${opacity}),transparent)"></div>
+                    <span class="w-20 sm:w-24 text-emerald-400 relative z-10">${b.price.toFixed(2)}</span>
+                    <span class="flex-1 text-right text-zinc-${isDense?'300':'600'} relative z-10 tabular-nums">${b.amount.toFixed(4)}</span>
+                </div>`;
+            }).join('');
+
+            // Update spread
+            if (spreadElId) {
+                const spread = asks[0].price - bids[0].price;
+                const el = document.getElementById(spreadElId);
+                if (el) el.textContent = '$' + spread.toFixed(2);
+            }
+        }
+
+        function animateOrderbooks() {
+            Object.keys(obStates).forEach(key => {
+                const st = obStates[key];
+                if (!st) return;
+                const { isDense, asks, bids } = st;
+
+                // === Simulate trade executions (eat into orderbook) ===
+                const execChance = isDense ? 0.4 : 0.15; // PLUBIT has more executions
+
+                if (Math.random() < execChance) {
+                    // Market buy - eats lowest ask
+                    const target = asks[0];
+                    const eaten = isDense ? Math.random() * 15 + 5 : Math.random() * 0.8 + 0.1;
+                    target.amount = Math.max(isDense ? 2 : 0.005, target.amount - eaten);
+
+                    // If amount gets very low, refill (new limit order)
+                    if (target.amount < (isDense ? 5 : 0.05)) {
+                        target.amount = isDense ? Math.random() * 40 + 30 : Math.random() * 1.5 + 0.1;
+                        target.price += isDense ? 0.1 : 2; // price moves up
+                    }
+                }
+
+                if (Math.random() < execChance) {
+                    // Market sell - eats highest bid
+                    const target = bids[0];
+                    const eaten = isDense ? Math.random() * 15 + 5 : Math.random() * 0.8 + 0.1;
+                    target.amount = Math.max(isDense ? 2 : 0.005, target.amount - eaten);
+
+                    if (target.amount < (isDense ? 5 : 0.05)) {
+                        target.amount = isDense ? Math.random() * 40 + 30 : Math.random() * 1.5 + 0.1;
+                        target.price -= isDense ? 0.1 : 2;
+                    }
+                }
+
+                // === Background order flow (new limit orders arriving) ===
+                asks.forEach((a, i) => {
+                    const delta = (Math.random() - 0.45) * (isDense ? 12 : 0.4);
+                    a.amount = Math.max(isDense ? 8 : 0.01, a.amount + delta);
+                    if (Math.random() < 0.03) a.price += (Math.random() - 0.5) * (isDense ? 0.3 : 3);
+                });
+                bids.forEach((b, i) => {
+                    const delta = (Math.random() - 0.45) * (isDense ? 12 : 0.4);
+                    b.amount = Math.max(isDense ? 8 : 0.01, b.amount + delta);
+                    if (Math.random() < 0.03) b.price += (Math.random() - 0.5) * (isDense ? 0.3 : 3);
+                });
+
+                renderOrderbook(key);
+
+                // === Visual flash effects ===
+                const askRows = document.querySelectorAll(`#${st.askId} .orderbook-row`);
+                const bidRows = document.querySelectorAll(`#${st.bidId} .orderbook-row`);
+                const allRows = [...askRows, ...bidRows];
+
+                // PLUBIT: intense multi-row flashing + execution burst
+                const flashCount = isDense ? 4 : 1;
+                for (let i = 0; i < flashCount; i++) {
+                    const rowIdx = Math.floor(Math.random() * allRows.length);
+                    const row = allRows[rowIdx];
+                    if (!row) continue;
+                    const t = row.dataset.type;
+
+                    // Base flash
+                    row.classList.add(t === 'ask' ? 'ob-flash-red' : 'ob-flash-green');
+                    setTimeout(() => row.classList.remove('ob-flash-red', 'ob-flash-green'), 400);
+
+                    // Execution burst on top rows (simulates trade fill)
+                    if (isDense && rowIdx < 3 && Math.random() < 0.5) {
+                        row.classList.add('ob-execute', t === 'ask' ? 'ob-execute-red' : 'ob-execute-green');
+                        // Amount shrink effect
+                        const amtEl = row.querySelector('span:nth-child(3)');
+                        if (amtEl) amtEl.classList.add('ob-amount-shrink');
+                        setTimeout(() => {
+                            row.classList.remove('ob-execute', 'ob-execute-red', 'ob-execute-green');
+                            if (amtEl) amtEl.classList.remove('ob-amount-shrink');
+                        }, 600);
+                    }
+                }
+
+                // Spread pulse effect when spread is tight
+                if (isDense && Math.random() < 0.15) {
+                    const spreadEl = document.getElementById(st.spreadElId);
+                    if (spreadEl) {
+                        spreadEl.classList.add('spread-pulse');
+                        setTimeout(() => spreadEl.classList.remove('spread-pulse'), 500);
+                    }
+                }
+            });
+        }
         function generateTradeFeed(){const c=document.getElementById('trade-feed-inner');if(!c)return;const trades=[];for(let i=0;i<20;i++){const isBuy=Math.random()>0.5,bp=coinData[currentCoin].price,pr=(bp*(1+(Math.random()-0.5)*0.0005)).toFixed(2),am=(Math.random()*15+0.5).toFixed(4);trades.push({isBuy,pr,am})}c.innerHTML=trades.map(t=>`<div class="flex items-center gap-2 px-3 py-2 bg-zinc-800/30 rounded-lg whitespace-nowrap shrink-0 border border-zinc-700/30"><span class="${t.isBuy?'text-emerald-400':'text-red-400'} text-[10px] sm:text-xs font-bold">${t.isBuy?'BUY':'SELL'}</span><span class="text-white text-[10px] sm:text-xs font-mono">${t.am}</span><span class="text-zinc-600 text-[10px] sm:text-xs">@</span><span class="text-zinc-300 text-[10px] sm:text-xs font-mono">$${Number(t.pr).toLocaleString()}</span></div>`).join('')}
         function addLiveTrade(){const c=document.getElementById('trade-feed-inner');if(!c)return;setInterval(()=>{const isBuy=Math.random()>0.5,bp=coinData[currentCoin].price,pr=(bp*(1+(Math.random()-0.5)*0.0005)).toFixed(2),am=(Math.random()*15+0.5).toFixed(4);const tr=document.createElement('div');tr.className='flex items-center gap-2 px-3 py-2 bg-zinc-800/30 rounded-lg whitespace-nowrap shrink-0 border border-zinc-700/30';tr.style.cssText='opacity:0;transform:scale(0.9)';tr.innerHTML=`<span class="${isBuy?'text-emerald-400':'text-red-400'} text-[10px] sm:text-xs font-bold">${isBuy?'BUY':'SELL'}</span><span class="text-white text-[10px] sm:text-xs font-mono">${am}</span><span class="text-zinc-600 text-[10px] sm:text-xs">@</span><span class="text-zinc-300 text-[10px] sm:text-xs font-mono">$${Number(pr).toLocaleString()}</span>`;c.prepend(tr);requestAnimationFrame(()=>{tr.style.transition='all 0.3s ease';tr.style.opacity='1';tr.style.transform='scale(1)'});if(c.children.length>25)c.removeChild(c.lastChild)},400)}
-        function updateCharts(){const bp=coinData[currentCoin].price;document.getElementById('poor-price').textContent='$'+bp.toLocaleString(undefined,{minimumFractionDigits:2});document.getElementById('good-price').textContent='$'+bp.toLocaleString(undefined,{minimumFractionDigits:2});generateChart('chart-poor',false);generateChart('chart-good',true);generateOrderbook('orderbook-poor','orderbook-poor-bids',false);generateOrderbook('orderbook-good','orderbook-good-bids',true);generateTradeFeed()}
+        function updateCharts(){
+            const bp=coinData[currentCoin].price;
+            document.getElementById('poor-price').textContent='$'+bp.toLocaleString(undefined,{minimumFractionDigits:2});
+            document.getElementById('good-price').textContent='$'+bp.toLocaleString(undefined,{minimumFractionDigits:2});
+            initChart('chart-poor', false);
+            initChart('chart-good', true);
+            initOrderbook('orderbook-poor','orderbook-poor-bids', false, 'spread-poor');
+            initOrderbook('orderbook-good','orderbook-good-bids', true, 'spread-good');
+            generateTradeFeed();
+        }
+
+        let chartAnimInterval, candleInterval, obAnimInterval;
         const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:0.1});document.querySelectorAll('.fade-up').forEach(el=>observer.observe(el));
-        const liqObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){updateCharts();setTimeout(()=>{animateGoodOrderbook();addLiveTrade()},500);liqObs.unobserve(e.target)}})},{threshold:0.2});const ls=document.getElementById('liquidity');if(ls)liqObs.observe(ls);
+        const liqObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){
+            updateCharts();
+            setTimeout(()=>{
+                // Live chart ticks every 200ms
+                chartAnimInterval = setInterval(animateCharts, 200);
+                // New candle every 2.5s
+                candleInterval = setInterval(addNewCandle, 2500);
+                // Orderbook updates every 80ms (fast execution feel)
+                obAnimInterval = setInterval(animateOrderbooks, 80);
+                // Price update
+                setInterval(()=>{
+                    const st = chartStates['chart-good'];
+                    if(st){
+                        const last = st.candles[st.candles.length-1];
+                        document.getElementById('good-price').textContent='$'+last.c.toLocaleString(undefined,{minimumFractionDigits:2});
+                    }
+                    const sp = chartStates['chart-poor'];
+                    if(sp){
+                        const last = sp.candles[sp.candles.length-1];
+                        document.getElementById('poor-price').textContent='$'+last.c.toLocaleString(undefined,{minimumFractionDigits:2});
+                    }
+                }, 500);
+                addLiveTrade();
+            },500);
+            liqObs.unobserve(e.target);
+        }})},{threshold:0.2});const ls=document.getElementById('liquidity');if(ls)liqObs.observe(ls);
+
+        // Resize handler for canvas charts
+        window.addEventListener('resize', () => {
+            Object.keys(chartStates).forEach(id => {
+                drawCandleChart(id, chartStates[id].candles, chartStates[id].isGood);
+            });
+        });
         function setInterest(value){document.getElementById('interest-input').value=value;document.querySelectorAll('.interest-btn').forEach(b=>{b.classList.remove('bg-gold','border-gold','text-black','font-bold');b.classList.add('bg-zinc-800/50','border-zinc-700/50','text-zinc-400');if(b.dataset.value===value){b.classList.remove('bg-zinc-800/50','border-zinc-700/50','text-zinc-400');b.classList.add('bg-gold','border-gold','text-black','font-bold')}})}
 
         // Countdown Timer - Target: March 30, 2026
@@ -1182,6 +1675,152 @@
             setTimeout(typeText,delay);
         }
         setTimeout(typeText,1000);
+
+        // ===== GSAP ScrollTrigger Animations =====
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Replace basic fade-up with GSAP
+        gsap.utils.toArray('.fade-up').forEach((el, i) => {
+            gsap.fromTo(el,
+                { opacity: 0, y: 50 },
+                {
+                    opacity: 1, y: 0, duration: 0.8,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: el,
+                        start: 'top 85%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        });
+
+        // Parallax for glow orbs
+        gsap.utils.toArray('.glow-orb').forEach(orb => {
+            gsap.to(orb, {
+                y: -100,
+                scrollTrigger: {
+                    trigger: document.body,
+                    start: 'top top',
+                    end: 'bottom bottom',
+                    scrub: 2
+                }
+            });
+        });
+
+        // Sections scale-in effect
+        gsap.utils.toArray('section[id]').forEach(sec => {
+            gsap.fromTo(sec.querySelector('.max-w-7xl, .max-w-md, .max-w-3xl, .max-w-4xl'),
+                { scale: 0.97, opacity: 0.8 },
+                {
+                    scale: 1, opacity: 1, duration: 0.6,
+                    scrollTrigger: {
+                        trigger: sec,
+                        start: 'top 80%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        });
+
+        // Counter animation for stats
+        function animateCounter(el, target, suffix = '') {
+            const num = parseInt(target.replace(/[^0-9]/g, ''));
+            gsap.fromTo(el, { innerText: 0 }, {
+                innerText: num,
+                duration: 2,
+                ease: 'power1.out',
+                snap: { innerText: 1 },
+                scrollTrigger: { trigger: el, start: 'top 90%' },
+                onUpdate: function() {
+                    const val = Math.floor(this.targets()[0].innerText);
+                    if (target.includes(',')) {
+                        el.innerText = val.toLocaleString() + suffix;
+                    } else {
+                        el.innerText = val + suffix;
+                    }
+                }
+            });
+        }
+
+        // Waitlist counter slow increment
+        let wCount = 847;
+        setInterval(() => {
+            if (wCount < 1000) {
+                wCount += Math.random() > 0.7 ? 1 : 0;
+                const el = document.getElementById('waitlist-counter');
+                if (el) el.textContent = wCount;
+            }
+        }, 8000);
+
+        // ===== Gold Particle Canvas =====
+        (function() {
+            const canvas = document.getElementById('particle-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            const PARTICLE_COUNT = 50;
+            const CONNECT_DIST = 150;
+
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.vx = (Math.random() - 0.5) * 0.3;
+                    this.vy = (Math.random() - 0.5) * 0.3;
+                    this.size = Math.random() * 2 + 0.5;
+                    this.alpha = Math.random() * 0.5 + 0.1;
+                }
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                    if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(218, 165, 32, ${this.alpha})`;
+                    ctx.fill();
+                }
+            }
+
+            for (let i = 0; i < PARTICLE_COUNT; i++) {
+                particles.push(new Particle());
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => { p.update(); p.draw(); });
+
+                // Draw connections
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < CONNECT_DIST) {
+                            const alpha = (1 - dist / CONNECT_DIST) * 0.15;
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.strokeStyle = `rgba(184, 134, 11, ${alpha})`;
+                            ctx.lineWidth = 0.5;
+                            ctx.stroke();
+                        }
+                    }
+                }
+                requestAnimationFrame(animate);
+            }
+            animate();
+        })();
     </script>
 </body>
 </html>
