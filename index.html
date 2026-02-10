@@ -287,13 +287,13 @@
 
                                 <!-- Video Screens -->
                                 <video class="phone-video active w-full h-full object-cover" id="video-spot" autoplay muted loop playsinline preload="auto">
-                                    <source src="plubit spot.mp4" type="video/mp4">
+                                    <source src="plubit-spot.mp4" type="video/mp4">
                                 </video>
-                                <video class="phone-video w-full h-full object-cover" id="video-futures" muted loop playsinline preload="none">
-                                    <source src="plubit_future.mp4" type="video/mp4">
+                                <video class="phone-video w-full h-full object-cover" id="video-futures" muted loop playsinline preload="auto">
+                                    <source src="plubit-future.mp4" type="video/mp4">
                                 </video>
-                                <video class="phone-video w-full h-full object-cover" id="video-wallet" muted loop playsinline preload="none">
-                                    <source src="ju_wal.mp4" type="video/mp4">
+                                <video class="phone-video w-full h-full object-cover" id="video-wallet" muted loop playsinline preload="auto">
+                                    <source src="plubit-wallet.mp4" type="video/mp4">
                                 </video>
 
                                 <!-- Copy Trading Screen (HTML) -->
@@ -595,8 +595,16 @@
                 if (targetVideo) {
                     targetVideo.classList.add('active');
                     if (targetVideo.tagName === 'VIDEO') {
-                        targetVideo.currentTime = 0;
-                        targetVideo.play();
+                        if (targetVideo.readyState < 2) {
+                            targetVideo.load();
+                            targetVideo.addEventListener('canplay', function onReady() {
+                                targetVideo.removeEventListener('canplay', onReady);
+                                targetVideo.play();
+                            });
+                        } else {
+                            targetVideo.currentTime = 0;
+                            targetVideo.play();
+                        }
                     }
                 }
 
