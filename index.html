@@ -2,387 +2,1765 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PLUBIT EXCHANGE | Scheduled Maintenance</title>
-    <meta name="description" content="PLUBIT Exchange is currently undergoing scheduled maintenance. We'll be back soon.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PLUBIT EXCHANGE | Where Futures Become Reality</title>
+    <meta name="description" content="Enterprise-grade crypto futures exchange with institutional liquidity and security">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Bebas+Neue&family=Oswald:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>tailwind.config={theme:{extend:{colors:{gold:'#B8860B','gold-light':'#DAA520','gold-bright':'#FFD700'},fontFamily:{display:['Space Grotesk','sans-serif'],sans:['Inter','sans-serif'],mono:['JetBrains Mono','monospace']}}}}</script>
     <style>
-        :root {
-            --gold: #B8860B;
-            --gold-light: #DAA520;
-            --gold-bright: #FFD700;
-            --bg: #050507;
-        }
+        :root{--gold:#B8860B;--gold-light:#DAA520;--gold-bright:#FFD700}
+        *{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{font-family:'Inter',sans-serif;background:#050507;color:#fafafa;line-height:1.6;overflow-x:hidden}
+        ::-webkit-scrollbar{width:6px}
+        ::-webkit-scrollbar-track{background:#050507}
+        ::-webkit-scrollbar-thumb{background:#1a1a1f;border-radius:3px}
+        ::selection{background:var(--gold);color:#000}
+        .logo-mark{position:relative}
+        .logo-text{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:0.05em}
+        .fade-up{opacity:0;transform:translateY(40px);transition:opacity 0.8s ease,transform 0.8s ease}
+        .fade-up.visible{opacity:1;transform:translateY(0)}
+        .gradient-text{background:linear-gradient(135deg,#DAA520 0%,#FFD700 50%,#DAA520 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .card{background:linear-gradient(180deg,#0a0a0f 0%,#08080c 100%);border:1px solid #1a1a22;border-radius:20px;transition:all 0.4s ease}
+        .card:hover{border-color:#2a2a35;transform:translateY(-2px)}
+        .card-gold{background:linear-gradient(135deg,rgba(184,134,11,0.1) 0%,rgba(184,134,11,0.02) 100%);border:1px solid rgba(184,134,11,0.25)}
+        .btn-primary{background:linear-gradient(135deg,#B8860B 0%,#DAA520 50%,#B8860B 100%);background-size:200% 200%;color:#000;font-weight:700;border-radius:14px;transition:all 0.4s ease;position:relative;overflow:hidden}
+        .btn-primary:hover{background-position:100% 0;transform:translateY(-2px);box-shadow:0 20px 40px rgba(184,134,11,0.3)}
+        .ticker-wrap{overflow:hidden;background:linear-gradient(90deg,#08080c 0%,#0a0a10 50%,#08080c 100%);border-bottom:1px solid #12121a}
+        .ticker-content{display:flex;animation:ticker 60s linear infinite}
+        @keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+        .live-pulse{position:relative}
+        .live-pulse::after{content:'';position:absolute;inset:-2px;background:inherit;border-radius:inherit;animation:pulse 2s ease-out infinite;opacity:0}
+        @keyframes pulse{0%{transform:scale(1);opacity:0.8}100%{transform:scale(2);opacity:0}}
+        .float{animation:float 6s ease-in-out infinite}
+        @keyframes float{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-20px) rotate(2deg)}}
+        .glow-gold{box-shadow:0 0 60px rgba(184,134,11,0.15),0 0 120px rgba(184,134,11,0.05)}
+        .ob-flash-green{animation:flashG 0.4s ease-out}
+        .ob-flash-red{animation:flashR 0.4s ease-out}
+        @keyframes flashG{0%{background:rgba(34,197,94,0.7);box-shadow:inset 0 0 20px rgba(34,197,94,0.4);transform:scaleX(1.02)}60%{background:rgba(34,197,94,0.3)}100%{background:transparent;transform:scaleX(1)}}
+        @keyframes flashR{0%{background:rgba(239,68,68,0.7);box-shadow:inset 0 0 20px rgba(239,68,68,0.4);transform:scaleX(1.02)}60%{background:rgba(239,68,68,0.3)}100%{background:transparent;transform:scaleX(1)}}
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body { height: 100%; }
+        /* Trade execution burst */
+        .ob-execute{position:relative}
+        .ob-execute::after{content:'';position:absolute;right:8px;top:50%;width:6px;height:6px;border-radius:50%;transform:translate(0,-50%) scale(0);animation:execBurst 0.6s ease-out forwards}
+        .ob-execute-green::after{background:#22c55e;box-shadow:0 0 12px #22c55e,0 0 24px rgba(34,197,94,0.5)}
+        .ob-execute-red::after{background:#ef4444;box-shadow:0 0 12px #ef4444,0 0 24px rgba(239,68,68,0.5)}
+        @keyframes execBurst{0%{transform:translate(0,-50%) scale(0);opacity:1}50%{transform:translate(0,-50%) scale(2.5);opacity:0.8}100%{transform:translate(0,-50%) scale(4);opacity:0}}
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg);
-            color: #fafafa;
-            line-height: 1.6;
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            position: relative;
-        }
+        /* Amount eaten animation */
+        .ob-amount-shrink{animation:amountShrink 0.3s ease-out}
+        @keyframes amountShrink{0%{color:#fbbf24;transform:scale(1.1)}100%{color:inherit;transform:scale(1)}}
 
-        ::selection { background: var(--gold); color: #000; }
+        /* Spread pulse on tight spread */
+        .spread-pulse{animation:spreadPulse 0.5s ease-out}
+        @keyframes spreadPulse{0%{transform:scale(1.15);text-shadow:0 0 10px currentColor}100%{transform:scale(1);text-shadow:none}}
 
-        /* Ambient glow */
-        .glow-orb {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(100px);
-            pointer-events: none;
-            opacity: 0.07;
-        }
+        /* Trade execution bar */
+        .exec-indicator{position:absolute;left:0;right:0;height:1px;opacity:0;pointer-events:none}
+        .exec-indicator.fire{opacity:1;animation:execLine 0.8s ease-out forwards}
+        @keyframes execLine{0%{opacity:1;height:2px;box-shadow:0 0 10px currentColor}100%{opacity:0;height:0}}
+        input[type="email"]{background:#0c0c12;border:1px solid #1a1a25;border-radius:14px;padding:16px 20px;color:#fff;width:100%;font-size:16px;transition:all 0.3s}
+        input[type="email"]:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,134,11,0.1)}
+        input[type="email"]::placeholder{color:#404050}
+        .mobile-menu{transform:translateX(100%);transition:transform 0.3s ease}
+        .mobile-menu.open{transform:translateX(0)}
 
-        /* Particle canvas */
-        #particle-canvas {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: 0;
-            pointer-events: none;
-            opacity: 0.5;
-        }
+        /* Countdown Styles */
+        .countdown-box{background:linear-gradient(180deg,rgba(184,134,11,0.1) 0%,rgba(184,134,11,0.02) 100%);border:1px solid rgba(184,134,11,0.3);border-radius:16px;padding:16px 20px;min-width:80px;text-align:center}
+        .countdown-number{font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;background:linear-gradient(135deg,#FFD700 0%,#DAA520 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .countdown-label{font-size:0.7rem;color:#71717a;text-transform:uppercase;letter-spacing:0.1em;margin-top:4px}
+        @media(min-width:640px){.countdown-number{font-size:2.5rem}.countdown-box{min-width:100px;padding:20px 24px}}
 
-        .content {
-            position: relative;
-            z-index: 10;
-            text-align: center;
-            padding: 40px 24px;
-            max-width: 680px;
-            width: 100%;
-        }
+        /* Typing Animation */
+        .typing-text{border-right:2px solid var(--gold);padding-right:4px;animation:blink 0.7s step-end infinite}
+        @keyframes blink{from,to{border-color:transparent}50%{border-color:var(--gold)}}
 
-        /* Logo */
-        .logo {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 3.5rem;
-            letter-spacing: 0.05em;
-            margin-bottom: 48px;
-        }
-        .logo .gold { color: var(--gold-bright); }
-        .logo .white { color: #fff; }
+        /* Launch Badge */
+        .launch-badge{animation:badgePulse 2s ease-in-out infinite}
+        @keyframes badgePulse{0%,100%{box-shadow:0 0 0 0 rgba(184,134,11,0.4)}50%{box-shadow:0 0 0 10px rgba(184,134,11,0)}}
 
-        /* Status badge */
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 20px;
-            background: rgba(184, 134, 11, 0.08);
-            border: 1px solid rgba(184, 134, 11, 0.25);
-            border-radius: 100px;
-            margin-bottom: 32px;
-        }
-        .status-dot {
-            width: 8px; height: 8px;
-            background: var(--gold-bright);
-            border-radius: 50%;
-            animation: dotPulse 2s ease-in-out infinite;
-        }
-        @keyframes dotPulse {
-            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.5); }
-            50% { opacity: 0.6; box-shadow: 0 0 0 6px rgba(255, 215, 0, 0); }
-        }
-        .status-text {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--gold-light);
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-        }
+        /* Particle Canvas */
+        #particle-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0.6}
 
-        /* Heading */
-        h1 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin-bottom: 16px;
-            background: linear-gradient(135deg, #DAA520 0%, #FFD700 50%, #DAA520 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+        /* Trust Section */
+        .trust-logo{opacity:0.4;transition:opacity 0.3s ease;filter:grayscale(100%) brightness(2)}
+        .trust-logo:hover{opacity:0.8;filter:grayscale(0%) brightness(1)}
+        .trust-scroll{display:flex;animation:trustScroll 25s linear infinite}
+        @keyframes trustScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
-        .subtitle {
-            font-size: 1.05rem;
-            color: #a1a1aa;
-            margin-bottom: 48px;
-            line-height: 1.7;
-        }
+        /* Enhanced glow effects */
+        .glow-orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;opacity:0.08}
 
-        /* Maintenance info card */
-        .info-card {
-            background: linear-gradient(180deg, #0a0a0f 0%, #08080c 100%);
-            border: 1px solid #1a1a22;
-            border-radius: 20px;
-            padding: 36px 32px;
-            margin-bottom: 40px;
-        }
+        /* Number counter animation */
+        .counter-num{font-variant-numeric:tabular-nums}
 
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 0;
-            border-bottom: 1px solid #12121a;
-        }
-        .info-row:last-child { border-bottom: none; }
+        /* Shimmer button effect */
+        .btn-shimmer{position:relative;overflow:hidden}
+        .btn-shimmer::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(45deg,transparent 30%,rgba(255,255,255,0.15) 50%,transparent 70%);animation:btnShimmer 3s ease-in-out infinite}
+        @keyframes btnShimmer{0%{transform:translateX(-100%) rotate(45deg)}100%{transform:translateX(100%) rotate(45deg)}}
 
-        .info-label {
-            font-size: 0.85rem;
-            color: #71717a;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            font-weight: 500;
-        }
-        .info-value {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: #e4e4e7;
-        }
-        .info-value.gold {
-            color: var(--gold-bright);
-        }
-
-        /* Progress bar */
-        .progress-wrap {
-            margin-top: 32px;
-        }
-        .progress-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-        .progress-label {
-            font-size: 0.8rem;
-            color: #71717a;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-        }
-        .progress-percent {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 0.85rem;
-            color: var(--gold-light);
-            font-weight: 600;
-        }
-        .progress-bar {
-            width: 100%;
-            height: 4px;
-            background: #1a1a22;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--gold), var(--gold-bright));
-            border-radius: 4px;
-            width: 0%;
-            animation: progressGrow 2s ease-out 0.5s forwards;
-        }
-        @keyframes progressGrow {
-            to { width: var(--progress); }
-        }
-
-        /* Launch section */
-        .launch-section {
-            margin-bottom: 40px;
-        }
-        .launch-label {
-            font-size: 0.75rem;
-            color: #52525b;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            margin-bottom: 16px;
-        }
-        .countdown-row {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-        }
-        .countdown-box {
-            background: linear-gradient(180deg, rgba(184,134,11,0.1) 0%, rgba(184,134,11,0.02) 100%);
-            border: 1px solid rgba(184,134,11,0.2);
-            border-radius: 14px;
-            padding: 14px 16px;
-            min-width: 72px;
-            text-align: center;
-        }
-        .countdown-number {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #FFD700, #DAA520);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-variant-numeric: tabular-nums;
-        }
-        .countdown-unit {
-            font-size: 0.65rem;
-            color: #71717a;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-top: 4px;
-        }
-
-        /* Footer */
-        .footer {
-            position: relative;
-            z-index: 10;
-            text-align: center;
-            padding: 24px;
-            color: #3f3f46;
-            font-size: 0.75rem;
-        }
-        .footer a {
-            color: #71717a;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        .footer a:hover { color: var(--gold-light); }
-
-        /* Wrench icon SVG animation */
-        .icon-wrap {
-            margin-bottom: 24px;
-        }
-        .icon-wrap svg {
-            width: 48px; height: 48px;
-            opacity: 0.8;
-        }
-        .icon-rotate {
-            animation: iconSwing 3s ease-in-out infinite;
-            transform-origin: center center;
-        }
-        @keyframes iconSwing {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(12deg); }
-            75% { transform: rotate(-12deg); }
-        }
-
-        /* Responsive */
-        @media (max-width: 480px) {
-            .logo { font-size: 2.8rem; margin-bottom: 36px; }
-            h1 { font-size: 1.6rem; }
-            .subtitle { font-size: 0.95rem; }
-            .info-card { padding: 24px 20px; }
-            .countdown-box { min-width: 60px; padding: 10px 12px; }
-            .countdown-number { font-size: 1.4rem; }
-        }
+        /* Mid-page CTA */
+        .mid-cta{background:linear-gradient(135deg,rgba(184,134,11,0.08) 0%,rgba(184,134,11,0.02) 100%);border:1px solid rgba(184,134,11,0.15);backdrop-filter:blur(10px)}
     </style>
 </head>
 <body>
-
-    <!-- Particle Canvas -->
+    <!-- Particle Canvas Background -->
     <canvas id="particle-canvas"></canvas>
 
     <!-- Ambient Glow Orbs -->
-    <div class="glow-orb" style="width:500px;height:500px;background:radial-gradient(circle,rgba(184,134,11,0.3),transparent 70%);top:5%;left:-10%"></div>
-    <div class="glow-orb" style="width:400px;height:400px;background:radial-gradient(circle,rgba(184,134,11,0.2),transparent 70%);bottom:10%;right:-8%"></div>
+    <div class="glow-orb" style="width:600px;height:600px;background:radial-gradient(circle,rgba(184,134,11,0.3),transparent 70%);top:10%;left:-10%"></div>
+    <div class="glow-orb" style="width:500px;height:500px;background:radial-gradient(circle,rgba(184,134,11,0.2),transparent 70%);top:50%;right:-10%"></div>
+    <div class="glow-orb" style="width:400px;height:400px;background:radial-gradient(circle,rgba(218,165,32,0.15),transparent 70%);bottom:10%;left:30%"></div>
 
-    <div class="content">
-        <!-- Logo -->
-        <div class="logo">
-            <span class="white">PLUB</span><span class="gold">I</span><span class="white">T</span>
-        </div>
-
-        <!-- Status Badge -->
-        <div class="status-badge">
-            <div class="status-dot"></div>
-            <span class="status-text">Maintenance In Progress</span>
-        </div>
-
-        <!-- Icon -->
-        <div class="icon-wrap">
-            <svg class="icon-rotate" viewBox="0 0 24 24" fill="none" stroke="#DAA520" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
-            </svg>
-        </div>
-
-        <!-- Heading -->
-        <h1>Scheduled Maintenance</h1>
-        <p class="subtitle">
-            We are currently performing scheduled maintenance to upgrade our platform.<br>
-            PLUBIT will be back with a better trading experience.
-        </p>
-
-        <!-- Info Card -->
-        <div class="info-card">
-            <div class="info-row">
-                <span class="info-label">Status</span>
-                <span class="info-value gold">Under Maintenance</span>
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-[#050507]/80 backdrop-blur-2xl border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center">
+                <span class="text-2xl sm:text-3xl tracking-wide" style="font-family:'Bebas Neue',sans-serif;letter-spacing:0.05em"><span class="text-white">PLUB</span><span class="text-gold">I</span><span class="text-white">T</span></span>
+            </a>
+            <div class="hidden lg:flex items-center gap-10">
+                <a href="#features" class="text-zinc-400 hover:text-white transition-colors text-sm font-medium">Features</a>
+                <a href="#liquidity" class="text-zinc-400 hover:text-white transition-colors text-sm font-medium">Liquidity</a>
+                <a href="#security" class="text-zinc-400 hover:text-white transition-colors text-sm font-medium">Security</a>
+                <a href="#revival" class="text-zinc-400 hover:text-white transition-colors text-sm font-medium">Revival</a>
+                <a href="#plb-token" class="text-gold hover:text-gold-bright transition-colors text-sm font-medium">PLB Token</a>
             </div>
-            <div class="info-row">
-                <span class="info-label">Start</span>
-                <span class="info-value">February 10, 2026</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">End</span>
-                <span class="info-value">February 28, 2026</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">Expected Launch</span>
-                <span class="info-value gold">March 2026</span>
-            </div>
-
-            <!-- Progress Bar -->
-            <div class="progress-wrap">
-                <div class="progress-header">
-                    <span class="progress-label">Maintenance Progress</span>
-                    <span class="progress-percent" id="progressText">0%</span>
+            <div class="flex items-center gap-3 sm:gap-4">
+                <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-gold/10 border border-gold/30 rounded-full launch-badge">
+                    <span class="text-gold text-xs font-semibold tracking-wide">MAR 2026</span>
                 </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill" style="--progress: 0%"></div>
-                </div>
+                <a href="#waitlist" class="btn-primary text-sm py-2.5 px-5 sm:py-3 sm:px-6">Get Started</a>
+                <button class="lg:hidden p-2 text-zinc-400" onclick="document.getElementById('mobileMenu').classList.toggle('open')">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                </button>
             </div>
         </div>
+    </nav>
 
-        <!-- Countdown to Launch -->
-        <div class="launch-section">
-            <div class="launch-label">Launching In</div>
-            <div class="countdown-row">
-                <div class="countdown-box">
-                    <div class="countdown-number" id="cd-days">--</div>
-                    <div class="countdown-unit">Days</div>
-                </div>
-                <div class="countdown-box">
-                    <div class="countdown-number" id="cd-hours">--</div>
-                    <div class="countdown-unit">Hours</div>
-                </div>
-                <div class="countdown-box">
-                    <div class="countdown-number" id="cd-mins">--</div>
-                    <div class="countdown-unit">Mins</div>
-                </div>
-                <div class="countdown-box">
-                    <div class="countdown-number" id="cd-secs">--</div>
-                    <div class="countdown-unit">Secs</div>
-                </div>
-            </div>
+    <div class="mobile-menu fixed inset-0 z-40 bg-[#050507] pt-20 px-6 lg:hidden" id="mobileMenu">
+        <div class="flex flex-col gap-8 py-10">
+            <a href="#features" onclick="document.getElementById('mobileMenu').classList.remove('open')" class="text-3xl text-white font-semibold">Features</a>
+            <a href="#liquidity" onclick="document.getElementById('mobileMenu').classList.remove('open')" class="text-3xl text-white font-semibold">Liquidity</a>
+            <a href="#security" onclick="document.getElementById('mobileMenu').classList.remove('open')" class="text-3xl text-white font-semibold">Security</a>
+            <a href="#revival" onclick="document.getElementById('mobileMenu').classList.remove('open')" class="text-3xl text-white font-semibold">Revival</a>
+            <a href="#plb-token" onclick="document.getElementById('mobileMenu').classList.remove('open')" class="text-3xl gradient-text font-semibold">PLB Token</a>
+            <a href="#waitlist" onclick="document.getElementById('mobileMenu').classList.remove('open')" class="btn-primary text-center py-4 mt-4 text-lg">Get Started</a>
         </div>
     </div>
 
-    <!-- Footer -->
-    <div class="footer">
-        <p>&copy; 2026 PLUBIT Exchange. All rights reserved.</p>
+    <div class="fixed top-16 sm:top-20 left-0 right-0 z-30 ticker-wrap">
+        <div class="ticker-content py-3" id="ticker"></div>
     </div>
+
+    <!-- Hero -->
+    <section class="min-h-screen flex items-center pt-36 sm:pt-44 pb-20 px-4 sm:px-6 relative overflow-hidden">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gold/5 rounded-full blur-[150px] pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto w-full relative z-10">
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                <div class="fade-up text-center lg:text-left">
+                    <!-- Coming Soon Badge -->
+                    <div class="inline-flex items-center gap-3 px-5 py-2.5 bg-gradient-to-r from-gold/20 to-gold/5 border border-gold/30 rounded-full mb-8 backdrop-blur-sm">
+                        <span class="w-2 h-2 bg-gold rounded-full animate-pulse"></span>
+                        <span class="text-gold text-xs sm:text-sm font-bold tracking-wide">COMING MARCH 2026</span>
+                    </div>
+
+                    <h1 class="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] mb-4">
+                        <span class="text-white">Trade Futures</span><br/><span class="gradient-text">Like a Pro</span>
+                    </h1>
+
+                    <!-- Typing Animation -->
+                    <div class="h-8 sm:h-10 mb-6 flex items-center justify-center lg:justify-start">
+                        <span class="text-zinc-400 text-base sm:text-lg" id="typing-container">
+                            <span id="typing-text" class="typing-text"></span>
+                        </span>
+                    </div>
+
+                    <p class="text-zinc-400 text-base sm:text-lg md:text-xl leading-relaxed mb-10 max-w-xl mx-auto lg:mx-0">Institutional-grade liquidity meets enterprise security. Experience the next generation of futures trading with PLUBIT.</p>
+
+                    <!-- Countdown Timer -->
+                    <div class="mb-3">
+                        <span class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight" style="font-family:'Bebas Neue',sans-serif;letter-spacing:0.02em">
+                            <span class="text-white">2026</span>
+                            <span class="gradient-text">MARCH</span>
+                        </span>
+                    </div>
+                    <div class="flex flex-wrap justify-center lg:justify-start gap-3 sm:gap-4 mb-10">
+                        <div class="countdown-box">
+                            <div class="countdown-number" id="countdown-days">00</div>
+                            <div class="countdown-label">Days</div>
+                        </div>
+                        <div class="countdown-box">
+                            <div class="countdown-number" id="countdown-hours">00</div>
+                            <div class="countdown-label">Hours</div>
+                        </div>
+                        <div class="countdown-box">
+                            <div class="countdown-number" id="countdown-mins">00</div>
+                            <div class="countdown-label">Mins</div>
+                        </div>
+                        <div class="countdown-box">
+                            <div class="countdown-number" id="countdown-secs">00</div>
+                            <div class="countdown-label">Secs</div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-4 mb-12 justify-center lg:justify-start">
+                        <a href="#waitlist" class="btn-primary btn-shimmer text-base py-4 px-10 flex items-center justify-center gap-3">Join Waitlist<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg></a>
+                        <a href="#features" class="py-4 px-10 border border-zinc-700/50 rounded-xl text-white font-semibold hover:bg-white/5 transition-all text-center backdrop-blur-sm">Explore</a>
+                    </div>
+                    <div class="grid grid-cols-3 gap-6 max-w-lg mx-auto lg:mx-0">
+                        <div class="text-center lg:text-left"><div class="font-display text-2xl sm:text-3xl font-bold text-white">$2.4B</div><div class="text-zinc-500 text-xs sm:text-sm mt-1">Daily Volume</div></div>
+                        <div class="text-center lg:text-left"><div class="font-display text-2xl sm:text-3xl font-bold text-white">12ms</div><div class="text-zinc-500 text-xs sm:text-sm mt-1">Latency</div></div>
+                        <div class="text-center lg:text-left"><div class="font-display text-2xl sm:text-3xl font-bold text-white">99.99%</div><div class="text-zinc-500 text-xs sm:text-sm mt-1">Uptime</div></div>
+                    </div>
+                </div>
+                <div class="fade-up hidden lg:flex justify-center items-center" style="transition-delay:0.2s">
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-gold/30 blur-[120px] rounded-full scale-150"></div>
+                        <div class="relative float">
+                            <span class="text-[80px] xl:text-[110px] tracking-wider" style="font-family:'Bebas Neue',sans-serif;letter-spacing:0.08em;text-shadow:0 0 60px rgba(184,134,11,0.4)"><span class="text-white">PLUB</span><span class="text-gold drop-shadow-[0_0_30px_rgba(255,215,0,0.8)]">I</span><span class="text-white">T</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trading Platform Section -->
+    <section id="platform" class="py-24 sm:py-32 px-4 sm:px-6 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-gold/[0.02] to-transparent pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="text-center mb-16 fade-up">
+                <span class="text-gold text-sm font-semibold tracking-wider uppercase">Trading Platform</span>
+                <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-white mt-4 mb-6">One Platform, <span class="gradient-text">Endless Possibilities</span></h2>
+                <p class="text-zinc-400 text-base sm:text-lg max-w-2xl mx-auto">Everything you need to trade, invest, and grow your portfolio in one place</p>
+            </div>
+
+            <!-- Platform Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-10 items-center">
+                <!-- Left Features -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 sm:gap-5 fade-up order-2 lg:order-1">
+                    <!-- Spot -->
+                    <div class="platform-card card p-5 sm:p-7 relative group cursor-pointer transition-all duration-300" data-screen="spot">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-gold/20 to-gold/5 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                                <svg class="w-6 h-6 sm:w-7 sm:h-7 text-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <path d="M12 6v6l4 2"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-display text-xl sm:text-2xl font-bold text-white mb-2">Spot</h3>
+                                <p class="text-zinc-400 text-sm leading-relaxed">Covering over <span class="text-gold font-semibold">200+</span> crypto across ecosystems, meme, RWA, and more. Fees as low as <span class="text-gold font-semibold">0.05%</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Web3 Wallet -->
+                    <div class="platform-card card p-5 sm:p-7 relative group cursor-pointer transition-all duration-300" data-screen="wallet">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-gold/20 to-gold/5 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                                <svg class="w-6 h-6 sm:w-7 sm:h-7 text-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                    <rect x="2" y="5" width="20" height="14" rx="2"/>
+                                    <path d="M16 12h.01"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-display text-xl sm:text-2xl font-bold text-white mb-2">Web3 Wallet</h3>
+                                <p class="text-zinc-400 text-sm leading-relaxed">Your personal crypto wallet with access to the entire Web3 ecosystem.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Center Phone Mockup -->
+                <div class="fade-up flex justify-center items-center order-1 lg:order-2 py-8 lg:py-0" style="transition-delay:0.2s">
+                    <div class="relative">
+                        <!-- Phone -->
+                        <div class="relative bg-[#2a2a2c] rounded-[2.8rem] p-[6px] shadow-[0_30px_60px_-10px_rgba(0,0,0,0.5)]" style="width:320px;">
+                            <div class="bg-black rounded-[2.4rem] overflow-hidden relative" style="height:640px;">
+
+                                <!-- Video Screens -->
+                                <video class="phone-video active w-full h-full object-cover" id="video-spot" autoplay muted loop playsinline>
+                                    <source src="plubit spot.mp4" type="video/mp4">
+                                </video>
+                                <video class="phone-video w-full h-full object-cover" id="video-futures" autoplay muted loop playsinline>
+                                    <source src="plubit_future.mp4" type="video/mp4">
+                                </video>
+                                <video class="phone-video w-full h-full object-cover" id="video-wallet" autoplay muted loop playsinline>
+                                    <source src="ju_wal.mp4" type="video/mp4">
+                                </video>
+
+                                <!-- Copy Trading Screen (HTML) -->
+                                <div class="phone-video w-full h-full bg-[#0a0a0f] overflow-hidden" id="video-copy">
+                                    <!-- Status Bar -->
+                                    <div class="h-11 bg-[#0a0a0f] flex items-center justify-between px-5 pt-2">
+                                        <span class="text-white text-xs font-medium">9:41</span>
+                                        <div class="flex items-center gap-1">
+                                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+                                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg>
+                                        </div>
+                                    </div>
+
+                                    <div class="px-3 pb-3 h-full overflow-y-auto" style="scrollbar-width:none;">
+                                        <!-- Header -->
+                                        <div class="flex items-center justify-between mb-3">
+                                            <div class="flex items-center gap-2">
+                                                <div class="text-white font-bold text-base">Copy Trading</div>
+                                                <div class="px-2 py-0.5 bg-emerald-500/20 rounded-full flex items-center gap-1">
+                                                    <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></span>
+                                                    <span class="text-emerald-400 text-[9px] font-medium">LIVE</span>
+                                                </div>
+                                            </div>
+                                            <svg class="w-5 h-5 text-zinc-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                                        </div>
+
+                                        <!-- My Portfolio Card -->
+                                        <div class="bg-gradient-to-br from-gold/20 to-amber-900/20 rounded-2xl p-3 mb-3 border border-gold/30">
+                                            <div class="flex items-center justify-between mb-2">
+                                                <span class="text-zinc-400 text-[10px]">My Copy Portfolio</span>
+                                                <span class="text-gold text-[10px] font-medium">3 Active</span>
+                                            </div>
+                                            <div class="flex items-end justify-between">
+                                                <div>
+                                                    <div class="text-white font-bold text-xl">$24,892.50</div>
+                                                    <div class="flex items-center gap-1 mt-0.5">
+                                                        <svg class="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 17l5-5 5 5M7 7l5 5 5-5"/></svg>
+                                                        <span class="text-emerald-400 text-xs font-semibold">+$3,241.80 (15.0%)</span>
+                                                    </div>
+                                                </div>
+                                                <div class="flex -space-x-2">
+                                                    <div class="w-7 h-7 bg-gradient-to-br from-gold to-amber-600 rounded-full border-2 border-[#0a0a0f] flex items-center justify-center text-[8px] text-black font-bold">AK</div>
+                                                    <div class="w-7 h-7 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full border-2 border-[#0a0a0f] flex items-center justify-center text-[8px] text-white font-bold">SM</div>
+                                                    <div class="w-7 h-7 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full border-2 border-[#0a0a0f] flex items-center justify-center text-[8px] text-white font-bold">BW</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Tab Navigation -->
+                                        <div class="flex gap-1 mb-3 bg-[#111118] rounded-xl p-1">
+                                            <div class="flex-1 text-center py-1.5 bg-gold/20 rounded-lg text-gold text-[10px] font-semibold">Top Traders</div>
+                                            <div class="flex-1 text-center py-1.5 text-zinc-500 text-[10px]">Following</div>
+                                            <div class="flex-1 text-center py-1.5 text-zinc-500 text-[10px]">History</div>
+                                        </div>
+
+                                        <!-- Live Activity -->
+                                        <div class="bg-[#111118] rounded-xl p-2 mb-3">
+                                            <div class="flex items-center gap-2 text-[9px]">
+                                                <span class="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded font-medium">BUY</span>
+                                                <span class="text-white">AlphaKing</span>
+                                                <span class="text-zinc-500">opened</span>
+                                                <span class="text-white font-medium">LONG BTC</span>
+                                                <span class="text-zinc-600 ml-auto">2s ago</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Trader Card 1 - Featured -->
+                                        <div class="bg-gradient-to-br from-[#111118] to-[#0d0d12] rounded-2xl p-3 mb-2 border border-zinc-800/50 relative overflow-hidden">
+                                            <div class="absolute top-0 right-0 px-2 py-0.5 bg-gold text-black text-[8px] font-bold rounded-bl-lg">TOP 1</div>
+                                            <div class="flex items-center gap-2 mb-2">
+                                                <div class="w-10 h-10 bg-gradient-to-br from-gold to-amber-600 rounded-full flex items-center justify-center text-black font-bold text-sm shadow-lg shadow-gold/30">AK</div>
+                                                <div class="flex-1">
+                                                    <div class="flex items-center gap-1">
+                                                        <span class="text-white font-semibold text-sm">AlphaKing</span>
+                                                        <svg class="w-3.5 h-3.5 text-gold" fill="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                                    </div>
+                                                    <div class="text-zinc-500 text-[10px]">3,421 Copiers • Since 2024</div>
+                                                </div>
+                                                <div class="text-right">
+                                                    <div class="text-emerald-400 font-bold text-lg">+312%</div>
+                                                    <div class="text-zinc-600 text-[9px]">90D ROI</div>
+                                                </div>
+                                            </div>
+                                            <!-- Mini Chart -->
+                                            <div class="h-8 mb-2 flex items-end gap-[2px]">
+                                                <div class="flex-1 bg-emerald-500/30 rounded-sm" style="height:45%"></div>
+                                                <div class="flex-1 bg-emerald-500/30 rounded-sm" style="height:60%"></div>
+                                                <div class="flex-1 bg-emerald-500/30 rounded-sm" style="height:40%"></div>
+                                                <div class="flex-1 bg-emerald-500/30 rounded-sm" style="height:75%"></div>
+                                                <div class="flex-1 bg-emerald-500/30 rounded-sm" style="height:55%"></div>
+                                                <div class="flex-1 bg-emerald-500/30 rounded-sm" style="height:85%"></div>
+                                                <div class="flex-1 bg-emerald-500/30 rounded-sm" style="height:70%"></div>
+                                                <div class="flex-1 bg-emerald-500/30 rounded-sm" style="height:90%"></div>
+                                                <div class="flex-1 bg-emerald-500/30 rounded-sm" style="height:80%"></div>
+                                                <div class="flex-1 bg-emerald-500 rounded-sm" style="height:100%"></div>
+                                            </div>
+                                            <div class="flex gap-1 mb-2">
+                                                <div class="flex-1 bg-[#0a0a0f] rounded-lg py-1.5 px-2 text-center">
+                                                    <div class="text-zinc-600 text-[8px]">Win Rate</div>
+                                                    <div class="text-white font-bold text-[11px]">82.3%</div>
+                                                </div>
+                                                <div class="flex-1 bg-[#0a0a0f] rounded-lg py-1.5 px-2 text-center">
+                                                    <div class="text-zinc-600 text-[8px]">Max DD</div>
+                                                    <div class="text-red-400 font-bold text-[11px]">-12.4%</div>
+                                                </div>
+                                                <div class="flex-1 bg-[#0a0a0f] rounded-lg py-1.5 px-2 text-center">
+                                                    <div class="text-zinc-600 text-[8px]">Trades</div>
+                                                    <div class="text-white font-bold text-[11px]">2,156</div>
+                                                </div>
+                                            </div>
+                                            <button class="w-full bg-gradient-to-r from-gold to-amber-500 text-black font-bold py-2 rounded-xl text-xs shadow-lg shadow-gold/20">Copy Now</button>
+                                        </div>
+
+                                        <!-- Trader Card 2 -->
+                                        <div class="bg-[#111118] rounded-2xl p-3 border border-zinc-800/30">
+                                            <div class="flex items-center gap-2 mb-2">
+                                                <div class="w-9 h-9 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-lg shadow-purple-500/20">SM</div>
+                                                <div class="flex-1">
+                                                    <div class="flex items-center gap-1">
+                                                        <span class="text-white font-semibold text-xs">SwingMaster</span>
+                                                        <svg class="w-3 h-3 text-gold" fill="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                                    </div>
+                                                    <div class="text-zinc-500 text-[9px]">2,891 Copiers</div>
+                                                </div>
+                                                <div class="text-right">
+                                                    <div class="text-emerald-400 font-bold text-sm">+187%</div>
+                                                    <div class="text-zinc-600 text-[8px]">90D</div>
+                                                </div>
+                                            </div>
+                                            <div class="flex gap-1">
+                                                <div class="flex-1 text-center">
+                                                    <span class="text-zinc-600 text-[8px]">Win</span>
+                                                    <span class="text-white text-[10px] font-semibold ml-1">79.1%</span>
+                                                </div>
+                                                <div class="flex-1 text-center border-l border-zinc-800">
+                                                    <span class="text-zinc-600 text-[8px]">DD</span>
+                                                    <span class="text-red-400 text-[10px] font-semibold ml-1">-8.2%</span>
+                                                </div>
+                                                <div class="flex-1 text-center border-l border-zinc-800">
+                                                    <span class="text-zinc-600 text-[8px]">Sharpe</span>
+                                                    <span class="text-emerald-400 text-[10px] font-semibold ml-1">2.4</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Features -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 sm:gap-5 fade-up order-3" style="transition-delay:0.3s">
+                    <!-- Futures -->
+                    <div class="platform-card card p-5 sm:p-7 relative group cursor-pointer transition-all duration-300" data-screen="futures">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-gold/20 to-gold/5 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                                <svg class="w-6 h-6 sm:w-7 sm:h-7 text-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                    <path d="M3 3v18h18"/>
+                                    <path d="M18 17V9"/>
+                                    <path d="M13 17V5"/>
+                                    <path d="M8 17v-3"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-display text-xl sm:text-2xl font-bold text-white mb-2">Futures</h3>
+                                <p class="text-zinc-400 text-sm leading-relaxed">Access <span class="text-gold font-semibold">200+</span> crypto futures with up to <span class="text-gold font-semibold">150x</span> leverage on our high-performance trading engine</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Copy Trading -->
+                    <div class="platform-card card p-5 sm:p-7 relative group cursor-pointer transition-all duration-300" data-screen="copy">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-gold/20 to-gold/5 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                                <svg class="w-6 h-6 sm:w-7 sm:h-7 text-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="9" cy="7" r="4"/>
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-display text-xl sm:text-2xl font-bold text-white mb-2">Copy Trading</h3>
+                                <p class="text-zinc-400 text-sm leading-relaxed">Follow top traders and automatically copy their strategies. Trading made simple for everyone.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .phone-video { position: absolute; top: 0; left: 0; display: none; opacity: 0; transition: opacity 0.5s ease; }
+        .phone-video.active { display: block; opacity: 1; }
+        .platform-card.active { border-color: rgba(184,134,11,0.5); background: linear-gradient(135deg,rgba(184,134,11,0.1) 0%,rgba(184,134,11,0.02) 100%); }
+
+        /* Scrolling Ticker */
+        .ticker-wrap { overflow: hidden; width: 100%; }
+        .ticker { display: flex; animation: tickerScroll 20s linear infinite; }
+        .ticker:hover { animation-play-state: paused; }
+        @keyframes tickerScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .ticker-item { display: flex; align-items: center; gap: 6px; padding: 0 12px; white-space: nowrap; }
+
+        /* Live Trading Animations */
+        .price-animate { transition: all 0.2s ease-out; }
+        .price-flash-up { animation: flashUp 0.6s ease-out; }
+        .price-flash-down { animation: flashDown 0.6s ease-out; }
+        @keyframes flashUp {
+            0% { background: rgba(34,197,94,0.4); transform: scale(1.02); }
+            100% { background: transparent; transform: scale(1); }
+        }
+        @keyframes flashDown {
+            0% { background: rgba(239,68,68,0.4); transform: scale(1.02); }
+            100% { background: transparent; transform: scale(1); }
+        }
+
+        /* Order Book Depth */
+        .ob-row { position: relative; transition: all 0.15s ease; }
+        .ob-depth { position: absolute; top: 0; bottom: 0; right: 0; opacity: 0.15; transition: width 0.3s ease; }
+        .ob-depth-green { background: linear-gradient(to left, #22c55e, transparent); }
+        .ob-depth-red { background: linear-gradient(to right, #ef4444, transparent); }
+
+        /* Live Trade Feed */
+        .trade-feed { max-height: 60px; overflow: hidden; }
+        .trade-item { animation: tradeFadeIn 0.3s ease-out; }
+        @keyframes tradeFadeIn { 0% { opacity: 0; transform: translateY(-10px); } 100% { opacity: 1; transform: translateY(0); } }
+
+        /* Touch Cursor */
+        .touch-cursor {
+            position: absolute; width: 44px; height: 44px;
+            background: radial-gradient(circle, rgba(184,134,11,0.4) 0%, rgba(184,134,11,0.1) 50%, transparent 70%);
+            border-radius: 50%; pointer-events: none; z-index: 100;
+            transform: translate(-50%, -50%) scale(0); transition: transform 0.2s ease;
+        }
+        .touch-cursor.active { transform: translate(-50%, -50%) scale(1); }
+        .touch-cursor::after {
+            content: ''; position: absolute; inset: 12px;
+            background: rgba(184,134,11,0.6); border-radius: 50%;
+            animation: touchPulse 1s ease infinite;
+        }
+        @keyframes touchPulse { 0%,100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.2); opacity: 0.3; } }
+
+        /* Trade Notification */
+        .trade-notif {
+            position: absolute; top: 60px; left: 10px; right: 10px;
+            background: linear-gradient(135deg, rgba(34,197,94,0.95) 0%, rgba(22,163,74,0.95) 100%);
+            border-radius: 12px; padding: 12px 16px; z-index: 60;
+            transform: translateY(-100px); opacity: 0; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 10px 40px rgba(34,197,94,0.3);
+        }
+        .trade-notif.show { transform: translateY(0); opacity: 1; }
+        .trade-notif.sell { background: linear-gradient(135deg, rgba(239,68,68,0.95) 0%, rgba(220,38,38,0.95) 100%); box-shadow: 0 10px 40px rgba(239,68,68,0.3); }
+
+        /* Animated Chart Line */
+        .chart-line { stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: drawLine 2s ease forwards; }
+        @keyframes drawLine { to { stroke-dashoffset: 0; } }
+        .chart-glow { filter: drop-shadow(0 0 6px rgba(34,197,94,0.5)); }
+
+        /* Number Rolling */
+        .roll-num { display: inline-block; transition: transform 0.3s ease; }
+
+        /* Order Confirmation */
+        .order-confirm {
+            position: absolute; inset: 0; background: rgba(0,0,0,0.95); z-index: 50;
+            display: flex; flex-direction: column; justify-content: center; padding: 20px;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        .order-confirm.show { opacity: 1; pointer-events: auto; }
+        .success-check { animation: successPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        @keyframes successPop { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+
+        /* Candlestick Enhanced */
+        .candle { transition: height 0.4s ease; position: relative; }
+        .candle-green { background: linear-gradient(to top, #22c55e, #4ade80); box-shadow: 0 0 8px rgba(34,197,94,0.3); }
+        .candle-red { background: linear-gradient(to top, #ef4444, #f87171); box-shadow: 0 0 8px rgba(239,68,68,0.3); }
+        .candle-wick { position: absolute; width: 1px; background: currentColor; left: 50%; transform: translateX(-50%); }
+
+        /* Loading Shimmer */
+        .shimmer { background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.05) 50%, transparent 100%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+    </style>
 
     <script>
-        // Particle canvas
+        document.addEventListener('DOMContentLoaded', function() {
+            const platformCards = document.querySelectorAll('.platform-card');
+            const phoneVideos = document.querySelectorAll('.phone-video');
+
+            // ========== Video Screen Switching ==========
+            function showScreen(screenId) {
+                phoneVideos.forEach(video => {
+                    video.classList.remove('active');
+                    if (video.tagName === 'VIDEO') video.pause();
+                });
+
+                const targetVideo = document.getElementById('video-' + screenId);
+                if (targetVideo) {
+                    targetVideo.classList.add('active');
+                    if (targetVideo.tagName === 'VIDEO') {
+                        targetVideo.currentTime = 0;
+                        targetVideo.play();
+                    }
+                }
+
+                platformCards.forEach(card => {
+                    card.classList.remove('active');
+                    if (card.dataset.screen === screenId) card.classList.add('active');
+                });
+            }
+
+            platformCards.forEach(card => {
+                card.addEventListener('mouseenter', () => showScreen(card.dataset.screen));
+                card.addEventListener('click', () => showScreen(card.dataset.screen));
+            });
+
+            let currentIndex = 0;
+            const screens = ['spot', 'futures', 'wallet', 'copy'];
+            setInterval(() => {
+                if (!document.querySelector('.platform-card:hover')) {
+                    currentIndex = (currentIndex + 1) % screens.length;
+                    showScreen(screens[currentIndex]);
+                }
+            }, 8000);
+
+            showScreen('spot');
+        });
+    </script>
+
+    <!-- Features -->
+    <section id="features" class="py-24 sm:py-32 px-4 sm:px-6 relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 sm:mb-20 fade-up">
+                <span class="text-gold text-sm font-semibold tracking-wider uppercase">Core Technology</span>
+                <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-white mt-4 mb-6">Why <span class="gradient-text">PLUBIT</span>?</h2>
+                <p class="text-zinc-400 text-base sm:text-lg max-w-2xl mx-auto">Next-generation trading infrastructure that goes beyond traditional exchanges</p>
+            </div>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+                <div class="card p-7 sm:p-8 fade-up group">
+                    <div class="w-14 h-14 bg-gradient-to-br from-gold/20 to-gold/5 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <svg class="w-7 h-7 text-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+                    </div>
+                    <h3 class="font-display text-xl font-bold text-white mb-3">LASS Liquidity</h3>
+                    <p class="text-zinc-400 text-sm sm:text-base leading-relaxed">Shared orderbook with global TOP exchanges for optimal execution with zero slippage</p>
+                </div>
+                <div class="card p-7 sm:p-8 fade-up group" style="transition-delay:0.1s">
+                    <div class="w-14 h-14 bg-gradient-to-br from-gold/20 to-gold/5 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <svg class="w-7 h-7 text-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                    </div>
+                    <h3 class="font-display text-xl font-bold text-white mb-3">MPC-CMP Security</h3>
+                    <p class="text-zinc-400 text-sm sm:text-base leading-relaxed">SOC 2 compliant with distributed key management to eliminate asset theft risks</p>
+                </div>
+                <div class="card p-7 sm:p-8 fade-up group sm:col-span-2 lg:col-span-1" style="transition-delay:0.2s">
+                    <div class="w-14 h-14 bg-gradient-to-br from-gold/20 to-gold/5 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <svg class="w-7 h-7 text-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                    </div>
+                    <h3 class="font-display text-xl font-bold text-white mb-3">AI Risk Control</h3>
+                    <p class="text-zinc-400 text-sm sm:text-base leading-relaxed">Real-time AI monitoring detects abnormal transactions and prevents money laundering</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Partners -->
+    <section class="py-12 sm:py-16 px-4 sm:px-6 border-y border-zinc-800/30 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="text-center mb-8 fade-up">
+                <span class="text-zinc-600 text-xs sm:text-sm font-medium tracking-wider uppercase">Trusted Infrastructure Partners</span>
+            </div>
+            <div class="overflow-hidden">
+                <div class="trust-scroll">
+                    <div class="flex items-center gap-12 sm:gap-20 px-6">
+                        <div class="trust-logo flex items-center gap-2 shrink-0"><svg class="w-6 h-6 text-blue-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><span class="text-zinc-400 font-semibold text-sm sm:text-base whitespace-nowrap">Chainlink</span></div>
+                        <div class="trust-logo flex items-center gap-2 shrink-0"><svg class="w-6 h-6 text-orange-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg><span class="text-zinc-400 font-semibold text-sm sm:text-base whitespace-nowrap">AWS</span></div>
+                        <div class="trust-logo flex items-center gap-2 shrink-0"><svg class="w-6 h-6 text-purple-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg><span class="text-zinc-400 font-semibold text-sm sm:text-base whitespace-nowrap">Fireblocks</span></div>
+                        <div class="trust-logo flex items-center gap-2 shrink-0"><svg class="w-6 h-6 text-cyan-400" viewBox="0 0 24 24" fill="currentColor"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span class="text-zinc-400 font-semibold text-sm sm:text-base whitespace-nowrap">CertiK</span></div>
+                        <div class="trust-logo flex items-center gap-2 shrink-0"><svg class="w-6 h-6 text-indigo-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg><span class="text-zinc-400 font-semibold text-sm sm:text-base whitespace-nowrap">Chainalysis</span></div>
+                        <div class="trust-logo flex items-center gap-2 shrink-0"><svg class="w-6 h-6 text-green-400" viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm0 2v4h16V6H4zm0 6v6h16v-6H4z"/></svg><span class="text-zinc-400 font-semibold text-sm sm:text-base whitespace-nowrap">Cloudflare</span></div>
+                        <div class="trust-logo flex items-center gap-2 shrink-0"><svg class="w-6 h-6 text-yellow-400" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg><span class="text-zinc-400 font-semibold text-sm sm:text-base whitespace-nowrap">Hacken</span></div>
+                    </div>
+                    <div class="flex items-center gap-12 sm:gap-20 px-6">
+                        <div class="trust-logo flex items-center gap-2 shrink-0"><svg class="w-6 h-6 text-blue-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><span class="text-zinc-400 font-semibold text-sm sm:text-base whitespace-nowrap">Chainlink</span></div>
+                        <div class="trust-logo flex items-center gap-2 shrink-0"><svg class="w-6 h-6 text-orange-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg><span class="text-zinc-400 font-semibold text-sm sm:text-base whitespace-nowrap">AWS</span></div>
+                        <div class="trust-logo flex items-center gap-2 shrink-0"><svg class="w-6 h-6 text-purple-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg><span class="text-zinc-400 font-semibold text-sm sm:text-base whitespace-nowrap">Fireblocks</span></div>
+                        <div class="trust-logo flex items-center gap-2 shrink-0"><svg class="w-6 h-6 text-cyan-400" viewBox="0 0 24 24" fill="currentColor"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span class="text-zinc-400 font-semibold text-sm sm:text-base whitespace-nowrap">CertiK</span></div>
+                        <div class="trust-logo flex items-center gap-2 shrink-0"><svg class="w-6 h-6 text-indigo-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg><span class="text-zinc-400 font-semibold text-sm sm:text-base whitespace-nowrap">Chainalysis</span></div>
+                        <div class="trust-logo flex items-center gap-2 shrink-0"><svg class="w-6 h-6 text-green-400" viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm0 2v4h16V6H4zm0 6v6h16v-6H4z"/></svg><span class="text-zinc-400 font-semibold text-sm sm:text-base whitespace-nowrap">Cloudflare</span></div>
+                        <div class="trust-logo flex items-center gap-2 shrink-0"><svg class="w-6 h-6 text-yellow-400" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg><span class="text-zinc-400 font-semibold text-sm sm:text-base whitespace-nowrap">Hacken</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mid CTA -->
+    <section class="py-10 sm:py-14 px-4 sm:px-6">
+        <div class="max-w-3xl mx-auto mid-cta rounded-2xl p-8 sm:p-10 text-center fade-up">
+            <h3 class="font-display text-xl sm:text-2xl font-bold text-white mb-3">Be Among the First 1,000 Traders</h3>
+            <p class="text-zinc-400 text-sm sm:text-base mb-6">Early adopters get exclusive PLB token airdrop + lifetime fee discount</p>
+            <a href="#waitlist" class="btn-primary btn-shimmer inline-flex items-center gap-2 text-sm py-3 px-8">
+                Claim Your Spot
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- Liquidity -->
+    <section id="liquidity" class="py-24 sm:py-32 px-4 sm:px-6 bg-[#030305] relative">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-gold/[0.02] to-transparent pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="text-center mb-12 sm:mb-16 fade-up">
+                <span class="text-gold text-sm font-semibold tracking-wider uppercase">Deep Liquidity</span>
+                <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-white mt-4 mb-6">The <span class="gradient-text">Difference</span></h2>
+                <p class="text-zinc-400 text-base sm:text-lg max-w-2xl mx-auto">Same chart, different execution. Deep orderbook depth means tighter spreads and zero slippage.</p>
+            </div>
+            <div class="flex justify-center gap-2 mb-10 fade-up">
+                <button class="coin-btn px-5 py-2.5 bg-gold text-black rounded-xl text-sm font-bold transition-all" data-coin="BTC">BTC</button>
+                <button class="coin-btn px-5 py-2.5 bg-zinc-800/50 text-zinc-400 rounded-xl text-sm font-semibold hover:bg-zinc-700/50 transition-all" data-coin="ETH">ETH</button>
+                <button class="coin-btn px-5 py-2.5 bg-zinc-800/50 text-zinc-400 rounded-xl text-sm font-semibold hover:bg-zinc-700/50 transition-all" data-coin="SOL">SOL</button>
+            </div>
+            <div class="grid lg:grid-cols-2 gap-5 sm:gap-6 mb-8 fade-up">
+                <!-- Poor -->
+                <div class="card p-5 sm:p-6">
+                    <div class="flex items-center justify-between mb-5">
+                        <div><span class="text-zinc-500 text-xs uppercase tracking-wider">Other Exchange</span><div class="text-white font-display font-bold text-xl sm:text-2xl mt-1" id="poor-price">$97,842.50</div></div>
+                        <span class="px-3 py-1.5 bg-red-500/10 text-red-400 text-xs font-bold rounded-lg">POOR</span>
+                    </div>
+                    <div class="bg-black/30 rounded-2xl p-4 mb-5">
+                        <div class="flex items-center justify-between mb-3"><span class="text-zinc-600 text-xs font-medium">1M Chart</span><span class="text-zinc-500 text-xs font-mono">BTC/USDT</span></div>
+                        <canvas id="chart-poor" class="w-full" style="height:144px"></canvas>
+                    </div>
+                    <div class="bg-black/30 rounded-2xl p-4">
+                        <div class="flex items-center justify-between"><span class="text-zinc-600 text-xs font-medium">Orderbook</span><span class="text-red-400 text-[10px] font-mono">Thin Depth</span></div>
+                        <div class="mt-3 space-y-1" id="orderbook-poor"></div>
+                        <div class="text-center py-2 my-2 border-y border-zinc-800/50"><span class="text-zinc-600 text-xs">Spread </span><span class="text-red-400 text-sm font-bold font-mono" id="spread-poor">$48.50</span></div>
+                        <div class="space-y-1" id="orderbook-poor-bids"></div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 mt-5">
+                        <div class="bg-black/30 rounded-xl p-4 text-center"><div class="text-red-400 font-display font-bold text-xl">-2.34%</div><div class="text-zinc-600 text-xs mt-1">Slippage</div></div>
+                        <div class="bg-black/30 rounded-xl p-4 text-center"><div class="text-zinc-400 font-display font-bold text-xl">~850ms</div><div class="text-zinc-600 text-xs mt-1">Latency</div></div>
+                    </div>
+                </div>
+                <!-- Good -->
+                <div class="card p-5 sm:p-6 border-gold/20 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-gold-light via-gold-bright to-gold-light"></div>
+                    <div class="flex items-center justify-between mb-5">
+                        <div>
+                            <div class="flex items-center gap-2"><span class="text-white text-xs uppercase tracking-wider font-semibold">PLUBIT</span><span class="flex items-center gap-1"><span class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></span><span class="text-emerald-400 text-[10px] font-medium">LIVE</span></span></div>
+                            <div class="text-white font-display font-bold text-xl sm:text-2xl mt-1" id="good-price">$97,842.50</div>
+                        </div>
+                        <span class="px-3 py-1.5 bg-emerald-500/10 text-emerald-400 text-xs font-bold rounded-lg">DEEP</span>
+                    </div>
+                    <div class="bg-black/30 rounded-2xl p-4 mb-5 border border-gold/10">
+                        <div class="flex items-center justify-between mb-3"><span class="text-zinc-600 text-xs font-medium">1M Chart</span><span class="text-gold text-xs font-mono">BTC/USDT</span></div>
+                        <canvas id="chart-good" class="w-full" style="height:144px"></canvas>
+                    </div>
+                    <div class="bg-black/30 rounded-2xl p-4 border border-gold/10">
+                        <div class="flex items-center justify-between"><span class="text-zinc-600 text-xs font-medium">Orderbook</span><span class="text-emerald-400 text-[10px] font-mono">Deep Liquidity</span></div>
+                        <div class="mt-3 space-y-0.5" id="orderbook-good"></div>
+                        <div class="text-center py-2 my-2 border-y border-gold/10"><span class="text-zinc-600 text-xs">Spread </span><span class="text-emerald-400 text-sm font-bold font-mono" id="spread-good">$0.50</span></div>
+                        <div class="space-y-0.5" id="orderbook-good-bids"></div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 mt-5">
+                        <div class="bg-black/30 rounded-xl p-4 text-center border border-gold/10"><div class="text-emerald-400 font-display font-bold text-xl">&lt;0.01%</div><div class="text-zinc-600 text-xs mt-1">Slippage</div></div>
+                        <div class="bg-black/30 rounded-xl p-4 text-center border border-gold/10"><div class="gradient-text font-display font-bold text-xl">12ms</div><div class="text-zinc-600 text-xs mt-1">Latency</div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="card p-4 sm:p-5 mb-8 fade-up overflow-hidden">
+                <div class="flex items-center gap-2 mb-4"><span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span><span class="text-sm text-zinc-400 font-medium">Live Trades</span></div>
+                <div class="overflow-x-auto" id="trade-feed"><div class="flex gap-2 min-w-max" id="trade-feed-inner"></div></div>
+            </div>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 fade-up">
+                <div class="card p-5 text-center"><div class="font-display text-2xl sm:text-3xl font-bold text-white">99.9%</div><div class="text-zinc-500 text-xs sm:text-sm mt-1">Fill Rate</div></div>
+                <div class="card p-5 text-center"><div class="font-display text-2xl sm:text-3xl font-bold gradient-text">&lt;0.01%</div><div class="text-zinc-500 text-xs sm:text-sm mt-1">Slippage</div></div>
+                <div class="card p-5 text-center"><div class="font-display text-2xl sm:text-3xl font-bold text-white">12ms</div><div class="text-zinc-500 text-xs sm:text-sm mt-1">Execution</div></div>
+                <div class="card p-5 text-center"><div class="font-display text-2xl sm:text-3xl font-bold text-white">$2.4B</div><div class="text-zinc-500 text-xs sm:text-sm mt-1">Volume</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Security -->
+    <section id="security" class="py-24 sm:py-32 px-4 sm:px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                <div class="fade-up text-center lg:text-left">
+                    <span class="text-gold text-sm font-semibold tracking-wider uppercase">Enterprise Security</span>
+                    <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-white mt-4 mb-6 leading-tight">Most Secure<br/><span class="gradient-text">Custody Solution</span></h2>
+                    <p class="text-zinc-400 text-base sm:text-lg leading-relaxed mb-8">SOC 2 compliant with MPC-CMP wallet technology to isolate all asset touchpoints.</p>
+                    <div class="flex flex-wrap justify-center lg:justify-start gap-2 sm:gap-3 mb-8">
+                        <span class="px-4 py-2 bg-gold/10 border border-gold/20 rounded-xl text-gold text-xs sm:text-sm font-semibold">ISO 27001</span>
+                        <span class="px-4 py-2 bg-gold/10 border border-gold/20 rounded-xl text-gold text-xs sm:text-sm font-semibold">ISO 27017</span>
+                        <span class="px-4 py-2 bg-gold/10 border border-gold/20 rounded-xl text-gold text-xs sm:text-sm font-semibold">SOC 2</span>
+                    </div>
+                    <div class="space-y-4 text-left max-w-md mx-auto lg:mx-0">
+                        <div class="flex items-center gap-4"><div class="w-8 h-8 bg-emerald-500/10 rounded-lg flex items-center justify-center shrink-0"><svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span class="text-zinc-300 text-sm sm:text-base">MPC-CMP Distributed Key Management</span></div>
+                        <div class="flex items-center gap-4"><div class="w-8 h-8 bg-emerald-500/10 rounded-lg flex items-center justify-center shrink-0"><svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span class="text-zinc-300 text-sm sm:text-base">AI-Powered Anomaly Detection</span></div>
+                        <div class="flex items-center gap-4"><div class="w-8 h-8 bg-emerald-500/10 rounded-lg flex items-center justify-center shrink-0"><svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span class="text-zinc-300 text-sm sm:text-base">24/7 Security Monitoring</span></div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4 fade-up">
+                    <div class="card-gold p-6 sm:p-8 text-center rounded-2xl"><div class="font-display text-3xl sm:text-4xl font-bold text-white">99.9%</div><div class="text-zinc-500 text-xs sm:text-sm mt-2">Asset Safety</div></div>
+                    <div class="card p-6 sm:p-8 text-center"><div class="font-display text-3xl sm:text-4xl font-bold text-white">A+</div><div class="text-zinc-500 text-xs sm:text-sm mt-2">Risk Score</div></div>
+                    <div class="card p-6 sm:p-8 text-center"><div class="font-display text-3xl sm:text-4xl font-bold text-white">95%</div><div class="text-zinc-500 text-xs sm:text-sm mt-2">Cold Storage</div></div>
+                    <div class="card p-6 sm:p-8 text-center"><div class="font-display text-3xl sm:text-4xl font-bold gradient-text">AAA</div><div class="text-zinc-500 text-xs sm:text-sm mt-2">Audit Grade</div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mid CTA 2 -->
+    <section class="py-10 sm:py-14 px-4 sm:px-6 bg-[#030305]">
+        <div class="max-w-4xl mx-auto text-center fade-up">
+            <div class="flex flex-wrap justify-center gap-6 sm:gap-10">
+                <div class="text-center"><div class="font-display text-3xl sm:text-4xl font-bold gradient-text counter-num" id="stat-traders">12,400+</div><div class="text-zinc-500 text-xs sm:text-sm mt-1">Pre-registered Traders</div></div>
+                <div class="text-center"><div class="font-display text-3xl sm:text-4xl font-bold text-white counter-num">$84M+</div><div class="text-zinc-500 text-xs sm:text-sm mt-1">Committed Volume</div></div>
+                <div class="text-center"><div class="font-display text-3xl sm:text-4xl font-bold text-white counter-num">47</div><div class="text-zinc-500 text-xs sm:text-sm mt-1">Countries</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Revival -->
+    <section id="revival" class="py-24 sm:py-32 px-4 sm:px-6 bg-[#030305]">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                <div class="fade-up text-center lg:text-left order-2 lg:order-1">
+                    <span class="text-gold text-sm font-semibold tracking-wider uppercase">Revival System</span>
+                    <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-white mt-4 mb-6 leading-tight">Turn Liquidation<br/><span class="gradient-text">Into Opportunity</span></h2>
+                    <p class="text-zinc-400 text-base sm:text-lg leading-relaxed mb-10">Industry-first Revival Safe Coupon gives you instant cashback of up to 50% on liquidation losses.</p>
+                    <div class="space-y-4 max-w-md mx-auto lg:mx-0">
+                        <div class="card p-5 sm:p-6 flex justify-between items-center"><div class="text-left"><h4 class="text-white font-bold text-base sm:text-lg">Liquidation Revival</h4><p class="text-zinc-500 text-xs sm:text-sm mt-1">Instant loss payback</p></div><div class="text-right"><span class="text-zinc-500 text-xs">Up to</span><div class="font-display text-3xl sm:text-4xl font-bold gradient-text">50%</div></div></div>
+                        <div class="card p-5 sm:p-6 flex justify-between items-center"><div class="text-left"><h4 class="text-white font-bold text-base sm:text-lg">Partner Rewards</h4><p class="text-zinc-500 text-xs sm:text-sm mt-1">Referral commission</p></div><div class="text-right"><div class="font-display text-2xl sm:text-3xl font-bold gradient-text">Industry<br>Best</div></div></div>
+                    </div>
+                </div>
+                <div class="fade-up flex justify-center order-1 lg:order-2">
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-gold/20 blur-[80px] rounded-full"></div>
+                        <div class="relative float">
+                            <div class="card-gold rounded-3xl p-1.5">
+                                <div class="bg-[#08080c] rounded-[22px] p-10 sm:p-14 w-72 sm:w-80 aspect-[4/3] flex flex-col items-center justify-center relative overflow-hidden">
+                                    <div class="absolute inset-0 opacity-5" style="background-image:repeating-linear-gradient(0deg,transparent,transparent 30px,rgba(255,215,0,0.5) 30px,rgba(255,215,0,0.5) 31px),repeating-linear-gradient(90deg,transparent,transparent 30px,rgba(255,215,0,0.5) 30px,rgba(255,215,0,0.5) 31px)"></div>
+                                    <div class="mb-4">
+                                        <span class="text-2xl tracking-wide opacity-40" style="font-family:'Bebas Neue',sans-serif;letter-spacing:0.05em"><span class="text-white">PLUB</span><span class="text-gold">I</span><span class="text-white">T</span></span>
+                                    </div>
+                                    <span class="text-gold/40 text-[10px] sm:text-xs tracking-[0.25em] uppercase mb-3 relative z-10">Safe Coupon</span>
+                                    <span class="font-display text-5xl sm:text-6xl font-bold gradient-text relative z-10">SAFE</span>
+                                    <div class="flex items-center gap-2 mt-4 relative z-10"><span class="w-2 h-2 bg-emerald-400 rounded-full live-pulse"></span><span class="text-zinc-500 text-[10px] sm:text-xs">Active</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PLB Token -->
+    <section id="plb-token" class="py-24 sm:py-32 px-4 sm:px-6 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-gold/[0.03] to-transparent pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto relative z-10">
+            <!-- Header -->
+            <div class="text-center mb-16 fade-up">
+                <span class="text-gold text-sm font-semibold tracking-wider uppercase">Native Utility Token</span>
+                <h2 class="font-display text-4xl sm:text-5xl md:text-6xl font-bold mt-4 mb-6"><span class="gradient-text">$PLB</span> <span class="text-white">Token</span></h2>
+                <p class="text-zinc-400 text-base sm:text-lg max-w-2xl mx-auto">The backbone of PLUBIT ecosystem. Hold PLB to unlock exclusive benefits and participate in our growth.</p>
+            </div>
+
+            <!-- Exchange Token Growth Comparison -->
+            <div class="mb-16 fade-up">
+                <div class="text-center mb-10">
+                    <h3 class="font-display text-2xl sm:text-3xl font-bold text-white mb-3">Exchange Tokens: <span class="gradient-text">Proven Growth</span></h3>
+                    <p class="text-zinc-500 text-sm sm:text-base">Historical performance of major exchange native tokens</p>
+                </div>
+                <div class="space-y-3 max-w-4xl mx-auto">
+                    <div class="card p-5 sm:p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm" style="background:rgba(243,186,47,0.15);color:#F3BA2F">BNB</div>
+                                <div><div class="font-bold text-white text-sm sm:text-base">Binance Coin</div><div class="text-xs text-zinc-500">Binance Exchange</div></div>
+                            </div>
+                            <div class="text-right"><div class="text-xs text-zinc-500">$0.10 → $720</div><div class="font-bold text-emerald-400 text-sm sm:text-base">+720,000%</div></div>
+                        </div>
+                        <div class="h-7 bg-zinc-800/50 rounded-lg overflow-hidden"><div class="h-full rounded-lg flex items-center justify-end pr-3 text-xs font-bold text-black" style="width:100%;background:#F3BA2F">720K%</div></div>
+                    </div>
+                    <div class="card p-5 sm:p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm" style="background:rgba(0,212,170,0.15);color:#00D4AA">BGB</div>
+                                <div><div class="font-bold text-white text-sm sm:text-base">Bitget Token</div><div class="text-xs text-zinc-500">Bitget Exchange</div></div>
+                            </div>
+                            <div class="text-right"><div class="text-xs text-zinc-500">$0.10 → $8.50</div><div class="font-bold text-emerald-400 text-sm sm:text-base">+8,400%</div></div>
+                        </div>
+                        <div class="h-7 bg-zinc-800/50 rounded-lg overflow-hidden"><div class="h-full rounded-lg flex items-center justify-end pr-3 text-xs font-bold text-black" style="width:85%;background:#00D4AA">8.4K%</div></div>
+                    </div>
+                    <div class="card p-5 sm:p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm" style="background:rgba(0,209,178,0.15);color:#00D1B2">GT</div>
+                                <div><div class="font-bold text-white text-sm sm:text-base">GateToken</div><div class="text-xs text-zinc-500">Gate.io Exchange</div></div>
+                            </div>
+                            <div class="text-right"><div class="text-xs text-zinc-500">$0.50 → $26</div><div class="font-bold text-emerald-400 text-sm sm:text-base">+5,100%</div></div>
+                        </div>
+                        <div class="h-7 bg-zinc-800/50 rounded-lg overflow-hidden"><div class="h-full rounded-lg flex items-center justify-end pr-3 text-xs font-bold text-black" style="width:70%;background:#00D1B2">5.1K%</div></div>
+                    </div>
+                    <!-- PLB - Your Opportunity -->
+                    <div class="card-gold p-5 sm:p-6 relative overflow-hidden">
+                        <div class="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-gold to-transparent"></div>
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-gradient-to-br from-gold-bright to-gold rounded-xl flex items-center justify-center font-bold text-sm text-[#050507]">PLB</div>
+                                <div><div class="font-bold text-white text-sm sm:text-base flex items-center gap-2">PLB Token <span class="px-2 py-0.5 bg-gold text-[#050507] rounded text-[10px] font-bold">EARLY</span></div><div class="text-xs text-zinc-500">PLUBIT Exchange</div></div>
+                            </div>
+                            <div class="text-right"><div class="text-xs text-zinc-500">$0.03 → ???</div><div class="font-display font-bold text-xl sm:text-2xl gradient-text">Your Turn</div></div>
+                        </div>
+                        <div class="h-7 bg-zinc-800/30 rounded-lg border border-dashed border-gold/50 flex items-center justify-center"><span class="text-gold text-xs sm:text-sm font-semibold">Early Access Available Now</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Why PLB Will Appreciate -->
+            <div class="mb-16 fade-up">
+                <div class="text-center mb-10">
+                    <h3 class="font-display text-2xl sm:text-3xl font-bold text-white mb-3">Why PLB <span class="gradient-text">Must Appreciate</span></h3>
+                    <p class="text-zinc-500 text-sm sm:text-base">A logical framework for inevitable value growth</p>
+                </div>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="card p-6 text-center">
+                        <div class="w-12 h-12 mx-auto mb-4 bg-gradient-to-br from-gold/20 to-gold/5 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941"/></svg>
+                        </div>
+                        <h4 class="font-bold text-white mb-2">Exchange Growth</h4>
+                        <p class="text-zinc-500 text-xs sm:text-sm">As PLUBIT grows, trading volume increases, driving demand for PLB utility</p>
+                    </div>
+                    <div class="card p-6 text-center">
+                        <div class="w-12 h-12 mx-auto mb-4 bg-gradient-to-br from-gold/20 to-gold/5 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z"/><path d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1A3.75 3.75 0 0012 18z"/></svg>
+                        </div>
+                        <h4 class="font-bold text-white mb-2">Deflationary Burns</h4>
+                        <p class="text-zinc-500 text-xs sm:text-sm">Quarterly buyback & burn reduces total supply, increasing scarcity over time</p>
+                    </div>
+                    <div class="card p-6 text-center">
+                        <div class="w-12 h-12 mx-auto mb-4 bg-gradient-to-br from-gold/20 to-gold/5 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
+                        </div>
+                        <h4 class="font-bold text-white mb-2">Staking Lock-up</h4>
+                        <p class="text-zinc-500 text-xs sm:text-sm">High APY staking incentivizes holding, reducing circulating supply significantly</p>
+                    </div>
+                    <div class="card p-6 text-center">
+                        <div class="w-12 h-12 mx-auto mb-4 bg-gradient-to-br from-gold/20 to-gold/5 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        </div>
+                        <h4 class="font-bold text-white mb-2">Fee Discount Demand</h4>
+                        <p class="text-zinc-500 text-xs sm:text-sm">40% fee discount creates constant buying pressure from active traders</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tokenomics - Deflationary Model -->
+            <div class="mb-16 fade-up">
+                <div class="text-center mb-10">
+                    <h3 class="font-display text-2xl sm:text-3xl font-bold text-white mb-3">Deflationary <span class="gradient-text">Tokenomics</span></h3>
+                    <p class="text-zinc-500 text-sm sm:text-base">Mathematically designed for sustainable value appreciation</p>
+                </div>
+
+                <div class="card p-6 sm:p-8 mb-6">
+                    <h4 class="font-display text-lg font-bold text-white mb-6 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z"/></svg>
+                        Economic Valuation Models
+                    </h4>
+
+                    <!-- Stock-to-Flow Model -->
+                    <div class="bg-zinc-900/50 rounded-xl p-5 sm:p-6 mb-6 border border-zinc-800">
+                        <div class="flex items-center gap-2 mb-3">
+                            <div class="text-xs text-zinc-500 uppercase tracking-wider">Stock-to-Flow Model</div>
+                            <span class="text-[10px] px-2 py-0.5 bg-blue-500/20 text-blue-400 rounded-full">PlanB Model</span>
+                        </div>
+                        <div class="font-mono text-lg sm:text-xl text-white mb-4 overflow-x-auto">
+                            <span class="text-gold">S2F</span> = <span class="text-emerald-400">S</span> / <span class="text-red-400">F</span>  →  <span class="text-gold">ln(P)</span> = <span class="text-blue-400">a</span> × ln(S2F) + <span class="text-purple-400">b</span>
+                        </div>
+                        <div class="grid sm:grid-cols-2 gap-3 text-xs sm:text-sm mb-4">
+                            <div class="flex items-center gap-2"><span class="text-emerald-400 font-mono font-bold">S</span><span class="text-zinc-500">= Current circulating stock</span></div>
+                            <div class="flex items-center gap-2"><span class="text-red-400 font-mono font-bold">F</span><span class="text-zinc-500">= Annual flow (new supply - burn)</span></div>
+                            <div class="flex items-center gap-2"><span class="text-blue-400 font-mono font-bold">a</span><span class="text-zinc-500">= Slope coefficient (≈3.3 for BTC)</span></div>
+                            <div class="flex items-center gap-2"><span class="text-purple-400 font-mono font-bold">b</span><span class="text-zinc-500">= Intercept constant</span></div>
+                        </div>
+                        <div class="text-xs text-zinc-500 bg-zinc-800/50 rounded-lg p-3">
+                            <span class="text-gold">PLB Advantage:</span> With negative flow (burn > issuance), S2F → ∞, indicating increasing scarcity premium
+                        </div>
+                    </div>
+
+                    <!-- Metcalfe's Law -->
+                    <div class="bg-zinc-900/50 rounded-xl p-5 sm:p-6 mb-6 border border-zinc-800">
+                        <div class="flex items-center gap-2 mb-3">
+                            <div class="text-xs text-zinc-500 uppercase tracking-wider">Network Value Model</div>
+                            <span class="text-[10px] px-2 py-0.5 bg-purple-500/20 text-purple-400 rounded-full">Metcalfe's Law</span>
+                        </div>
+                        <div class="font-mono text-lg sm:text-xl text-white mb-4 overflow-x-auto">
+                            <span class="text-gold">NV</span> = <span class="text-blue-400">k</span> × <span class="text-emerald-400">n</span><sup>2</sup>  →  <span class="text-gold">P</span> = (<span class="text-blue-400">k</span> × <span class="text-emerald-400">n</span><sup>2</sup>) / <span class="text-red-400">S<sub>t</sub></span>
+                        </div>
+                        <div class="grid sm:grid-cols-2 gap-3 text-xs sm:text-sm mb-4">
+                            <div class="flex items-center gap-2"><span class="text-gold font-mono font-bold">NV</span><span class="text-zinc-500">= Network value (market cap)</span></div>
+                            <div class="flex items-center gap-2"><span class="text-emerald-400 font-mono font-bold">n</span><span class="text-zinc-500">= Active users/addresses</span></div>
+                            <div class="flex items-center gap-2"><span class="text-blue-400 font-mono font-bold">k</span><span class="text-zinc-500">= Network coefficient</span></div>
+                            <div class="flex items-center gap-2"><span class="text-red-400 font-mono font-bold">S<sub>t</sub></span><span class="text-zinc-500">= Circulating supply</span></div>
+                        </div>
+                        <div class="text-xs text-zinc-500 bg-zinc-800/50 rounded-lg p-3">
+                            <span class="text-purple-400">Proven:</span> Facebook, Ethereum, and Bitcoin valuations follow n² relationship (R² > 0.9)
+                        </div>
+                    </div>
+
+                    <!-- Equation of Exchange -->
+                    <div class="bg-zinc-900/50 rounded-xl p-5 sm:p-6 mb-6 border border-zinc-800">
+                        <div class="flex items-center gap-2 mb-3">
+                            <div class="text-xs text-zinc-500 uppercase tracking-wider">Token Velocity Model</div>
+                            <span class="text-[10px] px-2 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full">Fisher Equation</span>
+                        </div>
+                        <div class="font-mono text-lg sm:text-xl text-white mb-4 overflow-x-auto">
+                            <span class="text-gold">M</span> × <span class="text-red-400">V</span> = <span class="text-emerald-400">P</span> × <span class="text-blue-400">Q</span>  →  <span class="text-gold">Token Price</span> = (<span class="text-emerald-400">P</span> × <span class="text-blue-400">Q</span>) / (<span class="text-gold">M</span> × <span class="text-red-400">V</span>)
+                        </div>
+                        <div class="grid sm:grid-cols-2 gap-3 text-xs sm:text-sm mb-4">
+                            <div class="flex items-center gap-2"><span class="text-gold font-mono font-bold">M</span><span class="text-zinc-500">= Total token supply in circulation</span></div>
+                            <div class="flex items-center gap-2"><span class="text-red-400 font-mono font-bold">V</span><span class="text-zinc-500">= Token velocity (turnover rate)</span></div>
+                            <div class="flex items-center gap-2"><span class="text-emerald-400 font-mono font-bold">P</span><span class="text-zinc-500">= Price level of services</span></div>
+                            <div class="flex items-center gap-2"><span class="text-blue-400 font-mono font-bold">Q</span><span class="text-zinc-500">= Quantity of transactions</span></div>
+                        </div>
+                        <div class="text-xs text-zinc-500 bg-zinc-800/50 rounded-lg p-3">
+                            <span class="text-emerald-400">PLB Strategy:</span> Staking reduces V (velocity), directly increasing token value per Fisher equation
+                        </div>
+                    </div>
+
+                    <!-- Combined Valuation Model -->
+                    <div class="bg-gradient-to-r from-gold/10 to-transparent rounded-xl p-5 sm:p-6 border border-gold/20">
+                        <div class="flex items-center gap-2 mb-3">
+                            <div class="text-xs text-gold uppercase tracking-wider">PLB Integrated Valuation</div>
+                            <span class="text-[10px] px-2 py-0.5 bg-gold/20 text-gold rounded-full">Combined Model</span>
+                        </div>
+                        <div class="font-mono text-base sm:text-lg text-white mb-4 overflow-x-auto">
+                            <span class="text-gold">P<sub>PLB</sub></span> = [(<span class="text-blue-400">k</span> × <span class="text-emerald-400">n</span><sup>2</sup>) / <span class="text-red-400">S<sub>t</sub></span>] × [1 + ln(<span class="text-purple-400">S2F</span>)] × [1 / <span class="text-red-400">V</span>]
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 text-xs text-center mt-4">
+                            <div class="bg-zinc-800/50 rounded-lg p-2"><div class="text-emerald-400 font-bold">Network Effect</div><div class="text-zinc-500">n² growth</div></div>
+                            <div class="bg-zinc-800/50 rounded-lg p-2"><div class="text-purple-400 font-bold">Scarcity Premium</div><div class="text-zinc-500">S2F increase</div></div>
+                            <div class="bg-zinc-800/50 rounded-lg p-2"><div class="text-red-400 font-bold">Velocity Sink</div><div class="text-zinc-500">Staking lock</div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projected Supply Reduction -->
+                <div class="grid sm:grid-cols-2 gap-6">
+                    <div class="card p-6">
+                        <h5 class="font-bold text-white mb-4 text-sm">5-Year Supply Projection</h5>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center"><span class="text-zinc-500 text-xs sm:text-sm">Year 0 (Launch)</span><span class="text-white font-mono text-sm">2.1B PLB</span></div>
+                            <div class="w-full h-2 bg-zinc-800 rounded-full"><div class="h-full bg-gradient-to-r from-gold to-gold-light rounded-full" style="width:100%"></div></div>
+                            <div class="flex justify-between items-center"><span class="text-zinc-500 text-xs sm:text-sm">Year 1</span><span class="text-white font-mono text-sm">1.89B PLB <span class="text-red-400 text-xs">(-10%)</span></span></div>
+                            <div class="w-full h-2 bg-zinc-800 rounded-full"><div class="h-full bg-gradient-to-r from-gold to-gold-light rounded-full" style="width:90%"></div></div>
+                            <div class="flex justify-between items-center"><span class="text-zinc-500 text-xs sm:text-sm">Year 3</span><span class="text-white font-mono text-sm">1.47B PLB <span class="text-red-400 text-xs">(-30%)</span></span></div>
+                            <div class="w-full h-2 bg-zinc-800 rounded-full"><div class="h-full bg-gradient-to-r from-gold to-gold-light rounded-full" style="width:70%"></div></div>
+                            <div class="flex justify-between items-center"><span class="text-zinc-500 text-xs sm:text-sm">Year 5</span><span class="text-white font-mono text-sm">1.05B PLB <span class="text-red-400 text-xs">(-50%)</span></span></div>
+                            <div class="w-full h-2 bg-zinc-800 rounded-full"><div class="h-full bg-gradient-to-r from-gold to-gold-light rounded-full" style="width:50%"></div></div>
+                        </div>
+                    </div>
+
+                    <div class="card p-6">
+                        <h5 class="font-bold text-white mb-4 text-sm">Deflationary Drivers</h5>
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-3">
+                                <div class="w-8 h-8 bg-red-500/10 rounded-lg flex items-center justify-center shrink-0 mt-0.5"><span class="text-red-400 text-xs font-bold">20%</span></div>
+                                <div><div class="text-white font-semibold text-sm">Revenue Burn</div><div class="text-zinc-500 text-xs">20% of quarterly revenue used for buyback & burn</div></div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-8 h-8 bg-blue-500/10 rounded-lg flex items-center justify-center shrink-0 mt-0.5"><span class="text-blue-400 text-xs font-bold">40%</span></div>
+                                <div><div class="text-white font-semibold text-sm">Staking Lock</div><div class="text-zinc-500 text-xs">Target 40% of supply locked in staking pools</div></div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-8 h-8 bg-purple-500/10 rounded-lg flex items-center justify-center shrink-0 mt-0.5"><span class="text-purple-400 text-xs font-bold">5%</span></div>
+                                <div><div class="text-white font-semibold text-sm">Fee Consumption</div><div class="text-zinc-500 text-xs">PLB used for fees partially burned</div></div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-8 h-8 bg-emerald-500/10 rounded-lg flex items-center justify-center shrink-0 mt-0.5"><span class="text-emerald-400 text-xs font-bold">∞</span></div>
+                                <div><div class="text-white font-semibold text-sm">No Inflation</div><div class="text-zinc-500 text-xs">Fixed supply with no additional minting</div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Theoretical Foundations -->
+                <div class="card p-6 sm:p-8 mt-6 border border-zinc-700/50">
+                    <h4 class="font-display text-lg font-bold text-white mb-6 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/></svg>
+                        Theoretical Foundations
+                    </h4>
+                    <div class="grid sm:grid-cols-3 gap-4">
+                        <div class="bg-zinc-900/50 rounded-xl p-4 border border-zinc-800">
+                            <div class="flex items-center gap-2 mb-3">
+                                <div class="w-8 h-8 bg-blue-500/10 rounded-lg flex items-center justify-center"><span class="text-blue-400 text-xs font-bold">S2F</span></div>
+                                <span class="text-white font-semibold text-sm">Stock-to-Flow</span>
+                            </div>
+                            <p class="text-zinc-500 text-xs leading-relaxed mb-3">Developed by pseudonymous analyst PlanB (2019). Models asset value based on scarcity ratio. Successfully predicted Bitcoin's price movements with R² > 0.95.</p>
+                            <div class="text-[10px] text-zinc-600 border-t border-zinc-800 pt-2 mt-2">
+                                <span class="text-zinc-500">Reference:</span> "Modeling Bitcoin Value with Scarcity" - PlanB, 2019
+                            </div>
+                        </div>
+                        <div class="bg-zinc-900/50 rounded-xl p-4 border border-zinc-800">
+                            <div class="flex items-center gap-2 mb-3">
+                                <div class="w-8 h-8 bg-purple-500/10 rounded-lg flex items-center justify-center"><span class="text-purple-400 text-xs font-bold">n²</span></div>
+                                <span class="text-white font-semibold text-sm">Metcalfe's Law</span>
+                            </div>
+                            <p class="text-zinc-500 text-xs leading-relaxed mb-3">Formulated by Robert Metcalfe (1980). States network value grows proportionally to users squared. Validated across Facebook, Tencent, and major cryptocurrencies.</p>
+                            <div class="text-[10px] text-zinc-600 border-t border-zinc-800 pt-2 mt-2">
+                                <span class="text-zinc-500">Reference:</span> "Metcalfe's Law as a Model for Bitcoin's Value" - Clearblocks, 2017
+                            </div>
+                        </div>
+                        <div class="bg-zinc-900/50 rounded-xl p-4 border border-zinc-800">
+                            <div class="flex items-center gap-2 mb-3">
+                                <div class="w-8 h-8 bg-emerald-500/10 rounded-lg flex items-center justify-center"><span class="text-emerald-400 text-xs font-bold">MV</span></div>
+                                <span class="text-white font-semibold text-sm">Fisher Equation</span>
+                            </div>
+                            <p class="text-zinc-500 text-xs leading-relaxed mb-3">Proposed by Irving Fisher (1911). The Equation of Exchange (MV=PQ) is foundational monetary economics. Adapted for crypto token valuation by Chris Burniske.</p>
+                            <div class="text-[10px] text-zinc-600 border-t border-zinc-800 pt-2 mt-2">
+                                <span class="text-zinc-500">Reference:</span> "Cryptoasset Valuations" - Chris Burniske, 2017
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6 p-4 bg-gradient-to-r from-gold/5 to-transparent rounded-xl border border-gold/10">
+                        <p class="text-zinc-400 text-xs leading-relaxed">
+                            <span class="text-gold font-semibold">Academic Basis:</span> PLB tokenomics integrates three peer-reviewed economic frameworks: scarcity-driven valuation (S2F), network effect theory (Metcalfe), and monetary velocity principles (Fisher). This multi-factor approach provides robust theoretical support for long-term value accrual through systematic supply reduction and utility-driven demand.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Token Info & Benefits -->
+            <div class="grid lg:grid-cols-2 gap-6 fade-up">
+                <!-- Token Info -->
+                <div class="card p-6 sm:p-8">
+                    <h4 class="font-display text-xl font-bold text-white mb-6 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"/></svg>
+                        Token Information
+                    </h4>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center py-3 border-b border-zinc-800"><span class="text-zinc-500 text-sm">Token Name</span><span class="text-white font-semibold">PLUBIT Token (PLB)</span></div>
+                        <div class="flex justify-between items-center py-3 border-b border-zinc-800"><span class="text-zinc-500 text-sm">Network</span><span class="text-white font-semibold">BNB Chain (BEP-20)</span></div>
+                        <div class="flex justify-between items-center py-3 border-b border-zinc-800"><span class="text-zinc-500 text-sm">Total Supply</span><span class="text-white font-semibold">2,100,000,000 PLB</span></div>
+                        <div class="flex justify-between items-center py-3 border-b border-zinc-800"><span class="text-zinc-500 text-sm">Initial Price</span><span class="text-white font-semibold">$0.03</span></div>
+                        <div class="flex justify-between items-center py-3"><span class="text-zinc-500 text-sm">Token Type</span><span class="gradient-text font-bold">Deflationary</span></div>
+                    </div>
+                </div>
+
+                <!-- Holder Benefits -->
+                <div class="card p-6 sm:p-8">
+                    <h4 class="font-display text-xl font-bold text-white mb-6 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z"/></svg>
+                        PLB Holder Benefits
+                    </h4>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4 p-4 bg-zinc-800/30 rounded-xl">
+                            <div class="w-10 h-10 bg-gold/10 rounded-lg flex items-center justify-center shrink-0"><svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
+                            <div><div class="text-white font-semibold text-sm">40% Trading Fee Discount</div><div class="text-zinc-500 text-xs">Pay fees with PLB and save significantly</div></div>
+                        </div>
+                        <div class="flex items-center gap-4 p-4 bg-zinc-800/30 rounded-xl">
+                            <div class="w-10 h-10 bg-gold/10 rounded-lg flex items-center justify-center shrink-0"><svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+                            <div><div class="text-white font-semibold text-sm">Up to 20% APY Staking</div><div class="text-zinc-500 text-xs">Earn passive income by staking PLB</div></div>
+                        </div>
+                        <div class="flex items-center gap-4 p-4 bg-zinc-800/30 rounded-xl">
+                            <div class="w-10 h-10 bg-gold/10 rounded-lg flex items-center justify-center shrink-0"><svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.58-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/></svg></div>
+                            <div><div class="text-white font-semibold text-sm">Priority Launchpad Access</div><div class="text-zinc-500 text-xs">Get early access to new token launches</div></div>
+                        </div>
+                        <div class="flex items-center gap-4 p-4 bg-zinc-800/30 rounded-xl">
+                            <div class="w-10 h-10 bg-gold/10 rounded-lg flex items-center justify-center shrink-0"><svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg></div>
+                            <div><div class="text-white font-semibold text-sm">Governance Voting Rights</div><div class="text-zinc-500 text-xs">Participate in key platform decisions</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="text-center mt-12 fade-up">
+                <a href="#waitlist" class="btn-primary inline-flex items-center gap-3 text-base py-4 px-10">
+                    Get PLB Early Access
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Waitlist -->
+    <section id="waitlist" class="py-24 sm:py-32 px-4 sm:px-6">
+        <div class="max-w-md mx-auto">
+            <div class="card-gold rounded-3xl p-7 sm:p-10 fade-up">
+                <div class="text-center mb-8">
+                    <div class="mb-4">
+                        <span class="text-4xl tracking-wide" style="font-family:'Bebas Neue',sans-serif;letter-spacing:0.05em"><span class="text-white">PLUB</span><span class="text-gold">I</span><span class="text-white">T</span></span>
+                    </div>
+                    <h3 class="font-display text-2xl sm:text-3xl font-bold text-white mb-2">Get Early Access</h3>
+                    <p class="text-zinc-400 text-sm sm:text-base mb-4">Join our beta program today</p>
+
+                    <!-- Social Proof Counter -->
+                    <div class="flex items-center justify-center gap-3 py-3 px-5 bg-zinc-800/30 rounded-xl border border-zinc-700/30 mx-auto max-w-xs">
+                        <div class="flex -space-x-2">
+                            <div class="w-7 h-7 rounded-full bg-gradient-to-br from-gold to-amber-600 border-2 border-[#08080c] flex items-center justify-center text-[8px] text-black font-bold">JK</div>
+                            <div class="w-7 h-7 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 border-2 border-[#08080c] flex items-center justify-center text-[8px] text-white font-bold">RM</div>
+                            <div class="w-7 h-7 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 border-2 border-[#08080c] flex items-center justify-center text-[8px] text-white font-bold">SH</div>
+                        </div>
+                        <div class="text-left">
+                            <div class="text-white text-sm font-bold counter-num"><span id="waitlist-counter">847</span><span class="text-zinc-500">/1,000</span></div>
+                            <div class="text-zinc-500 text-[10px]">spots claimed</div>
+                        </div>
+                        <div class="w-24 h-2 bg-zinc-700 rounded-full overflow-hidden">
+                            <div class="h-full bg-gradient-to-r from-gold to-gold-bright rounded-full" style="width:84.7%"></div>
+                        </div>
+                    </div>
+                </div>
+                <form id="waitlist-form" class="space-y-5" action="https://formsubmit.co/windy064745@gmail.com" method="POST">
+                    <input type="hidden" name="_subject" value="New PLUBIT Beta Application">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_template" value="box">
+                    <input type="hidden" name="_next" value="https://ryanz3889.github.io/web/thanks.html">
+
+                    <div><label class="block text-zinc-500 text-xs sm:text-sm font-medium mb-2">Interest</label><div class="grid grid-cols-3 gap-2"><button type="button" class="interest-btn py-3 bg-zinc-800/50 border border-zinc-700/50 rounded-xl text-zinc-400 text-xs sm:text-sm font-medium transition-all" data-value="spot" onclick="setInterest('spot')">Spot</button><button type="button" class="interest-btn py-3 bg-zinc-800/50 border border-zinc-700/50 rounded-xl text-zinc-400 text-xs sm:text-sm font-medium transition-all" data-value="futures" onclick="setInterest('futures')">Futures</button><button type="button" class="interest-btn py-3 bg-gold border border-gold rounded-xl text-black text-xs sm:text-sm font-bold" data-value="both" onclick="setInterest('both')">Both</button></div></div>
+                    <input type="hidden" name="interest" id="interest-input" value="both">
+
+                    <div><label class="block text-zinc-500 text-xs sm:text-sm font-medium mb-2">Email</label><input type="email" name="email" id="email-input" required placeholder="you@example.com"></div>
+                    <div class="flex items-start gap-3 p-4 bg-zinc-800/30 border border-zinc-700/30 rounded-xl"><input type="checkbox" id="consent" required class="mt-0.5 w-4 h-4 accent-gold"><label for="consent" class="text-zinc-500 text-xs sm:text-sm leading-relaxed"><span class="text-gold font-semibold">[Required]</span> I agree to the collection and use of personal information.</label></div>
+                    <button type="submit" class="btn-primary w-full py-4 text-sm sm:text-base font-bold">Submit</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 sm:py-16 px-4 sm:px-6 border-t border-zinc-800/50">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-6">
+                <a href="#" class="flex items-center">
+                    <span class="text-xl tracking-wide" style="font-family:'Bebas Neue',sans-serif;letter-spacing:0.05em"><span class="text-white">PLUB</span><span class="text-gold">I</span><span class="text-white">T</span></span>
+                </a>
+                <div class="flex items-center gap-6 text-xs sm:text-sm text-zinc-500"><a href="plubitinfo.html" class="hover:text-gold transition-colors font-medium">About</a><a href="revenue-sim.html" class="hover:text-gold transition-colors font-medium">Revenue Sim</a><a href="#" class="hover:text-white transition-colors">Terms</a><a href="#" class="hover:text-white transition-colors">Privacy</a><a href="#" class="hover:text-white transition-colors">Risk</a></div>
+                <span class="text-zinc-600 text-xs sm:text-sm">2025 PLUBIT. All rights reserved.</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const coinData={BTC:{price:97842.50},ETH:{price:3456.78},SOL:{price:198.45}};let currentCoin='BTC';
+        const tickerData=[{symbol:'BTC/USDT',price:97842.50,change:2.34},{symbol:'ETH/USDT',price:3456.78,change:-1.23},{symbol:'SOL/USDT',price:198.45,change:5.67},{symbol:'XRP/USDT',price:2.34,change:8.91},{symbol:'DOGE/USDT',price:0.3456,change:-2.45}];
+        function renderTicker(){const t=document.getElementById('ticker');const items=[...tickerData,...tickerData,...tickerData];t.innerHTML=items.map(c=>`<div class="flex items-center gap-4 mx-6 sm:mx-10 whitespace-nowrap"><span class="text-zinc-500 text-xs sm:text-sm font-medium">${c.symbol}</span><span class="text-white font-semibold text-xs sm:text-sm">$${c.price.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</span><span class="text-xs sm:text-sm font-semibold ${c.change>=0?'text-emerald-400':'text-red-400'}">${c.change>=0?'+':''}${c.change.toFixed(2)}%</span></div>`).join('')}
+        renderTicker();setInterval(()=>{tickerData.forEach(c=>{c.price*=(1+(Math.random()-0.5)*0.001);c.change+=(Math.random()-0.5)*0.05});renderTicker()},2500);
+        document.querySelectorAll('.coin-btn').forEach(btn=>{btn.addEventListener('click',()=>{document.querySelectorAll('.coin-btn').forEach(b=>{b.classList.remove('bg-gold','text-black');b.classList.add('bg-zinc-800/50','text-zinc-400')});btn.classList.remove('bg-zinc-800/50','text-zinc-400');btn.classList.add('bg-gold','text-black');currentCoin=btn.dataset.coin;updateCharts()})});
+        // ===== Canvas Candlestick Chart (TradingView style) =====
+        const chartStates = {};
+
+        function generateCandleData(basePrice, count, volatility) {
+            const candles = [];
+            let price = basePrice;
+            // Generate trend bias for realistic movement
+            let trend = (Math.random() - 0.5) * 0.002;
+            for (let i = 0; i < count; i++) {
+                if (Math.random() < 0.1) trend = (Math.random() - 0.5) * 0.002; // trend shift
+                const change = trend + (Math.random() - 0.5) * volatility;
+                const open = price;
+                const close = price * (1 + change);
+                const high = Math.max(open, close) * (1 + Math.random() * volatility * 0.6);
+                const low = Math.min(open, close) * (1 - Math.random() * volatility * 0.6);
+                candles.push({ o: open, h: high, l: low, c: close });
+                price = close;
+            }
+            return candles;
+        }
+
+        function drawCandleChart(canvasId, candles, isGood) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+            const W = rect.width, H = rect.height;
+            ctx.clearRect(0, 0, W, H);
+
+            const allH = candles.flatMap(c => [c.h]), allL = candles.flatMap(c => [c.l]);
+            const maxP = Math.max(...allH), minP = Math.min(...allL);
+            const range = maxP - minP || 1;
+            const pad = 4;
+            const cW = (W - pad * 2) / candles.length;
+            const bodyW = Math.max(cW * 0.6, 2);
+
+            const toY = p => pad + (1 - (p - minP) / range) * (H - pad * 2);
+
+            // Grid lines
+            ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+            ctx.lineWidth = 0.5;
+            for (let i = 0; i < 5; i++) {
+                const y = pad + (i / 4) * (H - pad * 2);
+                ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+            }
+
+            // Volume bars (subtle background)
+            candles.forEach((c, i) => {
+                const x = pad + i * cW + cW / 2;
+                const vol = Math.abs(c.c - c.o) / range;
+                const vH = Math.max(vol * H * 3, 2);
+                const green = c.c >= c.o;
+                ctx.fillStyle = green ? 'rgba(34,197,94,0.06)' : 'rgba(239,68,68,0.06)';
+                ctx.fillRect(x - bodyW / 2, H - vH, bodyW, vH);
+            });
+
+            // Candles
+            candles.forEach((c, i) => {
+                const x = pad + i * cW + cW / 2;
+                const green = c.c >= c.o;
+                const color = green ? '#22c55e' : '#ef4444';
+                const glow = green ? 'rgba(34,197,94,0.3)' : 'rgba(239,68,68,0.3)';
+
+                // Wick
+                ctx.strokeStyle = color;
+                ctx.lineWidth = isGood ? 1.2 : 0.8;
+                ctx.beginPath();
+                ctx.moveTo(x, toY(c.h));
+                ctx.lineTo(x, toY(c.l));
+                ctx.stroke();
+
+                // Body
+                const top = toY(Math.max(c.o, c.c));
+                const bot = toY(Math.min(c.o, c.c));
+                const bH = Math.max(bot - top, 1);
+
+                if (isGood) {
+                    // Glow for PLUBIT chart
+                    ctx.shadowColor = glow;
+                    ctx.shadowBlur = 4;
+                }
+                ctx.fillStyle = color;
+                ctx.fillRect(x - bodyW / 2, top, bodyW, bH);
+                ctx.shadowBlur = 0;
+            });
+
+            // Moving average line (EMA-like)
+            if (isGood) {
+                ctx.beginPath();
+                ctx.strokeStyle = 'rgba(218,165,32,0.5)';
+                ctx.lineWidth = 1.5;
+                let ema = candles[0].c;
+                const k = 2 / (10 + 1);
+                candles.forEach((c, i) => {
+                    ema = c.c * k + ema * (1 - k);
+                    const x = pad + i * cW + cW / 2;
+                    const y = toY(ema);
+                    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                });
+                ctx.stroke();
+            }
+
+            // Last price line
+            const lastC = candles[candles.length - 1];
+            const lastY = toY(lastC.c);
+            ctx.setLineDash([3, 3]);
+            ctx.strokeStyle = lastC.c >= lastC.o ? 'rgba(34,197,94,0.5)' : 'rgba(239,68,68,0.5)';
+            ctx.lineWidth = 0.8;
+            ctx.beginPath(); ctx.moveTo(0, lastY); ctx.lineTo(W, lastY); ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Price label
+            ctx.font = '600 9px JetBrains Mono, monospace';
+            ctx.fillStyle = lastC.c >= lastC.o ? '#22c55e' : '#ef4444';
+            ctx.textAlign = 'right';
+            ctx.fillText(lastC.c.toFixed(2), W - 2, lastY - 4);
+        }
+
+        function initChart(canvasId, isGood) {
+            const bp = coinData[currentCoin].price;
+            const vol = isGood ? 0.004 : 0.008; // Poor has more volatile/erratic
+            const count = window.innerWidth < 640 ? 40 : 60;
+            const candles = generateCandleData(bp, count, vol);
+            chartStates[canvasId] = { candles, isGood, vol };
+            drawCandleChart(canvasId, candles, isGood);
+        }
+
+        // Live candle animation - adds new candle periodically
+        function animateCharts() {
+            Object.keys(chartStates).forEach(id => {
+                const st = chartStates[id];
+                if (!st) return;
+                const last = st.candles[st.candles.length - 1];
+                // Update last candle (simulate live tick)
+                const tick = (Math.random() - 0.5) * st.vol * 0.3;
+                last.c *= (1 + tick);
+                last.h = Math.max(last.h, last.c);
+                last.l = Math.min(last.l, last.c);
+                drawCandleChart(id, st.candles, st.isGood);
+            });
+        }
+
+        // New candle every 2 seconds
+        function addNewCandle() {
+            Object.keys(chartStates).forEach(id => {
+                const st = chartStates[id];
+                if (!st) return;
+                const last = st.candles[st.candles.length - 1];
+                const trend = (Math.random() - 0.5) * 0.001;
+                const change = trend + (Math.random() - 0.5) * st.vol;
+                const open = last.c;
+                const close = open * (1 + change);
+                const high = Math.max(open, close) * (1 + Math.random() * st.vol * 0.5);
+                const low = Math.min(open, close) * (1 - Math.random() * st.vol * 0.5);
+                st.candles.push({ o: open, h: high, l: low, c: close });
+                if (st.candles.length > (window.innerWidth < 640 ? 40 : 60)) st.candles.shift();
+                drawCandleChart(id, st.candles, st.isGood);
+            });
+        }
+
+        // ===== Realistic Orderbook =====
+        const obStates = {};
+
+        function initOrderbook(askId, bidId, isDense, spreadElId) {
+            const bp = coinData[currentCoin].price;
+            const rows = isDense ? 8 : 5;
+            const step = isDense ? bp * 0.00003 : bp * 0.0006;
+            const asks = [], bids = [];
+            for (let i = 0; i < rows; i++) {
+                // PLUBIT: huge amounts (deep liquidity), tight spread
+                // Poor: tiny amounts, wide gaps
+                const baseAmt = isDense ? Math.random() * 80 + 40 : Math.random() * 1.2 + 0.02;
+                // Larger amounts near spread (realistic depth profile)
+                const depthMult = isDense ? (1 + i * 0.3) : 1;
+                asks.push({
+                    price: bp + (i + 1) * step + (isDense ? 0 : Math.random() * step * 3),
+                    amount: baseAmt * depthMult,
+                    targetAmount: 0
+                });
+                bids.push({
+                    price: bp - (i + 1) * step - (isDense ? 0 : Math.random() * step * 3),
+                    amount: baseAmt * depthMult,
+                    targetAmount: 0
+                });
+            }
+            asks.sort((a, b) => a.price - b.price);
+            bids.sort((a, b) => b.price - a.price);
+            const key = askId;
+            obStates[key] = { askId, bidId, isDense, asks, bids, spreadElId };
+            renderOrderbook(key);
+        }
+
+        function renderOrderbook(key) {
+            const st = obStates[key];
+            if (!st) return;
+            const { askId, bidId, isDense, asks, bids, spreadElId } = st;
+            const askC = document.getElementById(askId);
+            const bidC = document.getElementById(bidId);
+            if (!askC || !bidC) return;
+
+            const maxAskAmt = Math.max(...asks.map(a => a.amount));
+            const maxBidAmt = Math.max(...bids.map(b => b.amount));
+
+            // Asks (sell orders) - reversed to show lowest at bottom
+            const sortedAsks = [...asks].reverse();
+            askC.innerHTML = sortedAsks.map(a => {
+                const depthW = isDense
+                    ? (a.amount / maxAskAmt * 85 + 10).toFixed(1)
+                    : (a.amount / maxAskAmt * 40 + 3).toFixed(1);
+                const opacity = isDense ? 0.25 : 0.08;
+                return `<div class="orderbook-row flex items-center py-[3px] relative text-[10px] sm:text-xs font-mono overflow-hidden" data-type="ask">
+                    <div class="ob-depth-bar absolute right-0 top-0 bottom-0 rounded-sm transition-all duration-300 ease-out" style="width:${depthW}%;background:linear-gradient(to left,rgba(239,68,68,${opacity}),transparent)"></div>
+                    <span class="w-20 sm:w-24 text-red-400 relative z-10">${a.price.toFixed(2)}</span>
+                    <span class="flex-1 text-right text-zinc-${isDense?'300':'600'} relative z-10 tabular-nums">${a.amount.toFixed(4)}</span>
+                </div>`;
+            }).join('');
+
+            bidC.innerHTML = bids.map(b => {
+                const depthW = isDense
+                    ? (b.amount / maxBidAmt * 85 + 10).toFixed(1)
+                    : (b.amount / maxBidAmt * 40 + 3).toFixed(1);
+                const opacity = isDense ? 0.25 : 0.08;
+                return `<div class="orderbook-row flex items-center py-[3px] relative text-[10px] sm:text-xs font-mono overflow-hidden" data-type="bid">
+                    <div class="ob-depth-bar absolute left-0 top-0 bottom-0 rounded-sm transition-all duration-300 ease-out" style="width:${depthW}%;background:linear-gradient(to right,rgba(34,197,94,${opacity}),transparent)"></div>
+                    <span class="w-20 sm:w-24 text-emerald-400 relative z-10">${b.price.toFixed(2)}</span>
+                    <span class="flex-1 text-right text-zinc-${isDense?'300':'600'} relative z-10 tabular-nums">${b.amount.toFixed(4)}</span>
+                </div>`;
+            }).join('');
+
+            // Update spread
+            if (spreadElId) {
+                const spread = asks[0].price - bids[0].price;
+                const el = document.getElementById(spreadElId);
+                if (el) el.textContent = '$' + spread.toFixed(2);
+            }
+        }
+
+        function animateOrderbooks() {
+            Object.keys(obStates).forEach(key => {
+                const st = obStates[key];
+                if (!st) return;
+                const { isDense, asks, bids } = st;
+
+                // === Simulate trade executions (eat into orderbook) ===
+                const execChance = isDense ? 0.4 : 0.15; // PLUBIT has more executions
+
+                if (Math.random() < execChance) {
+                    // Market buy - eats lowest ask
+                    const target = asks[0];
+                    const eaten = isDense ? Math.random() * 15 + 5 : Math.random() * 0.8 + 0.1;
+                    target.amount = Math.max(isDense ? 2 : 0.005, target.amount - eaten);
+
+                    // If amount gets very low, refill (new limit order)
+                    if (target.amount < (isDense ? 5 : 0.05)) {
+                        target.amount = isDense ? Math.random() * 40 + 30 : Math.random() * 1.5 + 0.1;
+                        target.price += isDense ? 0.1 : 2; // price moves up
+                    }
+                }
+
+                if (Math.random() < execChance) {
+                    // Market sell - eats highest bid
+                    const target = bids[0];
+                    const eaten = isDense ? Math.random() * 15 + 5 : Math.random() * 0.8 + 0.1;
+                    target.amount = Math.max(isDense ? 2 : 0.005, target.amount - eaten);
+
+                    if (target.amount < (isDense ? 5 : 0.05)) {
+                        target.amount = isDense ? Math.random() * 40 + 30 : Math.random() * 1.5 + 0.1;
+                        target.price -= isDense ? 0.1 : 2;
+                    }
+                }
+
+                // === Background order flow (new limit orders arriving) ===
+                asks.forEach((a, i) => {
+                    const delta = (Math.random() - 0.45) * (isDense ? 12 : 0.4);
+                    a.amount = Math.max(isDense ? 8 : 0.01, a.amount + delta);
+                    if (Math.random() < 0.03) a.price += (Math.random() - 0.5) * (isDense ? 0.3 : 3);
+                });
+                bids.forEach((b, i) => {
+                    const delta = (Math.random() - 0.45) * (isDense ? 12 : 0.4);
+                    b.amount = Math.max(isDense ? 8 : 0.01, b.amount + delta);
+                    if (Math.random() < 0.03) b.price += (Math.random() - 0.5) * (isDense ? 0.3 : 3);
+                });
+
+                renderOrderbook(key);
+
+                // === Visual flash effects ===
+                const askRows = document.querySelectorAll(`#${st.askId} .orderbook-row`);
+                const bidRows = document.querySelectorAll(`#${st.bidId} .orderbook-row`);
+                const allRows = [...askRows, ...bidRows];
+
+                // PLUBIT: intense multi-row flashing + execution burst
+                const flashCount = isDense ? 4 : 1;
+                for (let i = 0; i < flashCount; i++) {
+                    const rowIdx = Math.floor(Math.random() * allRows.length);
+                    const row = allRows[rowIdx];
+                    if (!row) continue;
+                    const t = row.dataset.type;
+
+                    // Base flash
+                    row.classList.add(t === 'ask' ? 'ob-flash-red' : 'ob-flash-green');
+                    setTimeout(() => row.classList.remove('ob-flash-red', 'ob-flash-green'), 400);
+
+                    // Execution burst on top rows (simulates trade fill)
+                    if (isDense && rowIdx < 3 && Math.random() < 0.5) {
+                        row.classList.add('ob-execute', t === 'ask' ? 'ob-execute-red' : 'ob-execute-green');
+                        // Amount shrink effect
+                        const amtEl = row.querySelector('span:nth-child(3)');
+                        if (amtEl) amtEl.classList.add('ob-amount-shrink');
+                        setTimeout(() => {
+                            row.classList.remove('ob-execute', 'ob-execute-red', 'ob-execute-green');
+                            if (amtEl) amtEl.classList.remove('ob-amount-shrink');
+                        }, 600);
+                    }
+                }
+
+                // Spread pulse effect when spread is tight
+                if (isDense && Math.random() < 0.15) {
+                    const spreadEl = document.getElementById(st.spreadElId);
+                    if (spreadEl) {
+                        spreadEl.classList.add('spread-pulse');
+                        setTimeout(() => spreadEl.classList.remove('spread-pulse'), 500);
+                    }
+                }
+            });
+        }
+        function generateTradeFeed(){const c=document.getElementById('trade-feed-inner');if(!c)return;const trades=[];for(let i=0;i<20;i++){const isBuy=Math.random()>0.5,bp=coinData[currentCoin].price,pr=(bp*(1+(Math.random()-0.5)*0.0005)).toFixed(2),am=(Math.random()*15+0.5).toFixed(4);trades.push({isBuy,pr,am})}c.innerHTML=trades.map(t=>`<div class="flex items-center gap-2 px-3 py-2 bg-zinc-800/30 rounded-lg whitespace-nowrap shrink-0 border border-zinc-700/30"><span class="${t.isBuy?'text-emerald-400':'text-red-400'} text-[10px] sm:text-xs font-bold">${t.isBuy?'BUY':'SELL'}</span><span class="text-white text-[10px] sm:text-xs font-mono">${t.am}</span><span class="text-zinc-600 text-[10px] sm:text-xs">@</span><span class="text-zinc-300 text-[10px] sm:text-xs font-mono">$${Number(t.pr).toLocaleString()}</span></div>`).join('')}
+        function addLiveTrade(){const c=document.getElementById('trade-feed-inner');if(!c)return;setInterval(()=>{const isBuy=Math.random()>0.5,bp=coinData[currentCoin].price,pr=(bp*(1+(Math.random()-0.5)*0.0005)).toFixed(2),am=(Math.random()*15+0.5).toFixed(4);const tr=document.createElement('div');tr.className='flex items-center gap-2 px-3 py-2 bg-zinc-800/30 rounded-lg whitespace-nowrap shrink-0 border border-zinc-700/30';tr.style.cssText='opacity:0;transform:scale(0.9)';tr.innerHTML=`<span class="${isBuy?'text-emerald-400':'text-red-400'} text-[10px] sm:text-xs font-bold">${isBuy?'BUY':'SELL'}</span><span class="text-white text-[10px] sm:text-xs font-mono">${am}</span><span class="text-zinc-600 text-[10px] sm:text-xs">@</span><span class="text-zinc-300 text-[10px] sm:text-xs font-mono">$${Number(pr).toLocaleString()}</span>`;c.prepend(tr);requestAnimationFrame(()=>{tr.style.transition='all 0.3s ease';tr.style.opacity='1';tr.style.transform='scale(1)'});if(c.children.length>25)c.removeChild(c.lastChild)},400)}
+        function updateCharts(){
+            const bp=coinData[currentCoin].price;
+            document.getElementById('poor-price').textContent='$'+bp.toLocaleString(undefined,{minimumFractionDigits:2});
+            document.getElementById('good-price').textContent='$'+bp.toLocaleString(undefined,{minimumFractionDigits:2});
+            initChart('chart-poor', false);
+            initChart('chart-good', true);
+            initOrderbook('orderbook-poor','orderbook-poor-bids', false, 'spread-poor');
+            initOrderbook('orderbook-good','orderbook-good-bids', true, 'spread-good');
+            generateTradeFeed();
+        }
+
+        let chartAnimInterval, candleInterval, obAnimInterval;
+        const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:0.1});document.querySelectorAll('.fade-up').forEach(el=>observer.observe(el));
+        const liqObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){
+            updateCharts();
+            setTimeout(()=>{
+                // Live chart ticks every 200ms
+                chartAnimInterval = setInterval(animateCharts, 200);
+                // New candle every 2.5s
+                candleInterval = setInterval(addNewCandle, 2500);
+                // Orderbook updates every 80ms (fast execution feel)
+                obAnimInterval = setInterval(animateOrderbooks, 80);
+                // Price update
+                setInterval(()=>{
+                    const st = chartStates['chart-good'];
+                    if(st){
+                        const last = st.candles[st.candles.length-1];
+                        document.getElementById('good-price').textContent='$'+last.c.toLocaleString(undefined,{minimumFractionDigits:2});
+                    }
+                    const sp = chartStates['chart-poor'];
+                    if(sp){
+                        const last = sp.candles[sp.candles.length-1];
+                        document.getElementById('poor-price').textContent='$'+last.c.toLocaleString(undefined,{minimumFractionDigits:2});
+                    }
+                }, 500);
+                addLiveTrade();
+            },500);
+            liqObs.unobserve(e.target);
+        }})},{threshold:0.2});const ls=document.getElementById('liquidity');if(ls)liqObs.observe(ls);
+
+        // Resize handler for canvas charts
+        window.addEventListener('resize', () => {
+            Object.keys(chartStates).forEach(id => {
+                drawCandleChart(id, chartStates[id].candles, chartStates[id].isGood);
+            });
+        });
+        function setInterest(value){document.getElementById('interest-input').value=value;document.querySelectorAll('.interest-btn').forEach(b=>{b.classList.remove('bg-gold','border-gold','text-black','font-bold');b.classList.add('bg-zinc-800/50','border-zinc-700/50','text-zinc-400');if(b.dataset.value===value){b.classList.remove('bg-zinc-800/50','border-zinc-700/50','text-zinc-400');b.classList.add('bg-gold','border-gold','text-black','font-bold')}})}
+
+        // Countdown Timer - Target: March 30, 2026
+        function updateCountdown(){
+            const target=new Date('2026-03-30T00:00:00').getTime();
+            const now=new Date().getTime();
+            const diff=target-now;
+            if(diff>0){
+                const days=Math.floor(diff/(1000*60*60*24));
+                const hours=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+                const mins=Math.floor((diff%(1000*60*60))/(1000*60));
+                const secs=Math.floor((diff%(1000*60))/1000);
+                document.getElementById('countdown-days').textContent=String(days).padStart(2,'0');
+                document.getElementById('countdown-hours').textContent=String(hours).padStart(2,'0');
+                document.getElementById('countdown-mins').textContent=String(mins).padStart(2,'0');
+                document.getElementById('countdown-secs').textContent=String(secs).padStart(2,'0');
+            }
+        }
+        updateCountdown();
+        setInterval(updateCountdown,1000);
+
+        // Typing Animation
+        const typingTexts=[
+            'Institutional-grade liquidity.',
+            'Zero slippage execution.',
+            'Enterprise security.',
+            'AI-powered risk control.',
+            'Up to 50% liquidation revival.'
+        ];
+        let textIndex=0,charIndex=0,isDeleting=false;
+        function typeText(){
+            const el=document.getElementById('typing-text');
+            if(!el)return;
+            const current=typingTexts[textIndex];
+            if(isDeleting){
+                el.textContent=current.substring(0,charIndex-1);
+                charIndex--;
+            }else{
+                el.textContent=current.substring(0,charIndex+1);
+                charIndex++;
+            }
+            let delay=isDeleting?30:80;
+            if(!isDeleting&&charIndex===current.length){
+                delay=2000;
+                isDeleting=true;
+            }else if(isDeleting&&charIndex===0){
+                isDeleting=false;
+                textIndex=(textIndex+1)%typingTexts.length;
+                delay=500;
+            }
+            setTimeout(typeText,delay);
+        }
+        setTimeout(typeText,1000);
+
+        // ===== GSAP ScrollTrigger Animations =====
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Replace basic fade-up with GSAP
+        gsap.utils.toArray('.fade-up').forEach((el, i) => {
+            gsap.fromTo(el,
+                { opacity: 0, y: 50 },
+                {
+                    opacity: 1, y: 0, duration: 0.8,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: el,
+                        start: 'top 85%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        });
+
+        // Parallax for glow orbs
+        gsap.utils.toArray('.glow-orb').forEach(orb => {
+            gsap.to(orb, {
+                y: -100,
+                scrollTrigger: {
+                    trigger: document.body,
+                    start: 'top top',
+                    end: 'bottom bottom',
+                    scrub: 2
+                }
+            });
+        });
+
+        // Sections scale-in effect
+        gsap.utils.toArray('section[id]').forEach(sec => {
+            gsap.fromTo(sec.querySelector('.max-w-7xl, .max-w-md, .max-w-3xl, .max-w-4xl'),
+                { scale: 0.97, opacity: 0.8 },
+                {
+                    scale: 1, opacity: 1, duration: 0.6,
+                    scrollTrigger: {
+                        trigger: sec,
+                        start: 'top 80%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        });
+
+        // Counter animation for stats
+        function animateCounter(el, target, suffix = '') {
+            const num = parseInt(target.replace(/[^0-9]/g, ''));
+            gsap.fromTo(el, { innerText: 0 }, {
+                innerText: num,
+                duration: 2,
+                ease: 'power1.out',
+                snap: { innerText: 1 },
+                scrollTrigger: { trigger: el, start: 'top 90%' },
+                onUpdate: function() {
+                    const val = Math.floor(this.targets()[0].innerText);
+                    if (target.includes(',')) {
+                        el.innerText = val.toLocaleString() + suffix;
+                    } else {
+                        el.innerText = val + suffix;
+                    }
+                }
+            });
+        }
+
+        // Waitlist counter slow increment
+        let wCount = 847;
+        setInterval(() => {
+            if (wCount < 1000) {
+                wCount += Math.random() > 0.7 ? 1 : 0;
+                const el = document.getElementById('waitlist-counter');
+                if (el) el.textContent = wCount;
+            }
+        }, 8000);
+
+        // ===== Gold Particle Canvas =====
         (function() {
             const canvas = document.getElementById('particle-canvas');
+            if (!canvas) return;
             const ctx = canvas.getContext('2d');
             let particles = [];
             const PARTICLE_COUNT = 50;
+            const CONNECT_DIST = 150;
 
             function resize() {
                 canvas.width = window.innerWidth;
@@ -391,80 +1769,57 @@
             resize();
             window.addEventListener('resize', resize);
 
-            function createParticle() {
-                return {
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    size: Math.random() * 1.5 + 0.5,
-                    speedX: (Math.random() - 0.5) * 0.3,
-                    speedY: (Math.random() - 0.5) * 0.3,
-                    opacity: Math.random() * 0.4 + 0.1,
-                    gold: Math.random() > 0.7
-                };
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.vx = (Math.random() - 0.5) * 0.3;
+                    this.vy = (Math.random() - 0.5) * 0.3;
+                    this.size = Math.random() * 2 + 0.5;
+                    this.alpha = Math.random() * 0.5 + 0.1;
+                }
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                    if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(218, 165, 32, ${this.alpha})`;
+                    ctx.fill();
+                }
             }
 
             for (let i = 0; i < PARTICLE_COUNT; i++) {
-                particles.push(createParticle());
+                particles.push(new Particle());
             }
 
             function animate() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                particles.forEach(p => {
-                    p.x += p.speedX;
-                    p.y += p.speedY;
-                    if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
-                    if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                    ctx.fillStyle = p.gold
-                        ? 'rgba(218, 165, 32, ' + p.opacity + ')'
-                        : 'rgba(255, 255, 255, ' + p.opacity + ')';
-                    ctx.fill();
-                });
+                particles.forEach(p => { p.update(); p.draw(); });
+
+                // Draw connections
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < CONNECT_DIST) {
+                            const alpha = (1 - dist / CONNECT_DIST) * 0.15;
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.strokeStyle = `rgba(184, 134, 11, ${alpha})`;
+                            ctx.lineWidth = 0.5;
+                            ctx.stroke();
+                        }
+                    }
+                }
                 requestAnimationFrame(animate);
             }
             animate();
-        })();
-
-        // Countdown to Launch: March 31, 2026
-        (function() {
-            const endDate = new Date('2026-03-31T00:00:00Z').getTime();
-            const startDate = new Date('2026-02-10T00:00:00Z').getTime();
-
-            function update() {
-                const now = Date.now();
-                const diff = endDate - now;
-
-                // Progress calculation
-                const totalDuration = endDate - startDate;
-                const elapsed = now - startDate;
-                let progress = Math.max(0, Math.min(100, (elapsed / totalDuration) * 100));
-
-                if (diff <= 0) {
-                    document.getElementById('cd-days').textContent = '00';
-                    document.getElementById('cd-hours').textContent = '00';
-                    document.getElementById('cd-mins').textContent = '00';
-                    document.getElementById('cd-secs').textContent = '00';
-                    progress = 100;
-                } else {
-                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                    const secs = Math.floor((diff % (1000 * 60)) / 1000);
-
-                    document.getElementById('cd-days').textContent = String(days).padStart(2, '0');
-                    document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
-                    document.getElementById('cd-mins').textContent = String(mins).padStart(2, '0');
-                    document.getElementById('cd-secs').textContent = String(secs).padStart(2, '0');
-                }
-
-                const progressRounded = Math.round(progress);
-                document.getElementById('progressText').textContent = progressRounded + '%';
-                document.getElementById('progressFill').style.setProperty('--progress', progressRounded + '%');
-            }
-
-            update();
-            setInterval(update, 1000);
         })();
     </script>
 </body>
