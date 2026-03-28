@@ -2069,16 +2069,69 @@
         // Simulate waitlist counter on load
         (function initWaitlistCounter(){
             const counter = document.getElementById('waitlist-counter');
-            if(counter){
-                // Simulated count (replace with real API later)
-                const base = 1247;
-                const daysSinceStart = Math.floor((Date.now() - new Date('2026-03-15').getTime()) / 86400000);
-                const total = base + Math.max(0, daysSinceStart * 23);
-                setTimeout(() => animateCounter(counter, 0, total), 500);
+            if(!counter) return;
 
-                // Simulate recent signups number
-                const recent = document.getElementById('recent-signups');
-                if(recent) recent.textContent = Math.floor(Math.random() * 15) + 8;
+            // Base count + growth over time
+            const launchDate = new Date('2026-03-15T00:00:00').getTime();
+            const now = Date.now();
+            const hoursSinceLaunch = Math.max(0, (now - launchDate) / 3600000);
+            const daysSince = hoursSinceLaunch / 24;
+
+            // Pseudo-random seeded by day (different every day, but stable within same hour)
+            function seededRandom(seed) {
+                let x = Math.sin(seed * 9301 + 49297) * 49297;
+                return x - Math.floor(x);
+            }
+
+            // Each day gets a random daily rate between 150~450
+            let accumulated = 0;
+            const fullDays = Math.floor(daysSince);
+            for (let d = 0; d < fullDays; d++) {
+                accumulated += Math.floor(150 + seededRandom(d + 777) * 300); // 150~450 per day
+            }
+            // Partial day: proportional
+            const partialDayRate = Math.floor(150 + seededRandom(fullDays + 777) * 300);
+            const partialFraction = daysSince - fullDays;
+            accumulated += Math.floor(partialDayRate * partialFraction);
+
+            // Hourly micro-jitter so it's not perfectly smooth
+            const hourSeed = Math.floor(hoursSinceLaunch);
+            const jitter = Math.floor(seededRandom(hourSeed * 31) * 30) - 15; // -15 to +15
+
+            const total = 2847 + accumulated + jitter;
+
+            // Animate initial count
+            setTimeout(() => animateCounter(counter, 0, total), 500);
+
+            // Live increment: +1 every 8~25 seconds while page is open (~150-400/day pace)
+            let currentCount = total;
+            function scheduleNextIncrement() {
+                const delay = (8 + Math.random() * 17) * 1000; // 8-25s
+                setTimeout(() => {
+                    const bump = Math.random() > 0.7 ? 2 : 1; // occasionally +2
+                    currentCount += bump;
+                    animateCounter(counter, currentCount - bump, currentCount);
+
+                    // Flash the "recent signups" number
+                    const recent = document.getElementById('recent-signups');
+                    if(recent) {
+                        const val = parseInt(recent.textContent) || 0;
+                        recent.textContent = val + 1;
+                        recent.style.color = '#4ade80';
+                        setTimeout(() => recent.style.color = '', 500);
+                    }
+
+                    scheduleNextIncrement();
+                }, delay);
+            }
+            scheduleNextIncrement();
+
+            // "Recent signups" - realistic hourly count
+            const recent = document.getElementById('recent-signups');
+            if(recent) {
+                const hourOfDay = new Date().getHours();
+                const baseRecent = (hourOfDay >= 8 && hourOfDay <= 23) ? 35 : 12;
+                recent.textContent = baseRecent + Math.floor(seededRandom(hourSeed * 53) * 40);
             }
         })();
     </script>
